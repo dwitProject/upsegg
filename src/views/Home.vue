@@ -1,6 +1,5 @@
 <template>
   <v-main class="grey lighten-3">
-    <Header />
     <v-container>
       <v-row>
         <v-col cols="3" />
@@ -24,11 +23,13 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+// @ is an alias to /src
+// import HelloWorld from '@/components/HelloWorld.vue'
+
 export default {
-  name: "Main",
+  name: "Home",
   components: {
-    Header,
+    // HelloWorld
   },
 };
 </script>
