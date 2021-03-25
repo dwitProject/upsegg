@@ -36,7 +36,9 @@ export default {
     items: [
       { text: '상품관리', icon: '😁', path: '/productMng' },
       { text: '주문관리', icon: '😃', path: '/orderMng' },
-      // {text: '통계분석', icon: '📊', path: '/'},
+      { text: '매출 통계', icon: '💡', path: '/sales-stat' },
+      { text: '상품 통계', icon: '💡', path: '/product-stat' },
+      { text: '장바구니 통계', icon: '💡', path: '/cart-stat' },
     ],
     mini: false,
   }),

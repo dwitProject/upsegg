@@ -34,6 +34,21 @@ const routes = [
     name: 'Community',
     component: () => import('../views/Community.vue'),
   },
+  {
+    path: '/sales-stat',
+    name: 'sales-stat',
+    component: () => import("../views/storeMng/SalesStat.vue"),
+  },
+  {
+    path: '/product-stat',
+    name: 'product-stat',
+    component: () => import("../views/storeMng/ProductStat.vue"),
+  },
+  {
+    path: '/cart-stat',
+    name: 'cart-stat',
+    component: () => import("../views/storeMng/CartStat.vue"),
+  },
 ];
 
 const router = new VueRouter({
