@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app color="blue" flat>
     <v-img
-      src="../assets/logo2.png"
+      src="../assets/image/logo2.png"
       max-height="70"
       max-width="100"
       @click="navigateTo(home)"
