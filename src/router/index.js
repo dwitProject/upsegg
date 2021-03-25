@@ -10,6 +10,26 @@ const routes = [
     component: () => import('../views/Main.vue'),
   },
   {
+    path: '/board',
+    name: 'Board',
+    component: () => import('../views/Board.vue')
+  },
+  {
+    path: '/board/view',
+    name: 'Board-view',
+    component: () => import('../views/BoardView.vue')
+  },
+  {
+    path: '/board/write',
+    name: 'Board-write',
+    component: () => import('../views/BoardWrite.vue')
+  },
+  {
+    path: '/board/modify',
+    name: 'Board-modify',
+    component: () => import('../views/BoardModify.vue')
+  },
+  {
     path: '/ranking',
     name: 'Ranking',
     component: () => import('../views/Ranking.vue'),
@@ -28,11 +48,6 @@ const routes = [
     path: '/orderMng',
     name: 'OrderMng',
     component: () => import('../views/storeMng/orderMng.vue'),
-  },
-  {
-    path: '/community',
-    name: 'Community',
-    component: () => import('../views/Community.vue'),
   },
   {
     path: '/sales-stat',

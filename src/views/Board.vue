@@ -1,7 +1,8 @@
 <template>
   <v-main class="grey lighten-3">
+    <Header />
     <v-container>
-      <v-row align="">
+      <v-row>
         <v-col cols="1" />
         <v-col cols="5">
           <v-sheet min-height="20vh" rounded="lg"> </v-sheet>
@@ -41,5 +42,15 @@
 </template>
 
 <script>
-export default {};
+import Header from '../components/Header';
+export default {
+  data () {
+      return {
+        page: 1,
+      }
+    },
+  components: {
+    Header,
+  },
+};
 </script>
