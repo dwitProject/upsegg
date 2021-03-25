@@ -1,7 +1,7 @@
 <template>
-  <v-main>
+  <div class="flex">
     <AdminNav />
-    <v-card>
+    <v-main>
       <v-data-table :headers="headers" :items="productItems" :search="search">
         <template v-slot:top>
           <v-toolbar flat>
@@ -76,8 +76,8 @@
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="headline"
-                  >{{ editedItem.productName }}를(을) 삭제
-                  하시겠습니까?</v-card-title
+                  >{{ editedItem.productName }}를(을)
+                  삭제하시겠습니까?</v-card-title
                 >
                 <v-spacer></v-spacer>
                 <v-card-actions>
@@ -106,8 +106,8 @@
           <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
       </v-data-table>
-    </v-card>
-  </v-main>
+    </v-main>
+  </div>
 </template>
 
 <script>
@@ -214,5 +214,9 @@ table tr td {
   width: 30%;
   padding: 0 20px;
   margin-left: auto;
+}
+
+.flex {
+  display: flex;
 }
 </style>
