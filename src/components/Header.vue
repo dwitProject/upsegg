@@ -25,6 +25,7 @@ export default {
       { text: "랭킹", path: "/ranking" },
     ],
   }),
+  
   methods: {
     navigateTo(item) {
       if (this.$route.path != item.path) {
@@ -33,5 +34,6 @@ export default {
       }
     },
   },
+
 };
 </script>
