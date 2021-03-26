@@ -4,17 +4,23 @@
     <v-main>
       <v-container>
         <v-card outlined color="white">
+          <!-- 요일별 버튼 -->
+          <v-card class="d-flex flex-row mt-5 ml-4 mb-4" flat tile>
+            <div class="text-center">
+              <v-btn class="ml-1" depressed color="primary" to="daily-list">
+                일별
+              </v-btn>
+              <v-btn class="ml-1" depressed color="primary" to="daily-weekly">
+                주별
+              </v-btn>
+              <v-btn class="ml-1" depressed color="primary" to="daily-monthly">
+                월별
+              </v-btn>
+            </div>
+          </v-card>
           <!-- 기간 버튼 및 조회 -->
-          <v-card class="ml-5 pa-1 pb-2 mt-5" width="81.5%">
+          <v-card class="ml-5 pa-1 pb-2" width="81.5%">
             <v-row>
-              <v-col cols="12" md="6">
-                <v-btn class="ml-1 mt-2" depressed> 오늘 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 3일 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 7일 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 1개월 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 3개월 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 6개월 </v-btn>
-              </v-col>
               <v-card outlined color="white" class="ma-2">
                 <v-col class="pb-0 pt-0">
                   <v-dialog
@@ -128,6 +134,29 @@
               </v-col>
             </v-row>
           </v-card>
+          <!-- 데이터 증감추이 -->
+          <v-card class="ml-5 mt-5" width="81.5%">
+            <v-simple-table dense>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">기간</th>
+                    <th class="text-left">결제 합계</th>
+                    <th class="text-left">환불 합계</th>
+                    <th class="text-left">순매출</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in desserts" :key="item.name">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.data1 }}</td>
+                    <td>{{ item.data2 }}</td>
+                    <td>{{ item.data3 }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-card>
           <!-- 데이터 출력 -->
           <v-card class="d-flex flex-row mt-1 pa-5" flat tile>
             <v-data-table
@@ -145,6 +174,7 @@
 
 <script>
 import AdminNav from "../../components/AdminNav";
+
 const gradients = [
   ["#222"],
   ["#42b3f4"],
@@ -154,7 +184,7 @@ const gradients = [
   ["#f72047", "#ffd200", "#1feaea"],
 ];
 export default {
-  name: "product-stat",
+  name: "DailyMonthly",
   components: {
     AdminNav,
   },
@@ -183,19 +213,20 @@ export default {
       autoLineWidth: false,
       headers: [
         {
-          text: "순위",
+          text: "일자",
           align: "start",
           sortable: false,
           value: "reDate",
-          width: 280,
         },
-        { text: "삼품코드", value: "orderQuantity" },
-        { text: "상품명", value: "itemQuantity" },
-        { text: "판매가", value: "pmt" },
-        { text: "결제수량", value: "fee" },
-        { text: "환불수량", value: "sale" },
-        { text: "판매수량", value: "coupon" },
-        { text: "판매금액", value: "totalAmt" },
+        { text: "주문수", value: "orderQuantity" },
+        { text: "품목수", value: "itemQuantity" },
+        { text: "상품구매금액", value: "pmt" },
+        { text: "배송비", value: "fee" },
+        { text: "할인", value: "sale" },
+        { text: "쿠폰", value: "coupon" },
+        { text: "결제합계", value: "totalAmt" },
+        { text: "환불합계", value: "totalRefund" },
+        { text: "순매출", value: "netSales" },
       ],
       sales: [
         {
@@ -208,6 +239,8 @@ export default {
           sale: 0,
           coupon: 0,
           totalAmt: 0,
+          totalRefund: 0,
+          netSales: 0,
         },
         {
           reDate: "2021-03-25 (목)",
@@ -219,6 +252,8 @@ export default {
           sale: 0,
           coupon: 0,
           totalAmt: 0,
+          totalRefund: 0,
+          netSales: 0,
         },
         {
           reDate: "2021-03-25 (목)",
@@ -230,6 +265,24 @@ export default {
           sale: 0,
           coupon: 0,
           totalAmt: 0,
+          totalRefund: 0,
+          netSales: 0,
+        },
+      ],
+      desserts: [
+        {
+          name: "금월(2021-03)",
+          data: 0,
+          data1: 0,
+          data2: 0,
+          data3: 0,
+        },
+        {
+          name: "전월(2021-02)",
+          data: 0,
+          data1: 0,
+          data2: 0,
+          data3: 0,
         },
       ],
     };
