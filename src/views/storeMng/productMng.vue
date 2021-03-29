@@ -67,7 +67,9 @@
                   </v-container>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" depressed @click="save">등록</v-btn>
+                    <v-btn color="primary" depressed @click="postProduct(item)">
+                      등록
+                    </v-btn>
                     <v-btn color="error" depressed @click="close">취소</v-btn>
                   </v-card-actions>
                 </v-card-text>
@@ -75,14 +77,13 @@
             </v-dialog>
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
-                <v-card-title class="headline"
-                  >{{ editedItem.productName }}를(을)
-                  삭제하시겠습니까?</v-card-title
-                >
+                <v-card-title class="headline">
+                  {{ editedItem.name }}를(을) 삭제하시겠습니까?
+                </v-card-title>
                 <v-spacer></v-spacer>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" depressed @click="deleteConfirm"
+                  <v-btn color="primary" depressed @click="removeProduct"
                     >확인</v-btn
                   >
                   <v-btn color="error" depressed @click="closeDelete"
@@ -100,6 +101,9 @@
             hide-details
             class="search-bar"
           ></v-text-field>
+        </template>
+        <template v-slot:[`item.files`]="{ item }">
+          <v-btn small @click="seeMore(item)">상세보기</v-btn>
         </template>
         <template v-slot:[`item.modiOrDel`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
@@ -139,14 +143,14 @@ export default {
       description: '',
       price: '',
       category: '',
-      files: '',
+      // files: '',
     },
     defaultItem: {
       name: '',
       description: '',
       price: '',
       category: '',
-      files: '',
+      // files: '',
     },
   }),
 
@@ -170,15 +174,40 @@ export default {
   },
 
   methods: {
+    // 전체 상품 조회 GET
     async getProducts() {
       const result = await api.get();
+      console.log('-- GET --');
       console.log(result);
-      console.log(result.data);
 
       if (result.status == 200) {
         this.productItems = result.data;
       }
     },
+
+    // 상품 1건 추가 POST
+    async postProduct() {
+      const result = await api.post(this.editedItem);
+      console.log('-- POST --');
+      console.log(result);
+
+      if (result.data == 200) {
+        this.productItems.unshift(result.data);
+      }
+      this.close();
+    },
+
+    // 상품 1건 삭제 DELETE
+    async removeProduct() {
+      const result = await api.del(this.editedItem.id);
+      console.log('-- DELETE --');
+      console.log(result);
+      if (result.status == 200) {
+        this.productItems.splice(this.productItems.indexOf(), 1);
+      }
+      this.closeDelete();
+    },
+
     editItem(item) {
       this.editedIndex = this.productItems.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -204,6 +233,7 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(this.productItems[this.editedIndex], this.editedItem);
       } else {
+        console.log(this.editedIndex);
         this.productItems.push(this.editedItem);
       }
       this.close();
@@ -214,6 +244,9 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
+    },
+    seeMore() {
+      console.log('이미지 상세보기');
     },
   },
 };
