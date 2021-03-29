@@ -1,16 +1,15 @@
 import axios from 'axios'
 export default {
-  // GET http://localhost:3737/todos
-  list: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/helloDate`),
+  list: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/paging?page=${x}&size=${y}`),
 
   post: (board) => axios.post(
-    `${process.env.VUE_APP_BOARD_API_BASE}/board/write`, 
+    `${process.env.VUE_APP_BOARD_API_BASE}/board/write`,
     board),
 
   uploadFile: (boardId, form) => axios.post(
-      `${process.env.VUE_APP_BOARD_API_BASE}/board/${boardId}/board-attachment`,
-      form,
-      { headers: { 'content-type': 'multipart/form-data' } }),
+    `${process.env.VUE_APP_BOARD_API_BASE}/board/${boardId}/board-attachment`,
+    form,
+    { headers: { 'content-type': 'multipart/form-data' } }),
 
   // PATCH http://localhost:8080/todos/{id}/done
   doneList: (id) => axios.patch(`${process.env.VUE_APP_API_BASE}/todos/${id}/done`),

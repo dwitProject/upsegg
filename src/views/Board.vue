@@ -65,7 +65,7 @@
         <v-col cols="10">
           <v-sheet min-height="10vh" rounded="lg">
             <div class="text-center">
-              <v-pagination v-model="page" :length="4" circle></v-pagination>
+              <v-pagination v-model="page" :length="5" circle></v-pagination>
             </div>
             <v-btn outlined color="blue" @click="navigateTo(BoardWrite)">
               작성
@@ -92,18 +92,19 @@ export default {
     items: [],
   }),
   mounted() {
-    // this.test();
+    this.boardList(0,10);
   },
   methods: {
     async test() {
       const result = await api.list();
       console.log(result);
     },
-    boardView: function () {
+    boardView() {
       console.log("hi");
     },
-    newPosting: function () {
-      console.log("hi");
+    async boardList(x, y){
+      const result = await api.list(x, y);
+      console.log(result);
     },
 
     navigateTo(item) {
