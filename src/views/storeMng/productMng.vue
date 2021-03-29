@@ -25,7 +25,7 @@
                           color="#000"
                           label="상품명"
                           dense
-                          v-model="editedItem.productName"
+                          v-model="editedItem.name"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12">
@@ -34,7 +34,7 @@
                           label="상품설명"
                           outlined
                           dense
-                          v-model="editedItem.productDesc"
+                          v-model="editedItem.description"
                         ></v-textarea>
                       </v-col>
                       <v-col cols="6">
@@ -42,7 +42,7 @@
                           color="#000"
                           label="상품금액"
                           dense
-                          v-model="editedItem.productPrice"
+                          v-model="editedItem.price"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="6">
@@ -60,7 +60,7 @@
                           color="#000"
                           truncate-length="15"
                           dense
-                          v-model="editedItem.productImage"
+                          v-model="editedItem.files"
                         ></v-file-input>
                       </v-col>
                     </v-row>
@@ -112,6 +112,7 @@
 
 <script>
 import AdminNav from '../../components/AdminNav';
+import api from '../../api/product';
 
 export default {
   name: 'productMng',
@@ -123,29 +124,29 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: '상품명', value: 'productName' },
-      { text: '상품설명', value: 'productDesc' },
-      { text: '상품금액', value: 'productPrice' },
+      { text: '상품명', value: 'name' },
+      { text: '상품설명', value: 'description' },
+      { text: '상품금액', value: 'price' },
       { text: '카테고리', value: 'category' },
-      { text: '상품이미지', value: 'productImage', sortable: false },
+      { text: '상품이미지', value: 'files', sortable: false },
       { text: '등록일', value: 'reDate' },
       { text: '수정·삭제', value: 'modiOrDel', sortable: false },
     ],
     productItems: [],
     editedIndex: -1,
     editedItem: {
-      productName: '',
-      productDesc: '',
-      productPrice: '',
+      name: '',
+      description: '',
+      price: '',
       category: '',
-      // productImage: '',
+      files: '',
     },
     defaultItem: {
-      productName: '',
-      productDesc: '',
-      productPrice: '',
+      name: '',
+      description: '',
+      price: '',
       category: '',
-      // productImage: '',
+      files: '',
     },
   }),
 
@@ -164,7 +165,20 @@ export default {
     },
   },
 
+  mounted() {
+    this.getProducts();
+  },
+
   methods: {
+    async getProducts() {
+      const result = await api.get();
+      console.log(result);
+      console.log(result.data);
+
+      if (result.status == 200) {
+        this.productItems = result.data;
+      }
+    },
     editItem(item) {
       this.editedIndex = this.productItems.indexOf(item);
       this.editedItem = Object.assign({}, item);
