@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <Header />
+    <!-- <Header /> -->
     <div>
       스토어 페이지
       <router-link to="productMng">이동</router-link>
@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import Header from '../components/Header';
+// import Header from '../components/Header';
 export default {
   name: 'Main',
-  components: {
-    Header,
-  },
+  // components: {
+  //   Header,
+  // },
 };
 </script>

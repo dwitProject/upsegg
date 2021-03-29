@@ -1,18 +1,18 @@
 <template>
   <v-main class="grey lighten-3">
-    <v-app-bar color="transparent">
       <v-img
         src="../assets/image/logo2.png"
         max-height="70"
         max-width="100"
         @click="navigateTo(home)"
       ></v-img>
-    </v-app-bar>
     <v-container>
       <v-row>
         <v-col cols="3" />
         <v-col cols="6">
-          <v-img src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltcfa4652c8d383f56/5e21837f63d1b6503160d39b/Home-page.jpg" />
+          <v-img
+            src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltcfa4652c8d383f56/5e21837f63d1b6503160d39b/Home-page.jpg"
+          />
         </v-col>
         <v-col cols="3" />
       </v-row>

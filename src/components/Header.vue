@@ -8,6 +8,7 @@
     ></v-img>
 
     <v-tabs fixed-tabs centered color="white">
+      <v-tabs-slider color="red"></v-tabs-slider>
       <v-tab v-for="(item, i) in items" :key="i" @click="navigateTo(item)">
         {{ item.text }}
       </v-tab>
@@ -25,7 +26,7 @@ export default {
       { text: "랭킹", path: "/ranking" },
     ],
   }),
-  
+
   methods: {
     navigateTo(item) {
       if (this.$route.path != item.path) {
@@ -34,6 +35,5 @@ export default {
       }
     },
   },
-
 };
 </script>
