@@ -4,7 +4,7 @@
         src="../assets/image/logo2.png"
         max-height="70"
         max-width="100"
-        @click="navigateTo(home)"
+        @click="$router.push('/')"
       ></v-img>
     <v-container>
       <v-row>
@@ -35,18 +35,18 @@
 import Footer from "../components/Footer";
 export default {
   data: () => ({
-    home: { path: "/" },
+    // home: { path: "/" },
   }),
   components: {
     Footer,
   },
   methods: {
-    navigateTo(item) {
-      if (this.$route.path != item.path) {
-        // 라우터에 경로 추가
-        this.$router.push(item.path);
-      }
-    },
+    // navigateTo(item) {
+    //   if (this.$route.path != item.path) {
+    //     // 라우터에 경로 추가
+    //     this.$router.push(item.path);
+    //   }
+    // },
   },
 };
 </script>

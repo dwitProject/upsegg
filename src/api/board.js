@@ -1,6 +1,9 @@
 import axios from 'axios'
 export default {
   list: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/paging?page=${x}&size=${y}`),
+  listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-all`),
+  listSingle: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/${id}`),
+  boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`),
 
   post: (board) => axios.post(
     `${process.env.VUE_APP_BOARD_API_BASE}/board/write`,

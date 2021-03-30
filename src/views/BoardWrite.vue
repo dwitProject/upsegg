@@ -72,8 +72,6 @@ import api from "@/api/board";
 
 export default {
   data: () => ({
-    home: { path: "/" },
-    Board: { path: "/board" },
     title: [],
     name: [],
     password: [],
@@ -82,11 +80,6 @@ export default {
   }),
 
   methods: {
-    navigateTo(item) {
-      if (this.$route.path != item.path) {
-        this.$router.push(item.path);
-      }
-    },
     async write() {
       const boardwrite = {
         title: this.title,
@@ -101,7 +94,6 @@ export default {
       if (result.status == 200) {
         const newBoard = result.data;
         newBoard.attachment = []; // 파일목록 초기화
-
         if (this.attachment && this.attachment.length > 0) {
           for (let attach of this.attachment) {
             const form = new FormData();
@@ -117,8 +109,8 @@ export default {
         }
         console.log(newBoard);
       }
-      alert("글이 등록되었습니다")
-      this.navigateTo(this.Board);
+      alert("글이 등록되었습니다");
+      this.$router.push('/board');
     },
   },
 };

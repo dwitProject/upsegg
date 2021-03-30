@@ -43,7 +43,12 @@
                   <tbody>
                     <tr v-for="(item, i) in items" :key="i">
                       <td class="text-center">{{ item.id }}</td>
-                      <td class="text-center" @click="boardView(i)">{{ item.title }}</td>
+                      <td
+                        class="text-center"
+                        @click="$router.push({ path: `/board/view/${item.id}`, params: {page}})"
+                      >
+                        {{ item.title }}
+                      </td>
                       <td class="text-center">{{ item.name }}</td>
                       <td class="text-center">{{ item.createdTime }}</td>
                       <td class="text-center">{{ item.hitCnt }}</td>
@@ -65,12 +70,16 @@
         <v-col cols="10">
           <v-sheet min-height="10vh" rounded="lg">
             <div class="text-center">
-              <v-pagination v-model="page" :length="5" circle></v-pagination>
+              <v-pagination
+                v-model="page"
+                :length="5"
+                circle
+                @input="loadBoardList(page)"
+              />
             </div>
-            <v-btn outlined color="blue" @click="navigateTo(BoardWrite)">
-              작성
-            </v-btn>
-            <!-- <v-btn elevation="2" @click="navigateTo(BoardWrite)">글쓰기</v-btn> -->
+            <v-btn outlined color="blue" @click="$router.push('/board/write')"
+              >작성</v-btn
+            >
           </v-sheet>
         </v-col>
         <v-col cols="1" />
@@ -79,38 +88,46 @@
   </v-main>
 </template>
 <script>
-// import Header from "../components/Header";
 import api from "@/api/board";
-
 export default {
-  // components: {
-  //   Header,
-  // },
   data: () => ({
     page: 1,
-    BoardWrite: { path: "/board/write" },
     items: [],
+    totalBoardCount: "",
   }),
   mounted() {
-    this.boardList(0,10);
+    // this.boardListAll();
+    this.getBoardCount();
+    // this.boardList(1, 10);
+    this.loadBoardList(1);
   },
   methods: {
-    async test() {
-      const result = await api.list();
-      console.log(result);
+    // navigateTo(item, n) {
+    //   if (this.$route.path != item.path) {
+    //     this.$router.push(`/board/view/${n}`);
+    //     // this.$router.push(item.path);
+    //     // this.$router.push(`/board/view/:${data}`);
+    //   }
+    // },
+    loadBoardList(n) {
+      this.boardList(n - 1, 10);
     },
-    boardView() {
-      console.log("hi");
-    },
-    async boardList(x, y){
+    async boardList(x, y) {
       const result = await api.list(x, y);
+      console.log("페이징하여 가져오기", result);
+      if (result.status == 200) {
+        this.items = [];
+        this.items = result.data;
+      }
+    },
+    async boardListAll() {
+      const result = await api.listAll();
       console.log(result);
     },
-
-    navigateTo(item) {
-      if (this.$route.path != item.path) {
-        this.$router.push(item.path);
-      }
+    async getBoardCount() {
+      const result = await api.boardCount();
+      this.totalBoardCount = result.data;
+      console.log("게시글 개수: ", result);
     },
   },
 };
