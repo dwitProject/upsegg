@@ -38,6 +38,8 @@
         <v-col cols="1" />
       </v-row>
     </v-container>
+    <div>222222222222 {{ $route.params.page }}</div>
+    <div>333333333333 {{ page }}</div>
   </v-main>
 </template>
 <script>
@@ -54,6 +56,13 @@ export default {
     // content: [],
     // attachment: [],
   }),
+  props: {
+            page: {
+                type: Number,
+                default : 0
+            },
+        }
+  ,
   mounted() {
     console.log("--id--");
     console.log(this.$route.params.id);

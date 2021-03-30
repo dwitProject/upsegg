@@ -45,8 +45,13 @@
                       <td class="text-center">{{ item.id }}</td>
                       <td
                         class="text-center"
-                        @click="$router.push({ path: `/board/view/${item.id}`, params: {page}})"
-                      >
+                        @click="
+                          $router.push({
+                            name: `Board-view`,
+                            params: { id: item.id, page: page },
+                          })">
+                            <!-- $router.push(`/board/view/${item.id}`) -->
+                            <!-- $router.push({ path: `/board/view/${item.id}`, params: { page: page }}) -->
                         {{ item.title }}
                       </td>
                       <td class="text-center">{{ item.name }}</td>
@@ -110,6 +115,7 @@ export default {
     //   }
     // },
     loadBoardList(n) {
+      this.page = n;
       this.boardList(n - 1, 10);
     },
     async boardList(x, y) {

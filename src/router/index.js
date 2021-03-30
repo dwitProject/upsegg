@@ -17,7 +17,9 @@ const routes = [
   {
     path: '/board/view/:id',
     name: 'Board-view',
-    component: () => import('../views/BoardView.vue')
+    component: () => import('../views/BoardView.vue'),
+    props: true, //데이터를 $route.params.page말고도 props로도 받으려고
+
   },
   {
     path: '/board/write',
