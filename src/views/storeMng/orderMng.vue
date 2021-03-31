@@ -1,40 +1,32 @@
 <template>
-  <div class="flex">
-    <AdminNav />
-    <v-main>
-      <v-data-table :headers="headers" :items="orderItems" :search="search">
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>주문 관리</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <template>
-              <v-btn class="mb-2">
-                주문 상태 저장
-              </v-btn>
-            </template>
-          </v-toolbar>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-account-search"
-            label="Search"
-            single-line
-            hide-details
-            class="search-bar"
-          ></v-text-field>
-        </template>
-      </v-data-table>
-    </v-main>
-  </div>
+  <v-main>
+    <v-data-table :headers="headers" :items="orderItems" :search="search">
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>주문 관리</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <template>
+            <v-btn class="mb-2">
+              주문 상태 저장
+            </v-btn>
+          </template>
+        </v-toolbar>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-account-search"
+          label="Search"
+          single-line
+          hide-details
+          class="search-bar"
+        ></v-text-field>
+      </template>
+    </v-data-table>
+  </v-main>
 </template>
 
 <script>
-import AdminNav from '../../components/AdminNav';
-
 export default {
   name: 'orderMng',
-  components: {
-    AdminNav,
-  },
   data: () => ({
     search: '',
     dialog: false,
@@ -66,9 +58,5 @@ table tr td {
   width: 30%;
   padding: 0 20px;
   margin-left: auto;
-}
-
-.flex {
-  display: flex;
 }
 </style>
