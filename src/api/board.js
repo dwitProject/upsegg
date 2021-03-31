@@ -3,16 +3,16 @@ export default {
   list: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/paging?page=${x}&size=${y}`),
   listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-all`),
   listSingle: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/${id}`),
+  listReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`),
+
   boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`),
 
-  post: (board) => axios.post(
-    `${process.env.VUE_APP_BOARD_API_BASE}/board/write`,
-    board),
+  postBoardViewReply: (boardId, reply) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`, reply),
+  post: (board) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board/write`, board),
 
-  uploadFile: (boardId, form) => axios.post(
-    `${process.env.VUE_APP_BOARD_API_BASE}/board/${boardId}/board-attachment`,
-    form,
-    { headers: { 'content-type': 'multipart/form-data' } }),
+  uploadFile: (boardId, form) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board/${boardId}/board-attachment`,
+                                              form,
+                                              { headers: { 'content-type': 'multipart/form-data' } }),
 
   // PATCH http://localhost:8080/todos/{id}/done
   doneList: (id) => axios.patch(`${process.env.VUE_APP_API_BASE}/todos/${id}/done`),
