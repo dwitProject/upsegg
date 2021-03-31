@@ -38,7 +38,6 @@
             hint="내용을 입력해주세요."
             v-model="content"
             :counter="1000"
-            maxlength="1000"
           ></v-textarea>
         </v-row>
         <v-row>
