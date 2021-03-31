@@ -4,7 +4,8 @@ export default {
   listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-all`),
   listSingle: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/${id}`),
   listReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`),
-
+  delReply: (boardId, id) => axios.delete(`${process.env.VUE_APP_API_BASE}/board-view/${boardId}/reply`, id),
+  
   boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`),
 
   postBoardViewReply: (boardId, reply) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`, reply),

@@ -22,8 +22,9 @@
                       <th class="text-center">번호: {{ item.id }}</th>
                       <th class="text-center">제목: {{ item.title }}</th>
                       <th class="text-center">{{ item.createdTime }}</th>
-                      <th class="text-center">{{ item.hitCnt }}</th>
-                      <th class="text-center">{{ item.likeCnt }}</th>
+                      <th class="text-center">조회수: {{ item.hitCnt }}</th>
+                      <th class="text-center">추천수: {{ item.likeCnt }}</th>
+                      <th class="text-center">댓글수: {{ item.replyCnt }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -80,15 +81,15 @@
                   <v-list-item-content>
                     <v-list-item-title>{{ reply.name }}</v-list-item-title>
                     <v-list-item-subtitle>
-                      {{ reply.content }}
+                      {{ reply.content }} {{ reply.id }}
                     </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-list-item-action-text
-                      v-text="reply.id + ' ' + reply.createdTime"
+                      v-text="reply.createdTime"
                     ></v-list-item-action-text>
 
-                    <v-icon @click="gg()">mdi-delete</v-icon>
+                    <v-icon @click="delReply(reply.id)">mdi-delete</v-icon>
                   </v-list-item-action>
                 </v-list-item>
                 <v-divider :key="`divider-${i}`"></v-divider>
@@ -106,10 +107,10 @@
           <v-row>
             <v-col cols="1" />
             <v-col cols="2">
-              <v-text-field v-model="name" label="이름" required maxlength="5" />
+              <v-text-field v-model="name" label="이름" required maxlength="10" />
             </v-col>
             <v-col cols="2">
-              <v-text-field v-model="password" label="비밀번호" required maxlength="5" />
+              <v-text-field v-model="password" label="비밀번호" required maxlength="10" />
             </v-col>
             <v-col cols="1">
             <v-col cols="3" />
@@ -135,23 +136,12 @@
 import api from "@/api/board";
 export default {
   data: () => ({
-    // 게시글 상세내용 data
-    item: [],
-    // 댓글 등록시 data
-    boardId: '',
+    item: [], // 게시글 상세내용 data
+    replys: [], // 가져온 댓글
+    boardId: '',// 댓글 등록시 data
     name: '',
     password: '',
     content: '',
-    // 댓글 더미 data
-    replys: [
-      {
-        id: "1",
-        name: "김민태",
-        content: "그거아니에요",
-        createdTime: "2021-03-31",
-      },
-      
-    ],
   }),
   props: {
     page: {
@@ -164,23 +154,34 @@ export default {
     console.log("글이 있던 페이지 번호", this.$route.params.page);
     this.boardId = this.$route.params.id;
     this.getData(this.$route.params.id);
+    this.getReply(this.$route.params.id);
+
   },
   methods: {
-    gg() {
-      console.log("dd");
-    },
     async getData(id) {
       const result = await api.listSingle(id); // 상세내용 얻어오기
-      const result2 = await api.listReply(id); // 댓글 가져오기
       console.log(result);
       console.log(result.data);
       if (result.status == 200) {
         this.item = [];
         this.item = result.data;
       }
-      if (result2.status == 200) {
+    },
+    async getReply(boardId){
+      const result = await api.listReply(boardId); // 댓글 가져오기
+      console.log(result);
+      console.log(result.data);
+      if (result.status == 200) {
         this.replys = [];
-        this.replys = result2.data;
+        this.replys = result.data;
+      }
+    },
+    delReply(id){
+      const result = api.delReply(this.boardId, id);
+      console.log(result);
+      // console.log(result.data);
+      if (result.status == 200) {
+          this.getReply(this.$route.params.id);
       }
     },
     async write() {
@@ -193,6 +194,11 @@ export default {
       const result = await api.postBoardViewReply(this.boardId, sendreply);
       console.log(result);
       console.log(result.data);
+      this.name = '';
+      this.password = '';
+      this.content = '';
+      this.getReply(this.$route.params.id);
+
     },
   },
 };
