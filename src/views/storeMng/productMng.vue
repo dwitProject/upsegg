@@ -112,9 +112,6 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
-    <div v-for="(file, i) in files" :key="i">
-      <v-img :src="file.dataUrl" :alt="file.fileName"></v-img>
-    </div>
   </v-main>
 </template>
 
@@ -219,16 +216,14 @@ export default {
     },
 
     // 상품 1건 삭제 DELETE
-    async removeProduct(index, id) {
-      console.log(index);
-      console.log(id);
-      const result = await api.del(id);
+    async removeProduct(id) {
+      const result = await api.del(this.editedItem.id);
       console.log('-- DELETE --');
       console.log(result);
 
       if (result.status == 200) {
-        this.productItems.splice(index, 1);
-        // this.productItems.filter((product) => product.id !== id);
+        // this.productItems.splice(index, 1);
+        this.productItems.filter((product) => product.id !== id);
       }
       this.closeDelete();
     },
