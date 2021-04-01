@@ -42,18 +42,20 @@
     <!-- <div>222222222222 {{ $route.params.page }}</div> -->
     <!-- <div>333333333333 {{ page }}</div> -->
 
-    <div class="text-center">
-      <v-btn class="ma-2" text icon color="blue lighten-2">
-        <v-icon>mdi-thumb-up</v-icon>
-      </v-btn>
-      <v-btn class="ma-2" text icon color="red lighten-2">
-        <v-icon>mdi-thumb-down</v-icon>
-      </v-btn>
-    </div>
+    <!-- 추천기능 -->
     <div class="text-center">
       <span class="caption text-uppercase">추천수:</span>
       <span class="font-weight-bold"> 22 </span>
+      <v-btn class="ma-2" text icon color="blue lighten-2">
+        <v-icon @click="thumbUp()">mdi-thumb-up</v-icon>
+      </v-btn>
+      <v-btn class="ma-2" text icon color="red lighten-2">
+        <v-icon @click="thumbDown()">mdi-thumb-down</v-icon>
+      </v-btn>
+      <span class="caption text-uppercase">비추천수:</span>
+      <span class="font-weight-bold"> 222 </span>
     </div>
+
     <!-- 댓글들 게시창 -->
     <v-container class="py-8 px-6" fluid>
       <v-row>
@@ -61,9 +63,7 @@
         <v-col cols="8">
           <v-card>
             <v-list two-line>
-              <!-- <template v-for="n in 6" > -->
               <template v-for="(reply, i) in replys">
-                <!-- <template v-for="(item, i) in items"> -->
                 <v-list-item :key="i">
                   <v-list-item-content>
                     <v-list-item-title>{{ reply.name }}</v-list-item-title>
@@ -72,9 +72,7 @@
                     </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-list-item-action-text
-                      v-text="reply.createdTime"
-                    ></v-list-item-action-text>
+                    <v-list-item-action-text v-text="reply.createdTime" />
                     <v-icon @click="delReply(reply.id)">mdi-delete</v-icon>
                   </v-list-item-action>
                 </v-list-item>
@@ -174,14 +172,16 @@ export default {
         this.replys = result.data;
       }
     },
-    delReply(id) {
-      console.log(id);
-      // const result = api.delReply(this.boardId, id);
-      // console.log(result);
-      // // console.log(result.data);
-      // if (result.status == 200) {
-      //     this.getReply(this.$route.params.id);
-      // }
+    async delReply(replyId) {
+      // v-on handler (Promise/async): "TypeError: Cannot use 'in' operator to search for 'validateStatus'
+      // delReply: (boardId, id) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/{boardId}/reply`, id),
+      //이렇게 보냈을때 위에 에러떴었음
+      const result = await api.delReply(this.boardId, replyId);
+      console.log(result);
+      console.log(result.data);
+      if (result.status == 200) {
+        this.getReply(this.boardId);
+      }
     },
     async write() {
       const sendreply = {
@@ -198,6 +198,8 @@ export default {
       this.content = "";
       this.getReply(this.$route.params.id);
     },
+    async thumbUp() {},
+    async thumbDown() {},
   },
 };
 </script>
