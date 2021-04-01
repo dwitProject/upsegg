@@ -1,6 +1,5 @@
 <template>
   <v-main class="grey lighten-3">
-
     <v-container>
       <v-row>
         <v-col cols="1" />
@@ -44,28 +43,16 @@
     <!-- <div>333333333333 {{ page }}</div> -->
 
     <div class="text-center">
-      <v-btn
-        class="ma-2"
-        text
-        icon
-        color="blue lighten-2"
-      >
+      <v-btn class="ma-2" text icon color="blue lighten-2">
         <v-icon>mdi-thumb-up</v-icon>
       </v-btn>
-      <v-btn
-        class="ma-2"
-        text
-        icon
-        color="red lighten-2"
-      >
+      <v-btn class="ma-2" text icon color="red lighten-2">
         <v-icon>mdi-thumb-down</v-icon>
       </v-btn>
     </div>
     <div class="text-center">
       <span class="caption text-uppercase">추천수:</span>
-      <span class="font-weight-bold">
-        22
-      </span>
+      <span class="font-weight-bold"> 22 </span>
     </div>
     <!-- 댓글들 게시창 -->
     <v-container class="py-8 px-6" fluid>
@@ -88,7 +75,6 @@
                     <v-list-item-action-text
                       v-text="reply.createdTime"
                     ></v-list-item-action-text>
-
                     <v-icon @click="delReply(reply.id)">mdi-delete</v-icon>
                   </v-list-item-action>
                 </v-list-item>
@@ -107,29 +93,42 @@
           <v-row>
             <v-col cols="1" />
             <v-col cols="2">
-              <v-text-field v-model="name" label="이름" required maxlength="10" />
+              <v-text-field
+                v-model="name"
+                label="이름"
+                required
+                maxlength="10"
+              />
             </v-col>
             <v-col cols="2">
-              <v-text-field v-model="password" label="비밀번호" required maxlength="10" />
+              <v-text-field
+                v-model="password"
+                label="비밀번호"
+                required
+                maxlength="10"
+              />
             </v-col>
             <v-col cols="1">
-            <v-col cols="3" />
-            <v-btn  outlined color="blue" @click="write()"> 등록 </v-btn>
+              <v-col cols="3" />
+              <v-btn outlined color="blue" @click="write()"> 등록 </v-btn>
             </v-col>
             <v-col cols="1" />
           </v-row>
           <v-row>
             <v-col cols="1" />
             <v-col cols="10">
-              <v-textarea v-model="content" filled label="댓글을 입력하세요" :counter="50" />
+              <v-textarea
+                v-model="content"
+                filled
+                label="댓글을 입력하세요"
+                :counter="50"
+              />
             </v-col>
             <v-col cols="1" />
           </v-row>
         </v-container>
       </v-form>
     </div>
-
-
   </v-main>
 </template>
 <script>
@@ -138,10 +137,10 @@ export default {
   data: () => ({
     item: [], // 게시글 상세내용 data
     replys: [], // 가져온 댓글
-    boardId: '',// 댓글 등록시 data
-    name: '',
-    password: '',
-    content: '',
+    boardId: "", // 댓글 등록시 data
+    name: "",
+    password: "",
+    content: "",
   }),
   props: {
     page: {
@@ -155,7 +154,6 @@ export default {
     this.boardId = this.$route.params.id;
     this.getData(this.$route.params.id);
     this.getReply(this.$route.params.id);
-
   },
   methods: {
     async getData(id) {
@@ -167,7 +165,7 @@ export default {
         this.item = result.data;
       }
     },
-    async getReply(boardId){
+    async getReply(boardId) {
       const result = await api.listReply(boardId); // 댓글 가져오기
       console.log(result);
       console.log(result.data);
@@ -176,13 +174,14 @@ export default {
         this.replys = result.data;
       }
     },
-    delReply(id){
-      const result = api.delReply(this.boardId, id);
-      console.log(result);
-      // console.log(result.data);
-      if (result.status == 200) {
-          this.getReply(this.$route.params.id);
-      }
+    delReply(id) {
+      console.log(id);
+      // const result = api.delReply(this.boardId, id);
+      // console.log(result);
+      // // console.log(result.data);
+      // if (result.status == 200) {
+      //     this.getReply(this.$route.params.id);
+      // }
     },
     async write() {
       const sendreply = {
@@ -194,11 +193,10 @@ export default {
       const result = await api.postBoardViewReply(this.boardId, sendreply);
       console.log(result);
       console.log(result.data);
-      this.name = '';
-      this.password = '';
-      this.content = '';
+      this.name = "";
+      this.password = "";
+      this.content = "";
       this.getReply(this.$route.params.id);
-
     },
   },
 };
