@@ -1,49 +1,60 @@
 <template>
   <div class="p1">
     <template>
-      <h1>장바구니</h1>
+      <v-card 
+      class="mx-auto my-12"
+    max-width="80%">
+      <v-card-title>장바구니 목록</v-card-title>
       <v-data-table :headers="headers" :items="carts" :items-per-page="5">
-        <template v-slot:item.imageUrl="{ item }">
+        <template v-slot:[`item.imageUrl`]="{ item }">
           <img :src="item.imageUrl" />
         </template>
       </v-data-table>
+      </v-card>
     </template>
     <template>
-      <h1>배송지 정보 입력</h1>
-      <v-card outlined elevation="2">
+      <v-card 
+    class="mx-auto my-12"
+    max-width="80%"
+      >
+        <v-card-title>배송지 정보 입력</v-card-title>
         <v-card-text>
           <v-container>
             <v-col cols="12" sm="6" md="2">
               <v-text-field label="이름" v-model="name"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <v-text-field label="주소" v-model="address"></v-text-field>
-              <div class="daummap">
+            <v-col cols="12" sm="6" md="3" v-model="address">
+                             <div class="daummap"><div ref="embed"></div>
+                            <v-btn     
+              outlined
+              rounded
+              text 
+              @click="showApi" >주소찾기</v-btn>
+             
                 <p>
                   우편번호: <span>{{ zip }}</span>
                 </p>
                 <p>
                   기본주소: <span>{{ addr1 }}</span>
                 </p>
-                <p>
-                  상세주소: <span>{{ addr2 }}</span>
-                </p>
-                <div ref="embed"></div>
+               <v-text-field label="나머지 주소 입력"></v-text-field>
+                
               </div>
-              <v-btn @click="showApi">주소찾기</v-btn>
+
             </v-col>
             <v-col cols="12" sm="6" md="2">
               <v-text-field label="전화번호" v-model="phone"></v-text-field>
             </v-col>
             <v-col cols="12" sm="3" md="3">
-              <v-textarea label="배송시 요청사항" v-model="note"></v-textarea>
+              <v-text-field label="배송시 요청사항" v-model="note"></v-text-field>
             </v-col>
           </v-container>
         </v-card-text>
       </v-card>
     </template>
     <template>
-      <h1>결제 수단</h1>
+      <v-card class="mx-auto my-12"
+    max-width="80%">
       <v-container class="px-0" fluid>
         <v-radio-group v-model="pay">
           <v-radio label="신용카드" value="신용카드"></v-radio>
@@ -51,15 +62,19 @@
           <v-radio label="계좌이체" value="계좌이체"></v-radio>
           <v-radio label="모바일페이" value="모바일페이"></v-radio>
         </v-radio-group>
-      </v-container>
-    </template>
-    <template>
-      <div>
-        <router-link to="FinishOrder">
-          <v-btn @click="order">결제하기</v-btn>
+           <router-link to="FinishOrder">
+          <v-btn 
+          block
+           x-large
+              color="primary"
+              dark
+
+          @click="order">결제하기</v-btn>
         </router-link>
-      </div>
+      </v-container>
+      </v-card>
     </template>
+  
   </div>
 </template>
 
@@ -69,13 +84,15 @@ import api from "@/api/purchaseOrder";
 export default {
   name: "daumMap",
   data: () => (
-    { zip: "", addr1: "", addr2: "" },
+
     {
       name: "",
       address: "",
       phone: "",
       note: "",
       pay: "",
+      zip: "", 
+      addr1: "", 
 
       headers: [
         { text: "사진", value: "imageUrl" },
