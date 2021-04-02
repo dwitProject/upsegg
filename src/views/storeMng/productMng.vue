@@ -120,6 +120,9 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
+    <div style="width:1000px;" v-for="(file, i) in files" :key="i">
+      <v-img :src="file.dataUrl" :alt="file.fileName"></v-img>
+    </div>
   </v-main>
 </template>
 
@@ -222,18 +225,24 @@ export default {
         }
         this.productItems.unshift(newProduct);
       }
-      this.editedItem = '';
+      // 상품 정보 입력란 초기화
+      this.editedItem.name = '';
+      this.editedItem.description = '';
+      this.editedItem.category = '';
+      this.editedItem.price = '';
+      this.editedItem.stock = '';
+
       this.close();
     },
 
     // 상품 1건 삭제 DELETE
-    async removeProduct(item) {
+    async removeProduct() {
       const result = await api.del(this.editedItem.id);
       console.log('-- DELETE --');
       console.log(result);
 
       if (result.status == 200) {
-        this.productItems.splice(this.productItems.indexOf(item), 1);
+        this.productItems.splice(this.editedIndex, 1);
         // this.productItems.filter((product) => product.id !== id);
       }
       this.closeDelete();
@@ -277,6 +286,7 @@ export default {
     },
     seeMore(item) {
       console.log(item.files);
+      console.log(this.files);
     },
   },
 };
