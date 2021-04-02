@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini">
+  <v-navigation-drawer :mini-variant.sync="mini" app>
     <v-list-item class="px-2">
       <v-list-item-avatar>
         <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
@@ -36,8 +36,11 @@ export default {
     items: [
       { text: '상품관리', icon: '😁', path: '/productMng' },
       { text: '주문관리', icon: '😃', path: '/orderMng' },
-      // {text: '통계분석', icon: '📊', path: '/'},
+      { text: '매출 통계', icon: '💡', path: '/daily-list' },
+      { text: '상품 통계', icon: '💡', path: '/product-stat' },
+      { text: '장바구니 통계', icon: '💡', path: '/cart-stat' },
     ],
+    mini: false,
   }),
   methods: {
     navigateTo(item) {
@@ -53,29 +56,5 @@ export default {
 <style lang="scss">
 .v-icon.v-icon {
   font-style: normal;
-}
-
-.v-navigation-drawer {
-  .v-navigation-drawer__content {
-    display: flex;
-    flex-direction: column;
-
-    .v-list {
-      flex: 1 1 auto;
-    }
-
-    .btn-area {
-      width: 100%;
-      text-align: center;
-
-      button {
-        width: 80%;
-        height: 40px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        color: #fff;
-      }
-    }
-  }
 }
 </style>

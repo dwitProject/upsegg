@@ -8,37 +8,12 @@
     ></v-img>
 
     <v-tabs fixed-tabs centered color="white">
+      <v-tabs-slider color="red"></v-tabs-slider>
       <v-tab v-for="(item, i) in items" :key="i" @click="navigateTo(item)">
         {{ item.text }}
       </v-tab>
-      <v-form ref="form" v-model="form" class="pa-4 pt-6">
-        <v-text-field
-          color="deep-purple"
-          counter="6"
-          label="Password"
-          style="min-height: 5px"
-          type="password"
-        ></v-text-field>
-        <v-text-field color="deep-purple" label="Phone number"></v-text-field>
-      </v-form>
     </v-tabs>
   </v-app-bar>
-
-  <!-- <div class="header">
-    <v-list>
-      <v-list-item-group>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          @click="navigateTo(item)"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </div> -->
 </template>
 <script>
 export default {
@@ -46,11 +21,12 @@ export default {
   data: () => ({
     home: { path: "/" },
     items: [
-      { text: "랭킹", path: "/ranking" },
+      { text: "커뮤니티", path: "/board" },
       { text: "스토어", path: "/store" },
-      { text: "커뮤니티", path: "/community" },
+      { text: "랭킹", path: "/ranking" },
     ],
   }),
+
   methods: {
     navigateTo(item) {
       if (this.$route.path != item.path) {

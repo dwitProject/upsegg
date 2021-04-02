@@ -67,6 +67,7 @@
 
 <script>
 import api from "@/api/purchaseOrder";
+
 export default {
   name: "daumMap",
   data: () => ({
@@ -77,6 +78,7 @@ export default {
     pay: "",
     zip: "",
     addr1: "",
+
     headers: [
       { text: "사진", value: "imageUrl" },
       { text: "상품명", value: "productName" },

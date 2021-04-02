@@ -1,16 +1,16 @@
 <template>
   <v-main>
-    <Header />
+    <!-- <Header /> -->
     <div>랭킹페이지</div>
   </v-main>
 </template>
 
 <script>
-import Header from '../components/Header';
+// import Header from '../components/Header';
 export default {
   name: 'Main',
-  components: {
-    Header,
-  },
+  // components: {
+  //   Header,
+  // },
 };
 </script>
