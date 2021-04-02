@@ -86,10 +86,10 @@ export default {
         password: this.password,
         content: this.content,
       };
-      const result = await api.post(boardwrite); // 리턴값은 promise연산이 fulfilled된 후의 값
+      const result = await api.postBoard(boardwrite); // 리턴값은 promise연산이 fulfilled된 후의 값
       console.log(result.status); // http 상태코드
-      console.log(result.data); //
-
+      console.log('여기보려한다',result.data); //
+      console.log(result.data);
       if (result.status == 200) {
         const newBoard = result.data;
         newBoard.attachment = []; // 파일목록 초기화

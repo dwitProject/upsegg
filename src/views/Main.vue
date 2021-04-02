@@ -2,6 +2,7 @@
   <v-main class="grey lighten-3">
       <v-img
         src="../assets/image/logo2.png"
+        alt="메인 로고"
         max-height="70"
         max-width="100"
         @click="$router.push('/')"
@@ -12,6 +13,7 @@
         <v-col cols="6">
           <v-img
             src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltcfa4652c8d383f56/5e21837f63d1b6503160d39b/Home-page.jpg"
+            alt="리그오브레전드 대표이미지"
           />
         </v-col>
         <v-col cols="3" />
@@ -27,6 +29,7 @@
         <v-col cols="3" />
       </v-row>
     </v-container>
+    
     <Footer />
   </v-main>
 </template>

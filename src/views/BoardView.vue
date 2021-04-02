@@ -21,6 +21,7 @@
                       <th class="text-center">번호: {{ item.id }}</th>
                       <th class="text-center">제목: {{ item.title }}</th>
                       <th class="text-center">{{ item.createdTime }}</th>
+                      <th class="text-center">작성자: {{ item.name }}</th>
                       <th class="text-center">조회수: {{ item.hitCnt }}</th>
                       <th class="text-center">추천수: {{ item.likeCnt }}</th>
                       <th class="text-center">댓글수: {{ item.replyCnt }}</th>
@@ -73,7 +74,9 @@
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-list-item-action-text v-text="reply.createdTime" />
-                    <v-icon @click="delReply(reply.id)">mdi-delete</v-icon>
+                    <v-btn @click="callDialog(reply.id)">
+                      <v-icon>mdi-delete</v-icon><!-- @click="delReply(reply.id)" -->
+                    </v-btn>
                   </v-list-item-action>
                 </v-list-item>
                 <v-divider :key="`divider-${i}`"></v-divider>
@@ -84,6 +87,18 @@
         <v-col cols="2" />
       </v-row>
     </v-container>
+                    <!-- 댓글 삭제버튼 누를때 뜨는 창 -->
+                <v-dialog v-model="dialog" max-width="200px" >
+                  <v-card>
+                    <v-card-text>
+                      <v-text-field v-model="pwForReplyDel" label="비밀번호" />
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn text color="primary" @click="delReplyy()">확인</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
     <!-- 댓글 입력창 -->
     <div>
       <v-form>
@@ -129,6 +144,7 @@
     </div>
   </v-main>
 </template>
+
 <script>
 import api from "@/api/board";
 export default {
@@ -139,6 +155,10 @@ export default {
     name: "",
     password: "",
     content: "",
+    dialog: false,
+    pwForReplyDel: "",
+    pwForBoardDel: "",
+    replyIdToDelReply: "",
   }),
   props: {
     page: {
@@ -150,12 +170,12 @@ export default {
     console.log("게시글 id: ", this.$route.params.id);
     console.log("글이 있던 페이지 번호", this.$route.params.page);
     this.boardId = this.$route.params.id;
-    this.getData(this.$route.params.id);
+    this.getBoardDetail(this.$route.params.id);
     this.getReply(this.$route.params.id);
   },
   methods: {
-    async getData(id) {
-      const result = await api.listSingle(id); // 상세내용 얻어오기
+    async getBoardDetail(id) {
+      const result = await api.getBoardDetail(id); // 상세내용 얻어오기
       console.log(result);
       console.log(result.data);
       if (result.status == 200) {
@@ -164,7 +184,7 @@ export default {
       }
     },
     async getReply(boardId) {
-      const result = await api.listReply(boardId); // 댓글 가져오기
+      const result = await api.getReply(boardId); // 댓글 가져오기
       console.log(result);
       console.log(result.data);
       if (result.status == 200) {
@@ -176,12 +196,32 @@ export default {
       // v-on handler (Promise/async): "TypeError: Cannot use 'in' operator to search for 'validateStatus'
       // delReply: (boardId, id) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/{boardId}/reply`, id),
       //이렇게 보냈을때 위에 에러떴었음
-      const result = await api.delReply(this.boardId, replyId);
+      const result = await api.delReply(replyId);
       console.log(result);
       console.log(result.data);
       if (result.status == 200) {
         this.getReply(this.boardId);
       }
+    },
+    async delReplyy(){
+      console.log(this.replyIdToDelReply)
+      console.log(this.pwForReplyDel)
+      const payload = {
+        data: this.pwForReplyDel, // REST API DELETE requestBody format: {data:보내려는 데이터}
+      };
+      const result = await api.delReply(this.replyIdToDelReply, payload); // 두번째 인자: DELETE requestBody 양식 {data: 원시데이터, 객체데이터}
+      if (result.status == 200) {
+        console.log(result);
+        console.log(result.data);
+        // this.replyIdToDelReply = "";
+      this.pwForReplyDel = "";
+      }
+      // console.log(result.data);
+      // this.dialog = false;
+    },
+    callDialog(replyId){
+      this.dialog = !this.dialog;
+      this.replyIdToDelReply = replyId;
     },
     async write() {
       const sendreply = {
@@ -190,7 +230,7 @@ export default {
         password: this.password,
         content: this.content,
       };
-      const result = await api.postBoardViewReply(this.boardId, sendreply);
+      const result = await api.postReply(this.boardId, sendreply);
       console.log(result);
       console.log(result.data);
       this.name = "";

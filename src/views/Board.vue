@@ -103,7 +103,7 @@ export default {
   mounted() {
     // this.boardListAll();
     this.getBoardCount();
-    // this.boardList(1, 10);
+    // this.getBoardList(1, 10);
     this.loadBoardList(1);
   },
   methods: {
@@ -116,17 +116,17 @@ export default {
     // },
     loadBoardList(n) {
       this.page = n;
-      this.boardList(n - 1, 10);
+      this.getBoardList(n - 1, 10);
     },
-    async boardList(x, y) {
-      const result = await api.list(x, y);
+    async getBoardList(x, y) {
+      const result = await api.getBoardList(x, y);
       console.log("페이징하여 가져오기", result);
       if (result.status == 200) {
         this.items = [];
         this.items = result.data;
       }
     },
-    async boardListAll() {
+    async boardListAll() { // 테스트용 메소드
       const result = await api.listAll();
       console.log(result);
     },
