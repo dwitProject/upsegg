@@ -35,15 +35,7 @@
                         v-model="editedItem.description"
                       ></v-textarea>
                     </v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        color="#000"
-                        label="상품금액"
-                        dense
-                        v-model="editedItem.price"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
+                    <v-col cols="4">
                       <v-select
                         color="#000"
                         :items="category"
@@ -52,6 +44,22 @@
                         require
                         v-model="editedItem.category"
                       ></v-select>
+                    </v-col>
+                    <v-col cols="4">
+                      <v-text-field
+                        color="#000"
+                        label="상품금액"
+                        dense
+                        v-model="editedItem.price"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="4">
+                      <v-text-field
+                        color="#000"
+                        label="재고수량"
+                        dense
+                        v-model="editedItem.stock"
+                      ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                       <v-file-input
@@ -128,8 +136,9 @@ export default {
     headers: [
       { text: '상품명', value: 'name' },
       { text: '상품설명', value: 'description' },
-      { text: '상품금액', value: 'price' },
       { text: '카테고리', value: 'category' },
+      { text: '상품금액', value: 'price' },
+      { text: '상품수량', value: 'stock' },
       { text: '상품이미지', value: 'files', sortable: false },
       { text: '등록일', value: 'reDate' },
       { text: '수정·삭제', value: 'modiOrDel', sortable: false },
@@ -140,6 +149,7 @@ export default {
       name: '',
       description: '',
       price: '',
+      stock: '',
       category: '',
     },
     files: [],
@@ -212,18 +222,19 @@ export default {
         }
         this.productItems.unshift(newProduct);
       }
+      this.editedItem = '';
       this.close();
     },
 
     // 상품 1건 삭제 DELETE
-    async removeProduct(id) {
+    async removeProduct(item) {
       const result = await api.del(this.editedItem.id);
       console.log('-- DELETE --');
       console.log(result);
 
       if (result.status == 200) {
-        // this.productItems.splice(index, 1);
-        this.productItems.filter((product) => product.id !== id);
+        this.productItems.splice(this.productItems.indexOf(item), 1);
+        // this.productItems.filter((product) => product.id !== id);
       }
       this.closeDelete();
     },
