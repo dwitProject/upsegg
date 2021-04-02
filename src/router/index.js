@@ -106,6 +106,11 @@ const routes = [
     name: 'Order',
     component: () => import('../views/purchaseOrder/Order.vue'),
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+  },
 ];
 
 const router = new VueRouter({
