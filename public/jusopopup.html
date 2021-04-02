@@ -1,0 +1,23 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Insert title here</title>
+</head>
+<script>
+  // opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("주소입력화면 소스"도 동일하게 적용시켜야 합니다.)
+  //document.domain = "abc.go.kr";
+  function init() {
+    document.form.submit();
+  }
+</script>
+
+<body onload="init();">
+  <form id="form" name="form" method="post" action="http://www.juso.go.kr/addrlink/addrLinkUrl.do">
+    <input type="hidden" id="confmKey" name="confmKey" value="devU01TX0FVVEgyMDIxMDMyNDE0MTM1NDExMDk1OTM=" />
+    <input type="hidden" id="returnUrl" name="returnUrl" value="http://localhost:8080/address" />
+    <input type="hidden" id="resultType" name="resultType" value="4" />
+  </form>
+</body>
+
+</html>

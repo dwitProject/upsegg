@@ -34,6 +34,21 @@ const routes = [
     name: 'Community',
     component: () => import('../views/Community.vue'),
   },
+  {
+    path: '/purchaseOrder',
+    name: 'PurchaseOrder',
+    component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
+  },
+  {
+    path: '/finishOrder',
+    name: 'FinishOrder',
+    component: () => import('../views/purchaseOrder/FinishOrder.vue'),
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import('../views/purchaseOrder/Order.vue'),
+  },
 ];
 
 const router = new VueRouter({
