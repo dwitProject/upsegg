@@ -1,248 +1,318 @@
 <template>
-  <div class="flex_container">
-    <AdminNav />
-    <v-main>
-      <v-container>
-        <v-card outlined color="white">
-          <!-- 기간 버튼 및 조회 -->
-          <v-card class="ml-5 pa-1 pb-2 mt-5" width="81.5%">
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-btn class="ml-1 mt-2" depressed> 오늘 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 3일 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 7일 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 1개월 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 3개월 </v-btn>
-                <v-btn class="ml-1 mt-2" depressed> 6개월 </v-btn>
-              </v-col>
-              <v-card outlined color="white" class="ma-2">
-                <v-col class="pb-0 pt-0">
-                  <v-dialog
-                    ref="dialog"
-                    v-model="modal"
-                    :return-value.sync="date"
-                    persistent
-                    width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="date"
-                        prepend-icon="mdi-calendar"
-                        class="pt-5"
-                        readonly
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="date" scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="modal = false">
-                        취소
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.dialog.save(date)"
-                      >
-                        확인
-                      </v-btn>
-                    </v-date-picker>
-                  </v-dialog>
-                </v-col>
-              </v-card>
-              <v-cal class="mt-7"> ~ </v-cal>
-              <v-card outlined color="white" class="ma-2">
-                <v-col class="pb-0 pt-0">
-                  <v-dialog
-                    ref="dialog"
-                    v-model="modal1"
-                    :return-value.sync="date1"
-                    persistent
-                    width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="date1"
-                        prepend-icon="mdi-calendar"
-                        class="pt-5"
-                        readonly
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="date1" scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="modal1 = false">
-                        취소
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.dialog.save(date1)"
-                      >
-                        확인
-                      </v-btn>
-                    </v-date-picker>
-                  </v-dialog>
-                </v-col>
-              </v-card>
-              <v-col class="mt-2">
-                <v-btn>검색</v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-          <!-- 통계 그래프 출력 -->
-          <v-card class="ml-5 mt-5 pa-1 pb-2" width="81.5%">
-            <v-row>
-              <v-col>
-                <v-sparkline
-                  :value="value"
-                  :gradient="gradient"
-                  :smooth="radius || false"
-                  :padding="padding"
-                  :line-width="width"
-                  :stroke-linecap="lineCap"
-                  :gradient-direction="gradientDirection"
-                  :fill="fill"
-                  :type="type"
-                  :auto-line-width="autoLineWidth"
-                  auto-draw
-                ></v-sparkline>
-              </v-col>
-              <v-col>
-                <v-sparkline
-                  :value="value"
-                  :gradient="gradient"
-                  :smooth="radius || false"
-                  :padding="padding"
-                  :line-width="width"
-                  :stroke-linecap="lineCap"
-                  :gradient-direction="gradientDirection"
-                  :fill="fill"
-                  :type="type"
-                  :auto-line-width="autoLineWidth"
-                  auto-draw
-                ></v-sparkline>
-              </v-col>
-            </v-row>
-          </v-card>
-          <!-- 데이터 출력 -->
-          <v-card class="d-flex flex-row mt-1 pa-5" flat tile>
-            <v-data-table
-              :headers="headers"
-              :items="sales"
-              :items-per-page="10"
-              class="elevation-2"
-            ></v-data-table>
-          </v-card>
+  <v-main>
+    <v-container>
+      <v-card outlined color="white">
+        <!-- 기간 버튼 및 조회 -->
+        <v-card class="mt-6 pl-3">
+          <v-row>
+            <v-col md="7" class="d-flex">
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('today', 1, 'days')"
+              >
+                오늘
+              </v-btn>
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('threeDays', 3, 'days')"
+              >
+                3일
+              </v-btn>
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('oneWeek', 7, 'days')"
+              >
+                7일
+              </v-btn>
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('oneMonth', 1, 'months')"
+              >
+                1개월
+              </v-btn>
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('threeMonth', 3, 'months')"
+              >
+                3개월
+              </v-btn>
+              <v-btn
+                class="ml-1"
+                depressed
+                @click="dayWeek('sixMonth', 6, 'months')"
+              >
+                6개월
+              </v-btn>
+            </v-col>
+            <v-spacer />
+            <v-col class="d-flex me-10">
+              <div>
+                <PickerInDialog @pickerDate="setFromDate" />
+              </div>
+              <h1>~</h1>
+              <div>
+                <PickerInDialog @pickerDate="setToDate" />
+              </div>
+            </v-col>
+            <v-col>
+              <v-btn
+                depressed
+                class="float-right mt-3 mr-3"
+                @click="getPeriod(fromDate, toDate)"
+                >검색</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card>
-      </v-container>
-    </v-main>
-  </div>
+        <!-- 통계 그래프 출력 -->
+        <v-card class="mt-5 pa-3">
+          <v-row>
+            <v-col>
+              <div
+                class="text-center pa-5"
+                style="width: 100%"
+                v-if="!quantityChartLoading"
+              >
+                <v-progress-circular
+                  width="8"
+                  size="180"
+                  indeterminate
+                  color="#FB9A9A"
+                ></v-progress-circular>
+              </div>
+              <doughnut-chart
+                :chartData="quantityChart"
+                v-if="quantityChartLoading"
+              />
+            </v-col>
+            <v-col>
+              <div
+                class="text-center pa-5"
+                style="width: 100%"
+                v-if="!salesChartLoading"
+              >
+                <v-progress-circular
+                  width="8"
+                  size="180"
+                  indeterminate
+                  color="#FB9A9A"
+                ></v-progress-circular>
+              </div>
+              <doughnut-chart
+                :chartData="salesChart"
+                v-if="salesChartLoading"
+              />
+            </v-col>
+          </v-row>
+        </v-card>
+        <!-- 데이터 출력 -->
+        <v-card class="mt-5">
+          <v-data-table
+            :headers="headers"
+            :items="product"
+            :items-per-page="10"
+            class="elevation-2"
+          ></v-data-table>
+        </v-card>
+      </v-card>
+    </v-container>
+  </v-main>
 </template>
 
 <script>
-import AdminNav from "../../components/AdminNav";
-const gradients = [
-  ["#222"],
-  ["#42b3f4"],
-  ["red", "orange", "yellow"],
-  ["purple", "violet"],
-  ["#00c6ff", "#F0F", "#FF0"],
-  ["#f72047", "#ffd200", "#1feaea"],
-];
+import api from "@/api/stat";
+import DoughnutChart from "../../components/DoughnutChart";
+import PickerInDialog from "../../components/PickerInDialog";
+
+const moment = require("moment");
+
 export default {
   name: "product-stat",
   components: {
-    AdminNav,
+    DoughnutChart,
+    PickerInDialog,
+  },
+  mounted() {
+    this.dayWeek("threeDays", 3, "days");
+  },
+  methods: {
+    setFromDate(selectDate) {
+      this.fromDate = selectDate;
+    },
+    setToDate(selectDate) {
+      this.toDate = selectDate;
+    },
+    getPeriod(fromDate, toDate) {
+      this.getAnalysisProductDate(fromDate, toDate);
+      this.getAnalysisProductSalesQuantity(fromDate, toDate);
+      this.getAnalysisProductTotalSales(fromDate, toDate);
+    },
+    dayWeek(day, value, index) {
+      const now = moment().format("YYYY-MM-DD");
+      const days = moment().subtract(value, index).format("YYYY-MM-DD");
+      switch (day) {
+        case "today":
+          this.getPeriod(now, now);
+          break;
+        case "threeDays":
+          this.getPeriod(days, now);
+          break;
+        case "oneWeek":
+          this.getPeriod(days, now);
+          break;
+        case "oneMonth":
+          this.getPeriod(days, now);
+          break;
+        case "threeMonth":
+          this.getPeriod(days, now);
+          break;
+        case "sixMonth":
+          this.getPeriod(days, now);
+          break;
+        default:
+          this.salesChartLoading = false;
+          this.quantityChartLoading = false;
+          break;
+      }
+    },
+    async getAnalysisProductSalesQuantity(fromDate, toDate) {
+      const res = await api.getAnalysisProductSalesQuantity(fromDate, toDate);
+      if (res.status == 200) {
+        let labels = [];
+        let quantityChart = [];
+        res.data.map((item) => {
+          labels.push(item.productName);
+          quantityChart.push(item.salesQuantity);
+        });
+        this.quantityChart = {
+          labels: labels,
+          datasets: [
+            {
+              backgroundColor: [
+                "#f4979c",
+                "#e31a22",
+                "#dc9018",
+                "#fdd666",
+                "#96b8db",
+                "#697d99",
+                "#b2c8bd",
+                "#dbe3b6",
+                "#bbd634",
+                "#b1b134",
+              ],
+              pointBackgroundColor: "white",
+              borderWidth: 1,
+              pointBorderColor: "#249EBF",
+              data: quantityChart,
+            },
+          ],
+          options: {
+            scales: {},
+            legend: {
+              position: "right",
+            },
+            title: {
+              display: true,
+              text: "상위 TOP 10 상품 (판매 수량)",
+              position: "top",
+            },
+          },
+        };
+        res.data.length
+          ? (this.quantityChartLoading = true)
+          : (this.quantityChartLoading = false);
+      }
+    },
+    async getAnalysisProductTotalSales(fromDate, toDate) {
+      const res = await api.getAnalysisProductTotalSales(fromDate, toDate);
+      if (res.status == 200) {
+        let labels = [];
+        let salesChart = [];
+        console.log(res.data);
+        res.data.map((item) => {
+          labels.push(item.productName);
+          salesChart.push(item.totalSales);
+        });
+        this.salesChart = {
+          labels: labels,
+          datasets: [
+            {
+              backgroundColor: [
+                "#f4979c",
+                "#e31a22",
+                "#dc9018",
+                "#fdd666",
+                "#96b8db",
+                "#697d99",
+                "#b2c8bd",
+                "#dbe3b6",
+                "#bbd634",
+                "#b1b134",
+              ],
+              pointBackgroundColor: "white",
+              borderWidth: 1,
+              pointBorderColor: "#249EBF",
+              data: salesChart,
+            },
+          ],
+          options: {
+            scales: {},
+            legend: {
+              position: "right",
+            },
+            title: {
+              display: true,
+              text: "상위 TOP 상품 (판매 합계)",
+              position: "top",
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        };
+        res.data.length
+          ? (this.salesChartLoading = true)
+          : (this.salesChartLoading = false);
+      }
+    },
+    async getAnalysisProductDate(fromDate, toDate) {
+      const res = await api.getAnalysisProductDate(fromDate, toDate);
+      if (res.status == 200) {
+        this.product = res.data;
+        let i = 0;
+        for (let id in this.product) {
+          i++;
+          this.product[id].id = i;
+        }
+      }
+    },
   },
   data() {
     return {
-      // dialog (다이어 그램 분리 작업 필요)
-      menu: false,
-      menu2: false,
-      // 첫 번째 날짜 선택
-      date: new Date().toISOString().substr(0, 10),
-      modal: false,
-      // 두번째 날짜 선택
-      date1: new Date().toISOString().substr(0, 10),
-      modal1: false,
-      // 통계 데이터
-      width: 2,
-      radius: 10,
-      padding: 8,
-      lineCap: "round",
-      gradient: gradients[5],
-      value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-      gradientDirection: "top",
-      gradients,
-      fill: false,
-      type: "trend",
-      autoLineWidth: false,
       headers: [
-        {
-          text: "순위",
-          align: "start",
-          sortable: false,
-          value: "reDate",
-          width: 280,
-        },
-        { text: "삼품코드", value: "orderQuantity" },
-        { text: "상품명", value: "itemQuantity" },
-        { text: "판매가", value: "pmt" },
-        { text: "결제수량", value: "fee" },
-        { text: "환불수량", value: "sale" },
-        { text: "판매수량", value: "coupon" },
-        { text: "판매금액", value: "totalAmt" },
+        { text: "순위", value: "id" },
+        { text: "상품코드", value: "productCode" },
+        { text: "상품명", value: "productName" },
+        { text: "판매가", value: "price" },
+        { text: "결제수량", value: "paymentQuantity" },
+        { text: "환불수량", value: "refundQuantity" },
+        { text: "판매수량", value: "salesQuantity" },
+        { text: "판매금액", value: "totalSales" },
       ],
-      sales: [
-        {
-          reDate: "2021-03-25 (목)",
-          orderQuantity: 9,
-          itemQuantity: 2,
-          pmt: 24000,
-          fee: 2500,
-          protein: 2500,
-          sale: 0,
-          coupon: 0,
-          totalAmt: 0,
-        },
-        {
-          reDate: "2021-03-25 (목)",
-          orderQuantity: 2,
-          itemQuantity: 1,
-          pmt: 42000,
-          fee: 2500,
-          protein: 2500,
-          sale: 0,
-          coupon: 0,
-          totalAmt: 0,
-        },
-        {
-          reDate: "2021-03-25 (목)",
-          orderQuantity: 5,
-          itemQuantity: 2,
-          pmt: 12000,
-          fee: 2500,
-          protein: 2500,
-          sale: 0,
-          coupon: 0,
-          totalAmt: 0,
-        },
-      ],
+      product: [],
+      salesChart: [],
+      quantityChart: [],
+      salesChartLoading: false,
+      quantityChartLoading: false,
+      fromDate: new Date().toISOString().substr(0, 10),
+      toDate: new Date().toISOString().substr(0, 10),
     };
   },
 };
 </script>
 <style scoped>
-.v-text-field {
-  height: 43px;
-  width: 120px;
-}
-.flex_container {
-  display: flex;
-  height: 100%;
-}
 </style>
