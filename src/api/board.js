@@ -8,6 +8,7 @@ export default {
   getBoardDetail: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`),
   getReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`),
   delReply: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/replies/${id}`, password),
+  delBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
   
   // Page<Board> 관련 할때 가져오므로 삭제예정
   boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`), 
