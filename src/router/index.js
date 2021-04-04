@@ -52,19 +52,9 @@ const routes = [
     component: () => import('../views/storeMng/orderMng.vue'),
   },
   {
-    path: '/daily-list',
-    name: 'daily-list',
-    component: () => import("../views/storeMng/DailyList.vue"),
-  },
-  {
-    path: '/daily-Weekly',
-    name: 'daily-Weekly',
-    component: () => import("../views/storeMng/DailyWeekly.vue"),
-  },
-  {
-    path: '/daily-Monthly',
-    name: 'daily-Monthly',
-    component: () => import("../views/storeMng/DailyMonthly.vue"),
+    path: '/sales-stat',
+    name: 'sales-stat',
+    component: () => import("../views/storeMng/SalesStat.vue"),
   },
   {
     path: '/product-stat',
