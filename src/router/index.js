@@ -32,9 +32,14 @@ const routes = [
     component: () => import('../views/BoardModify.vue')
   },
   {
-    path: '/ranking/:name',
+    path: '/ranking/',
     name: 'Ranking',
     component: () => import('../views/Ranking.vue'),
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
   },
   {
     path: '/store',

@@ -7,7 +7,8 @@
         $route.name === 'Board-write' ||
         $route.name === 'Board-modify' ||
         $route.name === 'Store' ||
-        $route.name === 'Ranking'
+        $route.name === 'Ranking' ||
+        $route.name === 'Search'
           ? true
           : false
       "
@@ -29,10 +30,10 @@
 </template>
 
 <script>
-import Header from '@/components/Header';
-import AdminNav from '@/components/AdminNav';
+import Header from "@/components/Header";
+import AdminNav from "@/components/AdminNav";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     AdminNav,
