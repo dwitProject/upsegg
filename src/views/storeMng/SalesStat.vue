@@ -5,7 +5,7 @@
         <!-- 기간 버튼 및 조회 -->
         <v-card class="mt-6 pl-3">
           <v-row>
-            <v-col md="7" class="d-flex">
+            <v-col md="7" sm="8" class="d-flex">
               <v-btn
                 class="ml-1"
                 depressed
@@ -62,16 +62,21 @@
             <v-col>
               <v-btn
                 depressed
-                class="float-right mt-3 mr-3"
+                class="text-right mt-3 mr-3"
                 @click="getPeriod(fromDate, toDate)"
                 >검색</v-btn
               >
             </v-col>
           </v-row>
         </v-card>
+        <div class="text-right mt-8">
+          <v-chip color="success" outlined @click="exportExcel">
+            <v-icon left> mdi-microsoft-excel </v-icon>
+            다운로드
+          </v-chip>
+        </div>
         <!-- 통계 그래프 출력 -->
-
-        <v-card class="mt-5 pa-3">
+        <v-card class="mt-2 pa-3">
           <div
             class="text-center pa-5"
             style="width: 100%"
@@ -84,11 +89,11 @@
               color="#FB9A9A"
             ></v-progress-circular>
           </div>
-
           <bar-chart :chartData="chartData" v-if="chartLoading" />
         </v-card>
+
         <!-- 데이터 출력 -->
-        <v-card class="mt-5">
+        <v-card class="mt-3">
           <v-data-table
             :headers="headers"
             :items="sales"
@@ -105,6 +110,7 @@
 import api from "@/api/stat";
 import BarChart from "../../components/BarChart";
 import PickerInDialog from "../../components/PickerInDialog";
+import XLSX from "xlsx";
 
 const moment = require("moment");
 
@@ -118,6 +124,29 @@ export default {
     this.dayWeek("oneMonth", 1, "months");
   },
   methods: {
+    exportExcel() {
+      let filter = [];
+      this.sales.map((item) => {
+        filter.unshift({
+          일자: item.orderDate,
+          주문수: item.numberOrders,
+          품목수: item.numberItems,
+          상품구매금액: item.productPurchaseAmount,
+          배송비: item.deliveryCharge,
+          할인: item.cashDiscount,
+          쿠폰: item.coupon,
+          결제합계: item.totalPayment,
+          환불합계: item.totalRefund,
+          순매출: item.netSales,
+        });
+      });
+      let wBook = XLSX.utils.book_new();
+      let wSeet = XLSX.utils.json_to_sheet(filter);
+      const seetLabel = this.chartData.datasets[0].label;
+      XLSX.utils.book_append_sheet(wBook, wSeet, seetLabel);
+      XLSX.writeFile(wBook, seetLabel + ".xlsx");
+    },
+
     setFromDate(selectDate) {
       this.fromDate = selectDate;
     },
