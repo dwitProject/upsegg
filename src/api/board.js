@@ -1,17 +1,23 @@
 import axios from 'axios'
 export default {
-  list: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/paging?page=${x}&size=${y}`),
-  listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-all`),
-  listSingle: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board/${id}`),
-  listReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`),
-  delReply: (boardId, id) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/replies/${id}`),
-  
-  boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`),
+  //페이징하여 가져오기
+  getBoardList: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/paging?page=${x}&size=${y}`),
+  //테스트용
+  listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards`),
 
-  postBoardViewReply: (boardId, reply) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/${boardId}/reply`, reply),
-  post: (board) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board/write`, board),
+  getBoardDetail: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`),
+  getReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`),
+  delReply: (boardId, id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies/${id}`, password),
+  delBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
+  upHitCnt: (id) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`), // 조회수
+  upCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/up`), // 추천수
+  downCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/down`), // 비추천수
+  // Page<Board> 관련 할때 가져오므로 삭제예정
+  boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`), 
 
-  uploadFile: (boardId, form) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/board/${boardId}/board-attachment`,
+  postReply: (boardId, reply) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`, reply),
+  postBoard: (board) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/boards`, board),
+  uploadFile: (boardId, form) => axios.post(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/board-attachment`,
                                               form,
                                               { headers: { 'content-type': 'multipart/form-data' } }),
 

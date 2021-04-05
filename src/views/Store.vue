@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <v-main>
     <!-- <Header /> -->
@@ -88,3 +89,27 @@ export default {
 };
 </script>
 
+=======
+<template>
+  <v-main>
+    <!-- <Header /> -->
+    <div>
+      스토어 페이지
+      <router-link to="productMng">이동</router-link>
+    </div>
+    <div>
+      <router-link to="PurchaseOrder">구매하기 이동</router-link>
+    </div>
+  </v-main>
+</template>
+
+<script>
+// import Header from '../components/Header';
+export default {
+  name: "Main",
+  // components: {
+  //   Header,
+  // },
+};
+</script>
+>>>>>>> 72357c1ae06f9196faa33622dd4b3f13d23ab561

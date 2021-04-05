@@ -24,7 +24,8 @@
                 <v-simple-table>
                   <colgroup>
                     <col width="10%" />
-                    <col width="60%" />
+                    <col width="10%" />
+                    <col width="50%" />
                     <col width="10%" />
                     <col width="10%" />
                     <col width="5%" />
@@ -33,6 +34,7 @@
                   <thead>
                     <tr>
                       <th class="text-center">번호</th>
+                      <th class="text-center">글분류</th>
                       <th class="text-center">제목</th>
                       <th class="text-center">작성자</th>
                       <th class="text-center">작성일</th>
@@ -43,6 +45,7 @@
                   <tbody>
                     <tr v-for="(item, i) in items" :key="i">
                       <td class="text-center">{{ item.id }}</td>
+                      <td class="text-center">{{ item.type }}</td>
                       <td
                         class="text-center"
                         @click="
@@ -57,7 +60,7 @@
                       <td class="text-center">{{ item.name }}</td>
                       <td class="text-center">{{ item.createdTime }}</td>
                       <td class="text-center">{{ item.hitCnt }}</td>
-                      <td class="text-center">{{ item.likeCnt }}</td>
+                      <td class="text-center">{{ item.upCnt }}</td>
                     </tr>
                   </tbody>
                 </v-simple-table>
@@ -103,7 +106,7 @@ export default {
   mounted() {
     // this.boardListAll();
     this.getBoardCount();
-    // this.boardList(1, 10);
+    // this.getBoardList(1, 10);
     this.loadBoardList(1);
   },
   methods: {
@@ -116,17 +119,17 @@ export default {
     // },
     loadBoardList(n) {
       this.page = n;
-      this.boardList(n - 1, 10);
+      this.getBoardList(n - 1, 10);
     },
-    async boardList(x, y) {
-      const result = await api.list(x, y);
+    async getBoardList(x, y) {
+      const result = await api.getBoardList(x, y);
       console.log("페이징하여 가져오기", result);
       if (result.status == 200) {
         this.items = [];
         this.items = result.data;
       }
     },
-    async boardListAll() {
+    async boardListAll() { // 테스트용 메소드
       const result = await api.listAll();
       console.log(result);
     },
