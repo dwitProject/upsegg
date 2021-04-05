@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import Header from '@/components/Header';
-import AdminNav from '@/components/AdminNav';
+import Header from "@/components/Header";
+import AdminNav from "@/components/AdminNav";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     AdminNav,

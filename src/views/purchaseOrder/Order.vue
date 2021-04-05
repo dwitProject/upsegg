@@ -24,7 +24,7 @@
 <script>
 import api from "@/api/purchaseOrder";
 export default {
-  name: "order-item",
+  name: "order",
   props: ["order", "index"],
   data: () => ({
     headers: [

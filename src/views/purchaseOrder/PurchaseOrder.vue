@@ -3,6 +3,17 @@
     <template>
       <v-card class="mx-auto my-12" max-width="80%">
         <v-card-title>장바구니 목록({{ pmt }}원)</v-card-title>
+
+        <div class="products">
+          <div v-for="(product, index) in cart" :key="index">
+            <h3>{{ product.name }}</h3>
+            <img :src="product.image" />
+            <div>{{ product.price }}</div>
+            <button v-on:click="removeItemFromCart(product)">
+              Remove from cart
+            </button>
+          </div>
+        </div>
         <!-- <v-data-table :headers="headers" :items="carts" :items-per-page="5">
           <template v-slot:[`item.imageUrl`]="{ item }">
             <img :src="item.imageUrl" :alt="item.productName" />
@@ -19,7 +30,7 @@
               <v-text-field label="이름" v-model="name"></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="2">
-              <v-text-field label="전화번호" v-model="phone"></v-text-field>
+              <v-text-field label="전화번호" v-model="tel"></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="3">
               <div class="daummap">
@@ -62,17 +73,23 @@
           <v-row justify="center">
             <v-dialog v-model="dialog" persistent max-width="40%">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="order"
+                >
                   결제하기
                 </v-btn>
               </template>
               <v-card>
-                <v-card-title class="headline" @click="order">
+                <v-card-title class="headline">
                   주문이 완료되었습니다.
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <router-link to="FinishOrder">
+                  <router-link to="Order">
                     <v-btn x-large color="primary" dark @click="dialog = false"
                       >구매내역 보기</v-btn
                     >
@@ -96,11 +113,12 @@
 import api from "@/api/purchaseOrder";
 
 export default {
-  name: "daumMap",
+  props: ["cart"],
+  name: "purchaseOrder",
   data: () => ({
     name: "",
     address: "",
-    phone: "",
+    tel: "",
     note: "",
     pay: "",
     zip: "",
@@ -108,44 +126,38 @@ export default {
     pmt: "",
     description: "",
     dialog: false,
-    // headers: [
-    //   { text: "사진", value: "imageUrl" },
-    //   { text: "", value: "productName" },
-    //   { text: "수량", value: "amount" },
-    //   { text: "가격", value: "price" },
-    //   ],
+    headers: [
+      { text: "사진", value: "imageUrl" },
+      { text: "상품명", value: "productName" },
+      { text: "수량", value: "amount" },
+      { text: "가격", value: "price" },
+    ],
     carts: [
       {
-        imageUrl: "https://picsum.photos/100/100",
-        productName: "카타리나",
-        amount: 2,
-        price: 1000,
-      },
-      {
-        imageUrl: "https://picsum.photos/100/100",
-        productName: "오잉",
-        amount: 3,
-        price: 4000,
+        imageUrl: "", //https://picsum.photos/100/100
+        productName: "",
+        amount: "",
+        price: "",
       },
     ],
   }),
-  mounted() {},
+  mounted() {
+    // this.getCart();
+  },
   methods: {
     async order() {
       const order = {
         name: this.name,
         address: this.address,
-        phone: this.phone,
+        tel: this.tel,
         note: this.note,
         pay: this.pay,
+        pmt: this.pmt,
       };
       console.log(this.name);
       console.log(order);
       const result = await api.post(order);
       console.log(result);
-    },
-    addProduct() {
-      this.amount += 1;
     },
 
     async showApi() {

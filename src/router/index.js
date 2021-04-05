@@ -78,32 +78,17 @@ const routes = [
   },
   {
     path: '/purchaseOrder',
-    name: 'PurchaseOrder',
+    name: 'purchaseOrder',
     component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
   },
   {
     path: '/finishOrder',
-    name: 'FinishOrder',
+    name: 'finishOrder',
     component: () => import('../views/purchaseOrder/FinishOrder.vue'),
   },
   {
     path: '/order',
-    name: 'Order',
-    component: () => import('../views/purchaseOrder/Order.vue'),
-  },
-  {
-    path: '/purchaseOrder',
-    name: 'PurchaseOrder',
-    component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
-  },
-  {
-    path: '/finishOrder',
-    name: 'FinishOrder',
-    component: () => import('../views/purchaseOrder/FinishOrder.vue'),
-  },
-  {
-    path: '/order',
-    name: 'Order',
+    name: 'order',
     component: () => import('../views/purchaseOrder/Order.vue'),
   },
 ];
