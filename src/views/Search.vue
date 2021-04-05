@@ -5,30 +5,46 @@
     </header>
     <v-main>
       <v-container>
-        <v-card class="mx-auto" max-width="600">
-          <v-img
-            class="white--text align-end"
-            height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>Top 10 Australian beaches</v-card-title>
-          </v-img>
-
-          <v-card-subtitle class="pb-0"> Number 10 </v-card-subtitle>
-
-          <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text> Share </v-btn>
-
-            <v-btn color="orange" text> Explore </v-btn>
-          </v-card-actions>
-        </v-card>
-
+        <v-row>
+          <!-- 왼쪽 프로필 영역 -->
+          <!-- default cols 12, md or higher 3 -->
+          <v-col cols="10" md="3">
+            <v-card outlined elevation="2" height="300px">
+              <v-card-text>
+                <div class="title text--primary">닉네임</div>
+                <div></div>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-list-item two-line>
+                <v-list-item-content>
+                  <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    src="http://ddragon.leagueoflegends.com/cdn/10.16.1/img/profileicon/588.png"
+                  ></v-img
+                ></v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+            </v-card>
+          </v-col>
+          <v-col cols="10" md="6">
+            <v-card outlined elevation="2" height="300px">
+              <div class="pa-3">
+                <v-textarea
+                  outlined
+                  label="What are you thinking?"
+                  v-model="post"
+                ></v-textarea>
+              </div>
+              <v-list-item two-line>
+                <v-list-item-content>
+                  <v-list-item-title>Solo</v-list-item-title>
+                  <v-list-item-subtitle>tier</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-col>
+        </v-row>
         <v-simple-table>
           <template v-slot:default>
             <thead>
@@ -41,12 +57,16 @@
               <tr v-for="item in desserts" :key="item.name">
                 <td>{{ item.name }}</td>
                 <td>{{ item.calories }}</td>
+                <td></td>
               </tr>
             </tbody>
           </template>
-        </v-simple-table></v-container
-      ></v-main
-    >
+        </v-simple-table>
+        <v-pagination
+          v-model="page"
+          :length="pageCount"
+        ></v-pagination></v-container
+    ></v-main>
   </v-app>
 </template>
 
@@ -70,6 +90,9 @@ export default {
     Header,
   },
   data: () => ({
+    page: 1,
+    pageCount: 3,
+    viewCount: 1,
     desserts: [
       {
         name: "Frozen Yogurt",

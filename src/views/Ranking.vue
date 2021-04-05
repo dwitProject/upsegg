@@ -21,7 +21,6 @@
         </v-menu>
       </v-app-bar>
     </div>
-    <Header />
     <v-main>
       <v-container>
         <rank />
@@ -31,14 +30,14 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+// import Header from "../components/Header.vue";
 import Rank from "../components/Rank.vue";
 // import Search from "@/components/Search.vue";
 
 export default {
   name: "Ranking",
   components: {
-    Header,
+    // Header,
     Rank,
     // Search,
   },
