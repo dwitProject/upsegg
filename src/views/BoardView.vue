@@ -253,28 +253,25 @@ export default {
       }
     },
     async upHitCnt(){
-      this.item.hitCnt++;
       const result = await api.upHitCnt(this.boardId);
       if (result.status == 200) {
-        this.item = [];
-        this.item = result.data;
+        this.item.hitCnt = result.data.hitCnt;
       }
     },
     async thumbUp() {
-      console.log("**********")
       const result = await api.upCnt(this.boardId);
-      if (result.status == true) {
-      console.log("^^^^^^^^^^^^^^^^")
+      if (result.data == true) {
         this.getBoardDetail(this.boardId);
-      } else if(result.status == false){
+      } else if(result.data == false){
         alert("이미 추천하셨습니다")
       }
     },
     async thumbDown() {
       const result = await api.downCnt(this.boardId);
-      if (result.status == 200) {
-        this.item = [];
-        this.item = result.data;
+      if (result.data == true) {
+        this.getBoardDetail(this.boardId);
+      } else if(result.data == false){
+        alert("이미 비추천하셨습니다")
       }
     },
     async write() { // 댓글작성
