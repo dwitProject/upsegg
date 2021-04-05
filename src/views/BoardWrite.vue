@@ -3,6 +3,9 @@
     <v-form>
       <v-container>
         <v-row>
+          <v-select :items="seletedType" v-model="type" label="글분류" solo></v-select>
+        </v-row>
+        <v-row>
           <v-text-field
             :counter="10"
             label="제목"
@@ -72,10 +75,12 @@ import api from "@/api/board";
 export default {
   data: () => ({
     title: [],
+    type: [],
     name: [],
     password: [],
     content: [],
     attachment: [],
+    seletedType: ['질문', '자유', '전략'],
   }),
 
   methods: {
@@ -85,10 +90,11 @@ export default {
         name: this.name,
         password: this.password,
         content: this.content,
+        type: this.type,
       };
       const result = await api.postBoard(boardwrite); // 리턴값은 promise연산이 fulfilled된 후의 값
       console.log(result.status); // http 상태코드
-      console.log('여기보려한다',result.data); //
+      console.log("여기보려한다", result.data); //
       console.log(result.data);
       if (result.status == 200) {
         const newBoard = result.data;
@@ -109,7 +115,7 @@ export default {
         console.log(newBoard);
       }
       alert("글이 등록되었습니다");
-      this.$router.push('/board');
+      this.$router.push("/board");
     },
   },
 };

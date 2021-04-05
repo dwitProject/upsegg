@@ -21,9 +21,9 @@
                       <th class="text-center">번호: {{ item.id }}</th>
                       <th class="text-center">제목: {{ item.title }}</th>
                       <th class="text-center">{{ item.createdTime }}</th>
+                      <th class="text-center">글분류: {{ item.type }}</th>
                       <th class="text-center">작성자: {{ item.name }}</th>
                       <th class="text-center">조회수: {{ item.hitCnt }}</th>
-                      <th class="text-center">추천수: {{ item.likeCnt }}</th>
                       <th class="text-center">댓글수: {{ item.replyCnt }}</th>
                     </tr>
                   </thead>
@@ -62,7 +62,7 @@
     <!-- 추천기능 -->
     <div class="text-center">
       <span class="caption text-uppercase">추천수:</span>
-      <span class="font-weight-bold"> 22 </span>
+      <span class="font-weight-bold"> {{ item.upCnt }} </span>
       <v-btn class="ma-2" text icon color="blue lighten-2">
         <v-icon @click="thumbUp()">mdi-thumb-up</v-icon>
       </v-btn>
@@ -70,7 +70,7 @@
         <v-icon @click="thumbDown()">mdi-thumb-down</v-icon>
       </v-btn>
       <span class="caption text-uppercase">비추천수:</span>
-      <span class="font-weight-bold"> 222 </span>
+      <span class="font-weight-bold"> {{ item.downCnt }} </span>
       
     </div>
 
@@ -188,8 +188,9 @@ export default {
     console.log("게시글 id: ", this.$route.params.id);
     console.log("글이 있던 페이지 번호", this.$route.params.page);
     this.boardId = this.$route.params.id;
-    this.getBoardDetail(this.$route.params.id);
-    this.getReply(this.$route.params.id);
+    this.getBoardDetail(this.boardId);
+    this.upHitCnt();
+    this.getReply(this.boardId);
     this.hidden = true;
   },
   methods: {
@@ -220,13 +221,14 @@ export default {
       const payload = {
         data: this.pwForReplyDel,
       };
-      const result = await api.delReply(this.replyIdToDelReply, payload);
+      const result = await api.delReply(this.boardId, this.replyIdToDelReply, payload);
 
       if (result.data == true) {
         alert("삭제되었습니다");
-        this.getReply(this.boardId);
         this.pwForReplyDel = "";
         this.dialog = false;
+        this.getBoardDetail(this.boardId);
+        this.getReply(this.boardId);
       } else if (result.data == false) {
         alert("비빌번호가 틀립니다");
       }
@@ -250,7 +252,32 @@ export default {
         alert("비빌번호가 틀립니다");
       }
     },
-    async write() {
+    async upHitCnt(){
+      this.item.hitCnt++;
+      const result = await api.upHitCnt(this.boardId);
+      if (result.status == 200) {
+        this.item = [];
+        this.item = result.data;
+      }
+    },
+    async thumbUp() {
+      console.log("**********")
+      const result = await api.upCnt(this.boardId);
+      if (result.status == true) {
+      console.log("^^^^^^^^^^^^^^^^")
+        this.getBoardDetail(this.boardId);
+      } else if(result.status == false){
+        alert("이미 추천하셨습니다")
+      }
+    },
+    async thumbDown() {
+      const result = await api.downCnt(this.boardId);
+      if (result.status == 200) {
+        this.item = [];
+        this.item = result.data;
+      }
+    },
+    async write() { // 댓글작성
       const sendreply = {
         boardId: this.boardId,
         name: this.name,
@@ -263,10 +290,10 @@ export default {
       this.name = "";
       this.password = "";
       this.content = "";
+      this.getBoardDetail(this.boardId);
       this.getReply(this.$route.params.id);
     },
-    async thumbUp() {},
-    async thumbDown() {},
+    
   },
 };
 

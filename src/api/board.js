@@ -7,9 +7,11 @@ export default {
 
   getBoardDetail: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`),
   getReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`),
-  delReply: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/replies/${id}`, password),
+  delReply: (boardId, id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies/${id}`, password),
   delBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
-  
+  upHitCnt: (id) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`), // 조회수
+  upCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/up`), // 추천수
+  downCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/down`), // 비추천수
   // Page<Board> 관련 할때 가져오므로 삭제예정
   boardCount: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-count`), 
 

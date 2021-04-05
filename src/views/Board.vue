@@ -24,7 +24,8 @@
                 <v-simple-table>
                   <colgroup>
                     <col width="10%" />
-                    <col width="60%" />
+                    <col width="10%" />
+                    <col width="50%" />
                     <col width="10%" />
                     <col width="10%" />
                     <col width="5%" />
@@ -33,6 +34,7 @@
                   <thead>
                     <tr>
                       <th class="text-center">번호</th>
+                      <th class="text-center">글분류</th>
                       <th class="text-center">제목</th>
                       <th class="text-center">작성자</th>
                       <th class="text-center">작성일</th>
@@ -43,6 +45,7 @@
                   <tbody>
                     <tr v-for="(item, i) in items" :key="i">
                       <td class="text-center">{{ item.id }}</td>
+                      <td class="text-center">{{ item.type }}</td>
                       <td
                         class="text-center"
                         @click="
@@ -57,7 +60,7 @@
                       <td class="text-center">{{ item.name }}</td>
                       <td class="text-center">{{ item.createdTime }}</td>
                       <td class="text-center">{{ item.hitCnt }}</td>
-                      <td class="text-center">{{ item.likeCnt }}</td>
+                      <td class="text-center">{{ item.upCnt }}</td>
                     </tr>
                   </tbody>
                 </v-simple-table>
