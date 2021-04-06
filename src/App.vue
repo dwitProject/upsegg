@@ -7,7 +7,8 @@
         $route.name === 'Board-write' ||
         $route.name === 'Board-modify' ||
         $route.name === 'Store' ||
-        $route.name === 'Ranking'
+        $route.name === 'Ranking' ||
+        $route.name === 'Search'
           ? true
           : false
       "
@@ -16,9 +17,7 @@
       v-if="
         $route.name === 'ProductMng' ||
         $route.name === 'OrderMng' ||
-        $route.name === 'daily-list' ||
-        $route.name === 'daily-Weekly' ||
-        $route.name === 'daily-Monthly' ||
+        $route.name === 'sales-stat' ||
         $route.name === 'product-stat' ||
         $route.name === 'cart-stat'
           ? true
@@ -31,10 +30,10 @@
 </template>
 
 <script>
-import Header from '@/components/Header';
-import AdminNav from '@/components/AdminNav';
+import Header from "@/components/Header";
+import AdminNav from "@/components/AdminNav";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     AdminNav,

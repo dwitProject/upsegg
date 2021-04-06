@@ -76,6 +76,21 @@ const routes = [
     name: 'cart-stat',
     component: () => import("../views/storeMng/CartStat.vue"),
   },
+  {
+    path: '/purchaseOrder',
+    name: 'purchaseOrder',
+    component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
+  },
+  {
+    path: '/finishOrder',
+    name: 'finishOrder',
+    component: () => import('../views/purchaseOrder/FinishOrder.vue'),
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/purchaseOrder/Order.vue'),
+  },
 ];
 
 const router = new VueRouter({
