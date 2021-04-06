@@ -4,10 +4,35 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>상품 관리</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="headline">
+                {{ editedItem.name }}를(을) 삭제하시겠습니까?
+              </v-card-title>
+              <v-spacer></v-spacer>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <template>
+                  <v-btn color="primary" depressed @click="removeProduct"
+                    >확인</v-btn
+                  >
+                  <v-btn color="error" depressed @click="closeDelete"
+                    >취소</v-btn
+                  >
+                </template>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+        <div class="d-flex">
           <v-dialog v-model="dialog" max-width="700px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn class="mb-2" v-bind="attrs" v-on="on">
+              <v-btn
+                class="ml-3 white--text"
+                v-bind="attrs"
+                v-on="on"
+                color="#0b66f9"
+              >
                 상품 등록
               </v-btn>
             </template>
@@ -56,7 +81,7 @@
                     <v-col cols="4">
                       <v-text-field
                         color="#000"
-                        label="재고수량"
+                        label="상품수량"
                         dense
                         v-model="editedItem.stock"
                       ></v-text-field>
@@ -75,42 +100,34 @@
                 </v-container>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" depressed @click="postProduct">
+                  <v-btn
+                    color="#0b66f9"
+                    class="white--text"
+                    depressed
+                    @click="postProduct"
+                  >
                     등록
                   </v-btn>
-                  <v-btn color="error" depressed @click="close">취소</v-btn>
+                  <v-btn
+                    color="#F90B66"
+                    class="white--text"
+                    depressed
+                    @click="close"
+                    >취소</v-btn
+                  >
                 </v-card-actions>
               </v-card-text>
             </v-card>
           </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="headline">
-                {{ editedItem.name }}를(을) 삭제하시겠습니까?
-              </v-card-title>
-              <v-spacer></v-spacer>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <template>
-                  <v-btn color="primary" depressed @click="removeProduct"
-                    >확인</v-btn
-                  >
-                  <v-btn color="error" depressed @click="closeDelete"
-                    >취소</v-btn
-                  >
-                </template>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-account-search"
-          label="Search"
-          single-line
-          hide-details
-          class="search-bar"
-        ></v-text-field>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-account-search"
+            label="Search"
+            single-line
+            hide-details
+            class="search-bar"
+          ></v-text-field>
+        </div>
       </template>
       <template v-slot:[`item.files`]="{ item }">
         <v-btn small @click="seeMore(item)">상세보기</v-btn>
@@ -231,6 +248,7 @@ export default {
       this.editedItem.category = '';
       this.editedItem.price = '';
       this.editedItem.stock = '';
+      this.files = [];
 
       this.close();
     },
@@ -301,5 +319,6 @@ table tr td {
   width: 30%;
   padding: 0 20px;
   margin-left: auto;
+  flex: 0 0 auto !important;
 }
 </style>
