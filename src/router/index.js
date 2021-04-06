@@ -44,12 +44,12 @@ const routes = [
   {
     path: '/productMng',
     name: 'ProductMng',
-    component: () => import('../views/storeMng/productMng.vue'),
+    component: () => import('../views/storeMng/ProductMng.vue'),
   },
   {
     path: '/orderMng',
     name: 'OrderMng',
-    component: () => import('../views/storeMng/orderMng.vue'),
+    component: () => import('../views/storeMng/OrderMng.vue'),
   },
   {
     path: '/daily-list',
@@ -91,6 +91,12 @@ const routes = [
     name: 'order',
     component: () => import('../views/purchaseOrder/Order.vue'),
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+  },
+
 ];
 
 const router = new VueRouter({
