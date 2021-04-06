@@ -10,13 +10,13 @@
       ></v-data-table>
     </template>
     <template>
-      <!-- <order-item
-        v-for="(order, i) in orders"
+      <order-item
+        v-for="(order, i) in order"
         :key="i"
         :order="order"
         :index="i"
-      > -->
-      <!-- </order-item> -->
+      >
+      </order-item>
     </template>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
       { text: "상품명", value: "productName" },
       { text: "상품갯수", value: "amount" },
       { text: "가격", value: "price" },
+      { text: "주문일", value: "orderDate" },
     ],
     list: [],
   }),
