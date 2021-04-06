@@ -56,7 +56,7 @@
                 <v-col cols="2">
                   <v-text-field v-show="!hiddenForEdit" height="10" v-model="pwForBoardModify"/>
                 </v-col>
-                <v-btn v-show="!hiddenForEdit" @click="modifyBoard()"> 확인 </v-btn>
+                <v-btn v-show="!hiddenForEdit" @click="checkPwForModify()"> 확인 </v-btn>
 
 
                 <v-btn v-show="hiddenForDel" color="primary" @click="hiddenForDel = !hiddenForDel">
@@ -267,14 +267,14 @@ export default {
         alert("비빌번호가 틀립니다");
       }
     },
-    async modifyBoard(){
+    async checkPwForModify(){
       const payload = {
         data: this.pwForBoardModify,
       };
-      const result = await api.modifyBoard(this.boardId, payload);
+      const result = await api.checkPwForModify(this.boardId, payload);
       if (result.data == true) {
+        this.$router.push({name: `Board-modify`, params: { id: this.boardId, password: this.pwForBoardModify}});
         this.pwForBoardModify = "";
-        this.$router.push({name: `Board-modify`, params: { id: this.boardId}});
       } else if (result.data == false) {
         alert("비빌번호가 틀립니다");
       }

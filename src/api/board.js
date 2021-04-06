@@ -11,7 +11,8 @@ export default {
   getReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`),
   delReply: (boardId, id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies/${id}`, password),
   delBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
-  modifyBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards-check/${id}`, password),
+  checkPwForModify: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards-check/${id}`, password),
+  modifyBoardDetail: (id, password) => axios.put(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
   upHitCnt: (id) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`), // 조회수
   upCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/up`), // 추천수
   downCnt: (boardId) => axios.patch(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/down`), // 비추천수
