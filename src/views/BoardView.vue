@@ -45,18 +45,31 @@
     
         <v-container>
           <v-row align="baseline">
-            <v-col cols="8" />
-            <v-btn v-show="hidden" color="primary" @click="hidden = !hidden">
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
-            <v-btn v-show="!hidden" color="primary" @click="hidden = !hidden">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-spacer />
-            <v-col cols="2">
-              <v-text-field v-show="!hidden" height="10" v-model="pwForBoardDel"/>
-            </v-col>
-            <v-btn v-show="!hidden" @click="delBoard(pwForBoardDel)"> 확인 </v-btn>
+                <v-col cols="4" />
+
+                <v-btn v-show="hiddenForEdit" color="primary" @click="hiddenForEdit = !hiddenForEdit">
+                  글 수정
+                </v-btn>
+                <v-btn v-show="!hiddenForEdit" color="primary" @click="hiddenForEdit = !hiddenForEdit">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-col cols="2">
+                  <v-text-field v-show="!hiddenForEdit" height="10" v-model="pwForBoardModify"/>
+                </v-col>
+                <v-btn v-show="!hiddenForEdit" @click="modifyBoard()"> 확인 </v-btn>
+
+
+                <v-btn v-show="hiddenForDel" color="primary" @click="hiddenForDel = !hiddenForDel">
+                  <v-icon>mdi-delete-outline</v-icon>
+                </v-btn>
+                <v-btn v-show="!hiddenForDel" color="primary" @click="hiddenForDel = !hiddenForDel">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-col cols="2">
+                  <v-text-field v-show="!hiddenForDel" height="10" v-model="pwForBoardDel"/>
+                </v-col>
+                <v-btn v-show="!hiddenForDel" @click="delBoard()"> 확인 </v-btn>
+
           </v-row>
         </v-container>
     <!-- 추천기능 -->
@@ -175,8 +188,10 @@ export default {
     dialog: false,
     pwForReplyDel: "",
     pwForBoardDel: "",
+    pwForBoardModify: "",
     replyIdToDelReply: "",
-    hidden: "",
+    hiddenForDel: "",
+    hiddenForEdit: "",
   }),
   props: {
     page: {
@@ -191,7 +206,8 @@ export default {
     this.getBoardDetail(this.boardId);
     this.upHitCnt();
     this.getReply(this.boardId);
-    this.hidden = true;
+    this.hiddenForDel = true;
+    this.hiddenForEdit = true;
   },
   methods: {
     async getBoardDetail(id) {
@@ -237,17 +253,28 @@ export default {
       this.dialog = !this.dialog;
       this.replyIdToDelReply = replyId;
     },
-    async delBoard(password) {
-      console.log("게시판 비밀번호", password);
+    async delBoard() {
       const payload = {
-        data: password,
+        data: this.pwForBoardDel,
       };
-      const result = await api.delBoard(this.item.id, payload);
+      const result = await api.delBoard(this.boardId, payload);
 
       if (result.data == true) {
         alert("삭제되었습니다");
         this.pwForBoardDel = "";
         this.$router.push('/board');
+      } else if (result.data == false) {
+        alert("비빌번호가 틀립니다");
+      }
+    },
+    async modifyBoard(){
+      const payload = {
+        data: this.pwForBoardModify,
+      };
+      const result = await api.modifyBoard(this.boardId, payload);
+      if (result.data == true) {
+        this.pwForBoardModify = "";
+        this.$router.push({name: `Board-modify`, params: { id: this.boardId}});
       } else if (result.data == false) {
         alert("비빌번호가 틀립니다");
       }
@@ -312,7 +339,6 @@ export default {
 // };
 // const result = await api.delReply(this.replyIdToDelReply, payload);
 </script>
-
 
 
 

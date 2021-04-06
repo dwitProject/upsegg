@@ -10,7 +10,7 @@ const routes = [
     component: () => import('../views/Main.vue'),
   },
   {
-    path: '/boards',
+    path: '/board',
     name: 'Board',
     component: () => import('../views/Board.vue')
   },
@@ -27,14 +27,19 @@ const routes = [
     component: () => import('../views/BoardWrite.vue')
   },
   {
-    path: '/board/modify',
+    path: '/board/modify/:id',
     name: 'Board-modify',
     component: () => import('../views/BoardModify.vue')
   },
   {
-    path: '/ranking',
+    path: '/ranking/',
     name: 'Ranking',
     component: () => import('../views/Ranking.vue'),
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
   },
   {
     path: '/store',
@@ -44,27 +49,17 @@ const routes = [
   {
     path: '/productMng',
     name: 'ProductMng',
-    component: () => import('../views/storeMng/ProductMng.vue'),
+    component: () => import('../views/storeMng/productMng.vue'),
   },
   {
     path: '/orderMng',
     name: 'OrderMng',
-    component: () => import('../views/storeMng/OrderMng.vue'),
+    component: () => import('../views/storeMng/orderMng.vue'),
   },
   {
-    path: '/daily-list',
-    name: 'daily-list',
-    component: () => import("../views/storeMng/DailyList.vue"),
-  },
-  {
-    path: '/daily-Weekly',
-    name: 'daily-Weekly',
-    component: () => import("../views/storeMng/DailyWeekly.vue"),
-  },
-  {
-    path: '/daily-Monthly',
-    name: 'daily-Monthly',
-    component: () => import("../views/storeMng/DailyMonthly.vue"),
+    path: '/sales-stat',
+    name: 'sales-stat',
+    component: () => import("../views/storeMng/SalesStat.vue"),
   },
   {
     path: '/product-stat',
@@ -78,25 +73,34 @@ const routes = [
   },
   {
     path: '/purchaseOrder',
-    name: 'purchaseOrder',
+    name: 'PurchaseOrder',
     component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
   },
   {
     path: '/finishOrder',
-    name: 'finishOrder',
+    name: 'FinishOrder',
     component: () => import('../views/purchaseOrder/FinishOrder.vue'),
   },
   {
     path: '/order',
-    name: 'order',
+    name: 'Order',
     component: () => import('../views/purchaseOrder/Order.vue'),
   },
   {
-    path: '/search',
-    name: 'Search',
-    component: () => import('../views/Search.vue'),
+    path: '/purchaseOrder',
+    name: 'PurchaseOrder',
+    component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
   },
-
+  {
+    path: '/finishOrder',
+    name: 'FinishOrder',
+    component: () => import('../views/purchaseOrder/FinishOrder.vue'),
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import('../views/purchaseOrder/Order.vue'),
+  },
 ];
 
 const router = new VueRouter({
