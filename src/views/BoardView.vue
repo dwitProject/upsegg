@@ -40,10 +40,15 @@
         <v-col cols="1" />
       </v-row>
     </v-container>
+
     <!-- <div>222222222222 {{ $route.params.page }}</div> -->
     <!-- <div>333333333333 {{ page }}</div> -->
     
         <v-container>
+          <!-- <v-row align="baseline">
+            <v-col cols="1" />
+            <span @click="download()">첨부파일: {{ file }}</span>
+          </v-row> -->
           <v-row align="baseline">
                 <v-col cols="4" />
 
@@ -180,11 +185,12 @@ import api from "@/api/board";
 export default {
   data: () => ({
     item: [], // 게시글 상세내용 data
+    // file: "", // 첨부파일 
     replys: [], // 가져온 댓글
     boardId: "", // 댓글 등록시 data
-    name: "",
-    password: "",
-    content: "",
+    name: "", // 댓글 등록시 data
+    password: "", // 댓글 등록시 data
+    content: "", // 댓글 등록시 data
     dialog: false,
     pwForReplyDel: "",
     pwForBoardDel: "",
@@ -212,13 +218,19 @@ export default {
   methods: {
     async getBoardDetail(id) {
       const result = await api.getBoardDetail(id); // 상세내용 얻어오기
-      console.log(result);
+      console.log("getBoardDetail", result);
       console.log(result.data);
       if (result.status == 200) {
         this.item = [];
         this.item = result.data;
+        // this.file = "";
+        // this.file = this.item.attachment[0].fileName;
       }
     },
+    // async download(){
+    //   const result = await api.downloadFile(this.boardId);
+    //   console.log(result);
+    // },
     async getReply(boardId) {
       const result = await api.getReply(boardId); // 댓글 가져오기
       console.log(result);

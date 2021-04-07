@@ -85,14 +85,14 @@ export default {
 
   methods: {
     async write() {
-      const boardwrite = {
+      const payload = {
         title: this.title,
         name: this.name,
         password: this.password,
         content: this.content,
         type: this.type,
       };
-      const result = await api.postBoard(boardwrite); // 리턴값은 promise연산이 fulfilled된 후의 값
+      const result = await api.postBoard(payload); // 리턴값은 promise연산이 fulfilled된 후의 값
       console.log(result.status); // http 상태코드
       console.log("여기보려한다", result.data); //
       console.log(result.data);

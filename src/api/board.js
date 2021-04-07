@@ -8,6 +8,7 @@ export default {
   listAll: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards`),
 
   getBoardDetail: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`),
+  // downloadFile: (id) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/board-attachment/${id}`, {type: Response.headers['content-type']}),
   getReply: (boardId) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies`),
   delReply: (boardId, id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${boardId}/replies/${id}`, password),
   delBoard: (id, password) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/boards/${id}`, password),
