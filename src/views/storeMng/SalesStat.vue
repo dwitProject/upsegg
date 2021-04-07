@@ -120,6 +120,27 @@ export default {
     BarChart,
     PickerInDialog,
   },
+  data() {
+    return {
+      headers: [
+        { text: "일자", value: "orderDate" },
+        { text: "주문수", value: "numberOrders" },
+        { text: "품목수", value: "numberItems" },
+        { text: "상품구매금액", value: "productPurchaseAmount" },
+        { text: "배송비", value: "deliveryCharge" },
+        { text: "할인", value: "cashDiscount" },
+        { text: "쿠폰", value: "coupon" },
+        { text: "결제합계", value: "totalPayment" },
+        { text: "환불합계", value: "totalRefund" },
+        { text: "순매출", value: "netSales" },
+      ],
+      sales: [],
+      chartData: [],
+      chartLoading: false,
+      fromDate: new Date().toISOString().substr(0, 10),
+      toDate: new Date().toISOString().substr(0, 10),
+    };
+  },
   mounted() {
     this.dayWeek("oneMonth", 1, "months");
   },
@@ -212,28 +233,6 @@ export default {
           : (this.chartLoading = false);
       }
     },
-  },
-
-  data() {
-    return {
-      headers: [
-        { text: "일자", value: "orderDate" },
-        { text: "주문수", value: "numberOrders" },
-        { text: "품목수", value: "numberItems" },
-        { text: "상품구매금액", value: "productPurchaseAmount" },
-        { text: "배송비", value: "deliveryCharge" },
-        { text: "할인", value: "cashDiscount" },
-        { text: "쿠폰", value: "coupon" },
-        { text: "결제합계", value: "totalPayment" },
-        { text: "환불합계", value: "totalRefund" },
-        { text: "순매출", value: "netSales" },
-      ],
-      sales: [],
-      chartData: [],
-      chartLoading: false,
-      fromDate: new Date().toISOString().substr(0, 10),
-      toDate: new Date().toISOString().substr(0, 10),
-    };
   },
 };
 </script>

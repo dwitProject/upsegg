@@ -2,8 +2,14 @@
   <v-main>
     <v-container>
       <v-card outlined color="white">
+        <div class="text-right mt-6">
+          <v-chip color="success" outlined @click="exportExcel">
+            <v-icon left> mdi-microsoft-excel </v-icon>
+            다운로드
+          </v-chip>
+        </div>
         <!-- 통계 그래프 출력 -->
-        <v-card class="mt-5 pa-3">
+        <v-card class="mt-2 pa-3">
           <v-row>
             <v-col>
               <div
@@ -58,12 +64,35 @@
 </template>
 <script>
 import api from "@/api/stat";
+import XLSX from "xlsx";
 import DoughnutChart from "../../components/DoughnutChart";
+
+const moment = require("moment");
 
 export default {
   name: "cart-stat",
   components: {
     DoughnutChart,
+  },
+  data() {
+    return {
+      // 통계 데이터
+      headers: [
+        { text: "순위", value: "id" },
+        { text: "상품코드", value: "productCode" },
+        { text: "상품명", value: "productName" },
+        { text: "판매가", value: "price" },
+        { text: "수량", value: "quantity" },
+        { text: "재고", value: "stock" },
+        { text: "회원수", value: "numberMembers" },
+        { text: "비회원수", value: "numberNonMembers" },
+      ],
+      cart: [],
+      membersCart: [],
+      quantityCart: [],
+      membersCartLoading: false,
+      quantityChartLoading: false,
+    };
   },
   mounted() {
     this.getAnalysisCart();
@@ -71,6 +100,28 @@ export default {
     this.getAnalysisCartQuantity();
   },
   methods: {
+    exportExcel() {
+      const now = moment().format("YYYY-MM-DD");
+      const days = moment().subtract(7, "days").format("YYYY-MM-DD");
+      let filter = [];
+      this.cart.map((item) => {
+        filter.push({
+          순위: item.id,
+          상품코드: item.productCode,
+          상품명: item.productName,
+          판매가: item.price,
+          수량: item.quantity,
+          재고: item.stock,
+          회원수: item.numberMembers,
+          비회원수: item.numberNonMembers,
+        });
+      });
+      let wBook = XLSX.utils.book_new();
+      let wSeet = XLSX.utils.json_to_sheet(filter);
+      const seetLabel = days + " ~ " + now  + " 장바구니 통계"
+      XLSX.utils.book_append_sheet(wBook, wSeet, seetLabel);
+      XLSX.writeFile(wBook, seetLabel + ".xlsx");
+    },
     async getAnalysisCart() {
       const res = await api.getAnalysisCart();
       if (res.status == 200) {
@@ -178,27 +229,6 @@ export default {
           : (this.quantityChartLoading = false);
       }
     },
-  },
-
-  data() {
-    return {
-      // 통계 데이터
-      headers: [
-        { text: "순위", value: "id" },
-        { text: "상품코드", value: "productCode" },
-        { text: "상품명", value: "productName" },
-        { text: "판매가", value: "price" },
-        { text: "수량", value: "quantity" },
-        { text: "재고", value: "stock" },
-        { text: "회원수", value: "numberMembers" },
-        { text: "비회원수", value: "numberNonMembers" },
-      ],
-      cart: [],
-      membersCart: [],
-      quantityCart: [],
-      membersCartLoading: false,
-      quantityChartLoading: false,
-    };
   },
 };
 </script>

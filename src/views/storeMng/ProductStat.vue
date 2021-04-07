@@ -69,8 +69,14 @@
             </v-col>
           </v-row>
         </v-card>
+        <div class="text-right mt-8">
+          <v-chip color="success" outlined @click="exportExcel">
+            <v-icon left> mdi-microsoft-excel </v-icon>
+            다운로드
+          </v-chip>
+        </div>
         <!-- 통계 그래프 출력 -->
-        <v-card class="mt-5 pa-3">
+        <v-card class="mt-2 pa-3">
           <v-row>
             <v-col>
               <div
@@ -128,6 +134,7 @@
 import api from "@/api/stat";
 import DoughnutChart from "../../components/DoughnutChart";
 import PickerInDialog from "../../components/PickerInDialog";
+import XLSX from "xlsx";
 
 const moment = require("moment");
 
@@ -137,10 +144,52 @@ export default {
     DoughnutChart,
     PickerInDialog,
   },
+  data() {
+    return {
+      headers: [
+        { text: "순위", value: "id" },
+        { text: "상품코드", value: "productCode" },
+        { text: "상품명", value: "productName" },
+        { text: "판매가", value: "price" },
+        { text: "결제수량", value: "paymentQuantity" },
+        { text: "환불수량", value: "refundQuantity" },
+        { text: "판매수량", value: "salesQuantity" },
+        { text: "판매금액", value: "totalSales" },
+      ],
+      product: [],
+      salesChart: [],
+      quantityChart: [],
+      salesChartLoading: false,
+      quantityChartLoading: false,
+      fromDate: new Date().toISOString().substr(0, 10),
+      toDate: new Date().toISOString().substr(0, 10),
+    };
+  },
   mounted() {
     this.dayWeek("threeDays", 3, "days");
   },
   methods: {
+    exportExcel() {
+      console.log(this.chartData)
+      let filter = [];
+      this.product.map((item) => {
+        filter.push({
+          순위: item.id,
+          상품코드: item.productCode,
+          상품명: item.productName,
+          판매가: item.price,
+          결제수량: item.paymentQuantity,
+          환불수량: item.refundQuantity,
+          판매수량: item.salesQuantity,
+          판매금액: item.totalSales,
+        });
+      });
+      let wBook = XLSX.utils.book_new();
+      let wSeet = XLSX.utils.json_to_sheet(filter);
+      const seetLabel = this.fromDate + " ~ " + this.toDate + " 매출통계";
+      XLSX.utils.book_append_sheet(wBook, wSeet, seetLabel);
+      XLSX.writeFile(wBook, seetLabel + ".xlsx");
+    },
     setFromDate(selectDate) {
       this.fromDate = selectDate;
     },
@@ -148,6 +197,8 @@ export default {
       this.toDate = selectDate;
     },
     getPeriod(fromDate, toDate) {
+      this.fromDate = fromDate
+      this.toDate = toDate
       this.getAnalysisProductDate(fromDate, toDate);
       this.getAnalysisProductSalesQuantity(fromDate, toDate);
       this.getAnalysisProductTotalSales(fromDate, toDate);
@@ -233,7 +284,6 @@ export default {
       if (res.status == 200) {
         let labels = [];
         let salesChart = [];
-        console.log(res.data);
         res.data.map((item) => {
           labels.push(item.productName);
           salesChart.push(item.totalSales);
@@ -290,27 +340,6 @@ export default {
         }
       }
     },
-  },
-  data() {
-    return {
-      headers: [
-        { text: "순위", value: "id" },
-        { text: "상품코드", value: "productCode" },
-        { text: "상품명", value: "productName" },
-        { text: "판매가", value: "price" },
-        { text: "결제수량", value: "paymentQuantity" },
-        { text: "환불수량", value: "refundQuantity" },
-        { text: "판매수량", value: "salesQuantity" },
-        { text: "판매금액", value: "totalSales" },
-      ],
-      product: [],
-      salesChart: [],
-      quantityChart: [],
-      salesChartLoading: false,
-      quantityChartLoading: false,
-      fromDate: new Date().toISOString().substr(0, 10),
-      toDate: new Date().toISOString().substr(0, 10),
-    };
   },
 };
 </script>
