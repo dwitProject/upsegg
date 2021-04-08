@@ -22,7 +22,7 @@
     <v-container>
       <v-row>
         <v-col cols="3" />
-        <span style="width: 350px">
+        <span style="width: 520px">
           <v-autocomplete
             v-model="name"
             :items="items"
