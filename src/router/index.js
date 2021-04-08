@@ -37,7 +37,7 @@ const routes = [
     component: () => import('../views/Ranking.vue'),
   },
   {
-    path: '/search',
+    path: '/search/:id',
     name: 'Search',
     component: () => import('../views/Search.vue'),
   },

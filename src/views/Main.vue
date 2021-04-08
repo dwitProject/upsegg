@@ -24,7 +24,7 @@
         <v-col cols="3" />
         <span style="width: 350px">
           <v-autocomplete
-            v-model="value"
+            v-model="name"
             :items="items"
             auto-select-first
             label="소환사를 입력하세요"
@@ -38,8 +38,8 @@
           <v-btn
             color="white"
             @click="$router.push({
-                name: `Ranking`,
-                params: { name: value },
+                name: `Search`,
+                params: { id: name },
               })"
             >검색</v-btn>
         </span>
@@ -52,16 +52,37 @@
 
 <script>
 import Footer from "../components/Footer";
+import api from "@/api/board";
 export default {
   data: () => ({
-    items: ["foo", "bar", "fizz", "buzz"],
-    value: "",
+    items: [],
+    name: "",
   }),
   components: {
     Footer,
   },
+  mounted() {
+    console.log("dd");
+    this.getList();
+  },
   methods: {
-    search() {},
+    async getList(){
+      const result = await api.getList();
+      console.log(result)
+      console.log(result.data)
+      console.log(result.data.length)
+      console.log(result.data[0].name)
+      if(result.status == 200){
+        // 뒤에서 5개 이름만 
+          this.items = [];
+
+        for(let i=result.data.length-5; i<result.data.length; i++){
+          this.items.push(result.data[i].name)
+        }
+        console.log(this.items);
+        
+      }
+    }
   },
 };
 </script>

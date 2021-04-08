@@ -1,5 +1,7 @@
 import axios from 'axios'
 export default {
+  // 메인화면 목록 가져오기
+  getList: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/summoners`),
   //페이징하여 가져오기
   getBoardList: (x, y) => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards/paging?page=${x}&size=${y}`),
   getBoardListForHitCnt: () => axios.get(`${process.env.VUE_APP_BOARD_API_BASE}/boards-hit`),

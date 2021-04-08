@@ -8,7 +8,7 @@
           <v-col cols="10" md="3">
             <v-card outlined elevation="2" height="300px">
               <v-card-text>
-                <div class="title text--primary">닉네임</div>
+                <div class="title text--primary">{{ $route.params.id }}</div>
                 <div></div>
               </v-card-text>
               <v-divider></v-divider>
