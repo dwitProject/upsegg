@@ -7,7 +7,7 @@
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="headline">
-                {{ editedItem.name }}를(을) 삭제하시겠습니까?
+                {{ editedItem.productName }}를(을) 삭제하시겠습니까?
               </v-card-title>
               <v-spacer></v-spacer>
               <v-card-actions>
@@ -48,7 +48,7 @@
                         color="#000"
                         label="상품명"
                         dense
-                        v-model="editedItem.name"
+                        v-model="editedItem.productName"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
@@ -154,7 +154,7 @@ export default {
     dialogDelete: false,
     category: ['스테츄', '피규어', '포스터', '후드,자켓'],
     headers: [
-      { text: '상품명', value: 'name' },
+      { text: '상품명', value: 'productName' },
       { text: '상품설명', value: 'description' },
       { text: '카테고리', value: 'category' },
       { text: '상품금액', value: 'price' },
@@ -166,7 +166,7 @@ export default {
     productItems: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
+      productName: '',
       description: '',
       price: '',
       stock: '',
@@ -211,7 +211,7 @@ export default {
       // 작업 활성화를 위해 잠시 주석 처리
       // 상품 등록 시 정보란에 불입력시
       // if (
-      //   this.editedItem.name.length <= 0 ||
+      //   this.editedItem.productName.length <= 0 ||
       //   this.editedItem.description <= 0 ||
       //   this.editedItem.price <= 0 ||
       //   this.editedItem.category <= 0
@@ -243,7 +243,7 @@ export default {
         this.productItems.unshift(newProduct);
       }
       // 상품 정보 입력란 초기화
-      this.editedItem.name = '';
+      this.editedItem.productName = '';
       this.editedItem.description = '';
       this.editedItem.category = '';
       this.editedItem.price = '';
