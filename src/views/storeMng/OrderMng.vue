@@ -21,7 +21,7 @@
           <v-btn
             class="ml-3 white--text"
             color="blue-grey darken-3"
-            @click="delOrders"
+            @click="delOrders(selected)"
             >delete seleted</v-btn
           >
           <v-text-field
@@ -93,9 +93,29 @@ export default {
         this.orderItems = result.data;
       }
     },
-    delOrders() {
-      console.log(this.selected);
-      this.orderItems.splice(this.selected);
+    async delOrders(item) {
+      console.log(item);
+      item.forEach(async (arr) => {
+        const idx = arr.id;
+        const result = await api.del(idx);
+        console.log('-- DELETE --');
+
+        if (result.status == 200) {
+          this.orderItems.splice(idx, 1);
+        }
+      });
+
+      // const result = await api.del(this.selected.id);
+
+      // this.selected.forEach((chk) => {
+      //   let idx = this.orderItems.indexOf(chk);
+
+      //   if (result.status == 200) {
+      //     if (idx != -1) {
+      //       this.orderItems.splice(idx, 1);
+      //     }
+      //   }
+      // });
     },
   },
 };
