@@ -2,7 +2,7 @@
   <v-main>
     <v-container>
       <v-card outlined color="white">
-        <div class="text-right mt-6">
+        <div class="text-right mt-5">
           <v-chip color="success" outlined @click="exportExcel">
             <v-icon left> mdi-microsoft-excel </v-icon>
             다운로드
