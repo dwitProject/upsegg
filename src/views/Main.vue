@@ -37,11 +37,14 @@
         <span>
           <v-btn
             color="white"
-            @click="$router.push({
+            @click="
+              $router.push({
                 name: `Search`,
                 params: { id: name },
-              })"
-            >검색</v-btn>
+              })
+            "
+            >검색</v-btn
+          >
         </span>
       </v-row>
     </v-container>
@@ -66,23 +69,31 @@ export default {
     this.getList();
   },
   methods: {
-    async getList(){
+    async getList() {
       const result = await api.getList();
-      console.log(result)
-      console.log(result.data)
-      console.log(result.data.length)
-      console.log(result.data[0].name)
-      if(result.status == 200){
-        // 뒤에서 5개 이름만 
-          this.items = [];
+      console.log("result", result);
+      console.log("result.data", result.data)
+      console.log("data길이", result.data.length);
+      // console.log(result.data[0].name);
+      if (result.status == 200) {
+        // 뒤에서 5개 이름만
+        this.items = [];
 
-        for(let i=result.data.length-5; i<result.data.length; i++){
-          this.items.push(result.data[i].name)
+        // 5개 데이터 넣기
+        for (var data of result.data) {
+          console.log(data.name)
+          this.items.push(data.name)
         }
+
+        // 리포에서 원래 있던 것에 쌓아서, 뒤에서 5개를 넣을때
+        // for (let i = result.data.length - 5; i < result.data.length; i++) {
+        //   this.items.push(result.data[i].name);
+        // }
         console.log(this.items);
-        
+
+
       }
-    }
+    },
   },
 };
 </script>

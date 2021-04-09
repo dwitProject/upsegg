@@ -33,7 +33,8 @@ export default {
       {
         path: "/ranking",
         img:
-          "https://cdn.vox-cdn.com/thumbor/nbnSMDBuFFRBS_0uI4kA2qDIK08=/0x0:1200x675/1200x800/filters:focal(504x242:696x434)/cdn.vox-cdn.com/uploads/chorus_image/image/61663009/DormHQIUwAA38_9.0.jpg",
+          // "https://cdn.vox-cdn.com/thumbor/nbnSMDBuFFRBS_0uI4kA2qDIK08=/0x0:1200x675/1200x800/filters:focal(504x242:696x434)/cdn.vox-cdn.com/uploads/chorus_image/image/61663009/DormHQIUwAA38_9.0.jpg",
+          "https://www.kindpng.com/picc/m/119-1199387_league-of-legends-ranked-png-transparent-png.png",
         alt: "랭킹"
       },
     ],
