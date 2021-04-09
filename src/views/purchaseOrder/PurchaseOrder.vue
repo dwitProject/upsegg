@@ -2,23 +2,21 @@
   <div class="p1">
     <template>
       <v-card class="mx-auto my-12" max-width="80%">
-        <v-card-title>장바구니 목록({{ pmt }}원)</v-card-title>
-
-        <div class="products">
-          <div v-for="(product, index) in cart" :key="index">
-            <h3>{{ product.name }}</h3>
-            <img :src="product.image" />
-            <div>{{ product.price }}</div>
-            <button v-on:click="removeItemFromCart(product)">
-              Remove from cart
-            </button>
-          </div>
-        </div>
-        <!-- <v-data-table :headers="headers" :items="carts" :items-per-page="5">
+        <v-card-title>상품목록({{ orderItem.pmt }}원)</v-card-title>
+        <v-card>
+          <v-img
+            :src="product.image"
+            height="280"
+            class="grey darken-4"
+          ></v-img>
+          <v-card-title class="title"> {{ product.productName }} </v-card-title>
+          <v-card-title class="title"> {{ product.price }}원 </v-card-title>
+          <!-- <v-data-table :headers="headers" :items="product" :items-per-page="5">
           <template v-slot:[`item.imageUrl`]="{ item }">
             <img :src="item.imageUrl" :alt="item.productName" />
           </template>
         </v-data-table> -->
+        </v-card>
       </v-card>
     </template>
     <template>
@@ -27,10 +25,16 @@
           <v-container>
             <v-card-title>배송지 정보 입력</v-card-title>
             <v-col cols="12" sm="6" md="2">
-              <v-text-field label="이름" v-model="name"></v-text-field>
+              <v-text-field
+                label="이름"
+                v-model="orderItem.name"
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="2">
-              <v-text-field label="전화번호" v-model="tel"></v-text-field>
+              <v-text-field
+                label="전화번호"
+                v-model="orderItem.tel"
+              ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="3">
               <div class="daummap">
@@ -38,22 +42,23 @@
                 <v-btn outlined rounded text @click="showApi">주소찾기</v-btn>
                 <v-card-text
                   ><p>
-                    우편번호:<span>{{ zip }}</span>
+                    우편번호:<span>{{ orderItem.zip }}</span>
                   </p>
                   <p>
-                    기본주소:<span> {{ addr1 }}</span>
+                    기본주소:<span> {{ orderItem.addr1 }}</span>
                   </p>
-                  <v-text-field label="나머지 주소 입력" v-model="address"
-                    >{{ zip }}{{ addr1 }}
+                  <v-text-field
+                    label="나머지 주소 입력"
+                    v-model="orderItem.address"
+                    >{{ orderItem.zip }}{{ orderItem.addr1 }}
                   </v-text-field>
                 </v-card-text>
               </div>
             </v-col>
-
             <v-col cols="12" sm="3" md="3">
               <v-text-field
                 label="배송시 요청사항"
-                v-model="note"
+                v-model="orderItem.note"
               ></v-text-field>
             </v-col>
           </v-container>
@@ -64,7 +69,7 @@
       <v-card class="mx-auto my-12" max-width="80%">
         <v-container class="px-0" fluid>
           <v-card-title>결제수단</v-card-title>
-          <v-radio-group v-model="pay">
+          <v-radio-group v-model="orderItem.pay">
             <v-radio label="신용카드" value="신용카드"></v-radio>
             <v-radio label="무통장입금" value="무통장입금"></v-radio>
             <v-radio label="계좌이체" value="계좌이체"></v-radio>
@@ -110,54 +115,70 @@
 </template>
 
 <script>
-import api from "@/api/purchaseOrder";
+import api from "@/api/product";
+import api2 from "@/api/purchaseOrder";
 
 export default {
-  props: ["cart"],
   name: "purchaseOrder",
   data: () => ({
-    name: "",
-    address: "",
-    tel: "",
-    note: "",
-    pay: "",
-    zip: "",
-    addr1: "",
-    pmt: "",
-    description: "",
     dialog: false,
     headers: [
       { text: "사진", value: "imageUrl" },
       { text: "상품명", value: "productName" },
-      { text: "수량", value: "amount" },
+      { text: "상품설명", value: "description" },
+      { text: "수량", value: "quantity" },
       { text: "가격", value: "price" },
     ],
-    carts: [
-      {
-        imageUrl: "", //https://picsum.photos/100/100
-        productName: "",
-        amount: "",
-        price: "",
-      },
-    ],
+    carts: [],
+    product: [],
+    orderItem: {
+      name: "",
+      address: "",
+      tel: "",
+      note: "",
+      pay: "",
+      zip: "",
+      addr1: "",
+      pmt: "",
+      details: [],
+    },
   }),
   mounted() {
-    // this.getCart();
+    console.log("상품ID", this.$route.params.id);
+    this.productId = this.$route.params.id;
+    this.getProductId(this.productId);
   },
   methods: {
-    async order() {
-      const order = {
-        name: this.name,
-        address: this.address,
-        tel: this.tel,
-        note: this.note,
-        pay: this.pay,
-        pmt: this.pmt,
-      };
-      console.log(this.name);
-      console.log(order);
-      const result = await api.post(order);
+    async getProductId(id) {
+      const result = await api.getProductId(id);
+      console.log(result.data);
       console.log(result);
+      this.product = [];
+      this.product = result.data;
+    },
+    async order() {
+      // const order = {
+      //   name: this.name,
+      //   address: this.address,
+      //   tel: this.tel,
+      //   note: this.note,
+      //   pay: this.pay,
+      //   pmt: this.pmt,
+      //   zip: this.zip,
+      //   addr1: this.addr1,
+      // };
+      const result = await api2.post(this.orderItem);
+      // const detail = await api2.detail(this.product.id);
+      // console.log(detail);
+      // const detail = await api2.detail(orderId);
+      // console.log(detail);
+
+      if (result.status == 200) {
+        result.data.details = this.product;
+        this.orderItem = result.data;
+        console.log("HIHIHIHI");
+        console.log(this.orderItem);
+      }
     },
 
     async showApi() {

@@ -10,13 +10,13 @@
       ></v-data-table>
     </template>
     <template>
-      <order-item
+      <!-- <order-item
         v-for="(order, i) in order"
         :key="i"
         :order="order"
         :index="i"
       >
-      </order-item>
+      </order-item> -->
     </template>
   </div>
 </template>
