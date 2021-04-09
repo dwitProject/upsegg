@@ -21,7 +21,8 @@ export default {
     ),
 
   // PUT http://localhost:8080/products/{id}
-  put: (id) => axios.put(`${process.env.VUE_APP_BASE}/products/${id}`),
+  put: (id, payload) =>
+    axios.put(`${process.env.VUE_APP_BASE}/products/${id}`, payload),
 
   // DELETE http://localhost:8080/products/{id}
   del: (id) => axios.delete(`${process.env.VUE_APP_BASE}/products/${id}`),
