@@ -219,7 +219,7 @@ export default {
       val || this.closeDelete();
     },
   },
-
+  // 최초 로딩 시 실행
   mounted() {
     this.getProducts();
   },
@@ -299,10 +299,9 @@ export default {
       console.log('-- PUT --');
       console.log(result);
 
-      // if (result.status == 200) {
-      //   console.log(result.data);
-      //   this.editedItem = result.data;
-      // }
+      if (result.status == 200) {
+        this.$router.go();
+      }
 
       this.close();
     },
