@@ -1,74 +1,118 @@
 <template>
   <v-main>
-    <v-container>
+    <v-container class="pt-5">
+      <Breadcrumbs
+        class="mb-6"
+        v-if="$vuetify.breakpoint.mobile"
+        :product="disabled"
+      />
+      <v-card-title class="pa-0 pb-1">상품 통계/분석</v-card-title>
+      <v-divider />
+      <v-card-text class="text--primary">
+        <div>- 판매중인 상품의 판매순위 정보를 확인할 수 있습니다.</div>
+        <div>
+          - 순위가 높은 상품을 쇼핑몰 주력상품으로 집중 관리할 수 있습니다.
+        </div>
+        <div>- 검색 조건에 부합하는 상품 내역을 다운로드할 수 있습니다.</div>
+        <div>
+          - 판매수량 순위가 높은 상품과 판매금액 순위가 높은 상품을 확인하여
+          쇼핑몰 화면 노출, 세트상품 구성 등 쇼핑몰 운영 시 참고할 수 있습니다.
+        </div>
+        <div>- 판매상품 순위는 실시간 업데이트 됩니다.</div>
+      </v-card-text>
+      <v-divider />
       <v-card outlined color="white">
         <!-- 기간 버튼 및 조회 -->
-        <v-card class="mt-6 pl-3">
-          <v-row>
-            <v-col md="7" class="d-flex">
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('today', 1, 'days')"
+        <v-card class="mt-5 pl-13">
+          <v-row no-gutters align="center">
+            <v-card outlined color="white">
+              <v-col>
+                <v-card-text class="pa-0 ml-3 mr-15">조회 기간</v-card-text>
+              </v-col>
+            </v-card>
+            <v-card outlined color="white">
+              <v-card outlined color="white">
+                <v-col>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('today', 1, 'days')"
+                  >
+                    당일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('threeDays', 3, 'days')"
+                  >
+                    3일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('sevenDays', 7, 'days')"
+                  >
+                    7일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('fifteenDays', 15, 'days')"
+                  >
+                    15일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('oneMonth', 1, 'months')"
+                  >
+                    1개월
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('threeMonth', 3, 'months')"
+                  >
+                    3개월
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('sixMonth', 6, 'months')"
+                  >
+                    6개월
+                  </v-btn>
+                </v-col>
+              </v-card>
+              <v-card
+                outlined
+                color="white"
+                class="d-flex ml-3"
+                align="center"
+                width="130"
               >
-                오늘
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('threeDays', 3, 'days')"
-              >
-                3일
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('oneWeek', 7, 'days')"
-              >
-                7일
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('oneMonth', 1, 'months')"
-              >
-                1개월
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('threeMonth', 3, 'months')"
-              >
-                3개월
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('sixMonth', 6, 'months')"
-              >
-                6개월
-              </v-btn>
-            </v-col>
-            <v-spacer />
-            <v-col class="d-flex me-10">
-              <div>
-                <PickerInDialog @pickerDate="setFromDate" />
-              </div>
-              <h1>~</h1>
-              <div>
-                <PickerInDialog @pickerDate="setToDate" />
-              </div>
-            </v-col>
-            <v-col>
-              <v-btn
-                depressed
-                class="float-right mt-3 mr-3"
-                @click="getPeriod(fromDate, toDate)"
-                >검색</v-btn
-              >
-            </v-col>
+                <v-card outlined color="white">
+                  <PickerInDialog @pickerDate="setFromDate" />
+                </v-card>
+                <v-card-text outlined color="white">~</v-card-text>
+                <v-card outlined color="white">
+                  <PickerInDialog @pickerDate="setToDate" />
+                </v-card>
+              </v-card>
+            </v-card>
           </v-row>
         </v-card>
+        <div class="text-center mt-3">
+          <v-btn
+            width="80"
+            color="primary"
+            elevation="2"
+            rounded
+            @click="getPeriod(fromDate, toDate)"
+            >조회</v-btn
+          >
+        </div>
+        <!-- 엑셀 다운로드 -->
         <div class="text-right mt-8">
           <v-chip color="success" outlined @click="exportExcel">
             <v-icon left> mdi-microsoft-excel </v-icon>
@@ -78,7 +122,7 @@
         <!-- 통계 그래프 출력 -->
         <v-card class="mt-2 pa-3">
           <v-row>
-            <v-col>
+            <v-col cols="12" md="6">
               <div
                 class="text-center pa-5"
                 style="width: 100%"
@@ -96,7 +140,7 @@
                 v-if="quantityChartLoading"
               />
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6">
               <div
                 class="text-center pa-5"
                 style="width: 100%"
@@ -133,6 +177,7 @@
 <script>
 import api from "@/api/stat";
 import DoughnutChart from "../../components/DoughnutChart";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import PickerInDialog from "../../components/PickerInDialog";
 import XLSX from "xlsx";
 
@@ -141,6 +186,7 @@ const moment = require("moment");
 export default {
   name: "product-stat",
   components: {
+    Breadcrumbs,
     DoughnutChart,
     PickerInDialog,
   },
@@ -156,6 +202,7 @@ export default {
         { text: "판매수량", value: "salesQuantity" },
         { text: "판매금액", value: "totalSales" },
       ],
+      disabled: true,
       product: [],
       salesChart: [],
       quantityChart: [],
@@ -170,7 +217,7 @@ export default {
   },
   methods: {
     exportExcel() {
-      console.log(this.chartData)
+      console.log(this.chartData);
       let filter = [];
       this.product.map((item) => {
         filter.push({
@@ -197,8 +244,8 @@ export default {
       this.toDate = selectDate;
     },
     getPeriod(fromDate, toDate) {
-      this.fromDate = fromDate
-      this.toDate = toDate
+      this.fromDate = fromDate;
+      this.toDate = toDate;
       this.getAnalysisProductDate(fromDate, toDate);
       this.getAnalysisProductSalesQuantity(fromDate, toDate);
       this.getAnalysisProductTotalSales(fromDate, toDate);
@@ -213,7 +260,10 @@ export default {
         case "threeDays":
           this.getPeriod(days, now);
           break;
-        case "oneWeek":
+        case "sevenDays":
+          this.getPeriod(days, now);
+          break;
+        case "fifteenDays":
           this.getPeriod(days, now);
           break;
         case "oneMonth":
@@ -269,7 +319,7 @@ export default {
             },
             title: {
               display: true,
-              text: "상위 TOP 10 상품 (판매 수량)",
+              text: "TOP 10 상품 (판매 수량)",
               position: "top",
             },
           },
@@ -317,7 +367,7 @@ export default {
             },
             title: {
               display: true,
-              text: "상위 TOP 상품 (판매 합계)",
+              text: "TOP 10 상품 (판매 합계)",
               position: "top",
             },
             responsive: true,

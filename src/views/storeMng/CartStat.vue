@@ -1,6 +1,21 @@
 <template>
   <v-main>
-    <v-container>
+    <v-container class="pt-5">
+      <Breadcrumbs
+        class="mb-6"
+        v-if="$vuetify.breakpoint.mobile"
+        :cart="disabled"
+      />
+      <v-card-title class="pa-0 pb-1">장바구니 통계/분석</v-card-title>
+      <v-divider />
+      <v-card-text class="text--primary">
+        <div>- 고객이 장바구니에 담은 수량과 현재 재고 상태를 확인할 수 있습니다.</div>
+        <div>- 고객이 장바구니에 담은 상품들의 순위 정보를 제공합니다.</div>
+        <div>- 최근 1주일 장바구니 내역을 다운로드할 수 있습니다.</div>
+        <div>- 해당 메뉴에 표시되는 정보는 실시간 업데이트 됩니다.</div>
+      </v-card-text>
+      <v-divider />
+      <!-- 엑셀파일 다운로드 -->
       <v-card outlined color="white">
         <div class="text-right mt-5">
           <v-chip color="success" outlined @click="exportExcel">
@@ -11,11 +26,11 @@
         <!-- 통계 그래프 출력 -->
         <v-card class="mt-2 pa-3">
           <v-row>
-            <v-col>
+            <v-col cols="12" md="6">
               <div
                 class="text-center pa-5"
                 style="width: 100%"
-                v-if="!membersCartLoading"
+                v-if="!stockCartLoading"
               >
                 <v-progress-circular
                   width="8"
@@ -24,12 +39,9 @@
                   color="#FB9A9A"
                 ></v-progress-circular>
               </div>
-              <doughnut-chart
-                :chartData="membersCart"
-                v-if="membersCartLoading"
-              />
+              <bar-chart :chartData="stockCart" v-if="stockCartLoading" />
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6">
               <div
                 class="text-center pa-5"
                 style="width: 100%"
@@ -65,6 +77,8 @@
 <script>
 import api from "@/api/stat";
 import XLSX from "xlsx";
+import BarChart from "../../components/BarChart";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import DoughnutChart from "../../components/DoughnutChart";
 
 const moment = require("moment");
@@ -72,11 +86,12 @@ const moment = require("moment");
 export default {
   name: "cart-stat",
   components: {
+    BarChart,
+    Breadcrumbs,
     DoughnutChart,
   },
   data() {
     return {
-      // 통계 데이터
       headers: [
         { text: "순위", value: "id" },
         { text: "상품코드", value: "productCode" },
@@ -87,16 +102,17 @@ export default {
         { text: "회원수", value: "numberMembers" },
         { text: "비회원수", value: "numberNonMembers" },
       ],
+      disabled: true,
       cart: [],
-      membersCart: [],
+      stockCart: [],
       quantityCart: [],
-      membersCartLoading: false,
+      stockCartLoading: false,
       quantityChartLoading: false,
     };
   },
   mounted() {
     this.getAnalysisCart();
-    this.getAnalysisCartMembers();
+    this.getAnalysisCartStock();
     this.getAnalysisCartQuantity();
   },
   methods: {
@@ -118,7 +134,7 @@ export default {
       });
       let wBook = XLSX.utils.book_new();
       let wSeet = XLSX.utils.json_to_sheet(filter);
-      const seetLabel = days + " ~ " + now  + " 장바구니 통계"
+      const seetLabel = days + " ~ " + now + " 장바구니 통계";
       XLSX.utils.book_append_sheet(wBook, wSeet, seetLabel);
       XLSX.writeFile(wBook, seetLabel + ".xlsx");
     },
@@ -133,52 +149,52 @@ export default {
         }
       }
     },
-    async getAnalysisCartMembers() {
-      const res = await api.getAnalysisCartMembers();
+    async getAnalysisCartStock() {
+      const res = await api.getAnalysisCartStock();
       if (res.status == 200) {
         let labels = [];
-        let numberMembers = [];
+        let quantity = [];
+        let stock = [];
         res.data.map((item) => {
           labels.push(item.productName);
-          numberMembers.push(item.members);
+          stock.push(item.stock);
+          quantity.push(item.quantity);
         });
-        this.membersCart = {
+        (this.stockCart = {
           labels: labels,
           datasets: [
             {
-              backgroundColor: [
-                "#f4979c",
-                "#e31a22",
-                "#dc9018",
-                "#fdd666",
-                "#96b8db",
-                "#697d99",
-                "#b2c8bd",
-                "#dbe3b6",
-                "#bbd634",
-                "#b1b134",
-              ],
+              label: "상품 재고",
+              backgroundColor: "#ff6384",
               pointBackgroundColor: "white",
               borderWidth: 1,
               pointBorderColor: "#249EBF",
-              data: numberMembers,
+              data: stock,
+            },
+            {
+              label: "장바구니 수량",
+              backgroundColor: "#36a2eb",
+              pointBackgroundColor: "white",
+              borderWidth: 1,
+              pointBorderColor: "#249EBF",
+              data: quantity,
             },
           ],
           options: {
-            scales: {},
-            legend: {
-              position: "right",
-            },
-            title: {
-              display: true,
-              text: "장바구니 상품 TOP (회원수 + 비회원수)",
-              position: "top",
+            scales: {
+              xAxes: [
+                {
+                  ticks: {
+                    display: false,
+                  },
+                },
+              ],
             },
           },
-        };
-        res.data.length
-          ? (this.membersCartLoading = true)
-          : (this.membersCartLoading = false);
+        }),
+          res.data.length
+            ? (this.stockCartLoading = true)
+            : (this.stockCartLoading = false);
       }
     },
     async getAnalysisCartQuantity() {
@@ -195,16 +211,16 @@ export default {
           datasets: [
             {
               backgroundColor: [
-                "#f4979c",
-                "#e31a22",
-                "#dc9018",
-                "#fdd666",
-                "#96b8db",
-                "#697d99",
-                "#b2c8bd",
-                "#dbe3b6",
-                "#bbd634",
-                "#b1b134",
+                "#1cc7d0",
+                "#2dde98",
+                "#ffc168",
+                "#ff6c5f",
+                "#ff4f81",
+                "#b84592",
+                "#8e43e7",
+                "#3369e7",
+                "#00aeff",
+                "#003666",
               ],
               pointBackgroundColor: "white",
               borderWidth: 1,
@@ -219,7 +235,7 @@ export default {
             },
             title: {
               display: true,
-              text: "장바구니 상품 TOP (수량)",
+              text: "장바구니 상품 Top10 (수량)",
               position: "top",
             },
           },

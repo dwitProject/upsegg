@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
   getAnalysisCart: () => axios.get(`${process.env.VUE_APP_STAT_BASE}/cart/search`),
-  getAnalysisCartMembers: () => axios.get(`${process.env.VUE_APP_STAT_BASE}/cart/top10/members`),
+  getAnalysisCartStock: () => axios.get(`${process.env.VUE_APP_STAT_BASE}/cart/top10/stock`),
   getAnalysisCartQuantity: () => axios.get(`${process.env.VUE_APP_STAT_BASE}/cart/top10/quantity`),
 
   getAnalysisProductDate: (fromDate, toDate) => axios.get(`${process.env.VUE_APP_STAT_BASE}/product/search/${fromDate}/${toDate}`),
