@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import api from "../../api/product";
+import api from "../../api/purchaseOrder";
 export default {
   data: () => ({
     // result: "",

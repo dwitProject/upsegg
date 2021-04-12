@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 export default {
   list: () => axios.get(`${process.env.VUE_APP_ORDER_BASE}/purchase-orders`),
   post: (order) => axios.post(`${process.env.VUE_APP_ORDER_BASE}/purchase-orders`, order),
@@ -6,5 +6,5 @@ export default {
   getOrderId: (id) => axios.get(`${process.env.VUE_APP_ORDER_BASE}/purchase-orders/${id}`),
   getProductId: (id) => axios.get(`${process.env.VUE_APP_ORDER_BASE}/products/${id}`),
   get: () => axios.get(`${process.env.VUE_APP_ORDER_BASE}/products`),
-  // POST http://localhost:8080/products
+  getId: (id) => axios.get(`${process.env.VUE_APP_PRODUCT_BASE}/products/${id}`),
 }

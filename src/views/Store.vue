@@ -61,7 +61,7 @@
                     >즉시구매</v-chip
                   >
                   <v-chip @click="detail(item.id)">상세보기</v-chip>
-                  <v-chip @click="addCart">장바구니</v-chip>
+                  <v-chip>장바구니</v-chip>
                 </v-chip-group>
               </v-card-text>
             </v-card>

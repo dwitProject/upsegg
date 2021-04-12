@@ -4,7 +4,7 @@ export default {
   // GET http://localhost:8080/products
   get: () => axios.get(`${process.env.VUE_APP_BASE}/products`),
 
-
+  // POST http://localhost:8080/products
   post: (product) =>
     axios.post(`${process.env.VUE_APP_BASE}/products`, product),
 
