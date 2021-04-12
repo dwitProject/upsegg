@@ -37,6 +37,9 @@
       <template v-slot:[`item.orderState`]>
         <v-select
           :items="orderState"
+          item-value="id"
+          item-text="orderStateName"
+          v-model="order.orderId"
           label="주문 상태"
           dense
           solo
@@ -58,11 +61,11 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: '상품명', value: 'salesOrderDetail[0].product.productName' },
-      { text: '카테고리', value: 'salesOrderDetail[0].product.category' },
-      { text: '주문금액', value: 'pmt' },
+      { text: '상품명', value: 'productName' },
+      { text: '상품코드', value: 'code' },
+      { text: '카테고리', value: 'category' },
+      { text: '주문금액', value: 'price' },
       { text: '주문일', value: 'orderDate' },
-      { text: '수량', value: 'salesOrderDetail[0].quantity' },
       { text: '배송지', value: 'address' },
       { text: '결제수단', value: 'pay' },
       { text: '구매자', value: 'name' },
@@ -70,19 +73,21 @@ export default {
       { text: '요청사항', value: 'note' },
       { text: '주문 상태', value: 'orderState', sortable: false },
     ],
+    order: {
+      orderId: '00',
+    },
     orderState: [
-      '입금대기',
-      '입금완료',
-      '발주확인',
-      '출고처리',
-      '취소완료',
-      '환불완료',
+      { id: '00', orderStateName: '입금대기' },
+      { id: '01', orderStateName: '주문완료' },
+      { id: '02', orderStateName: '발주확인' },
+      { id: '03', orderStateName: '출고처리' },
+      { id: '04', orderStateName: '주문취소' },
+      { id: '05', orderStateName: '환불완료' },
     ],
     orderItems: [],
   }),
   mounted() {
     this.getOrders();
-    console.log(this.selected.length);
   },
   methods: {
     async getOrders() {
@@ -106,19 +111,9 @@ export default {
           this.$router.go();
         }
       });
-
-      // const result = await api.del(this.selected.id);
-
-      // this.selected.forEach((chk) => {
-      //   let idx = this.orderItems.indexOf(chk);
-
-      //   if (result.status == 200) {
-      //     if (idx != -1) {
-      //       this.orderItems.splice(idx, 1);
-      //     }
-      //   }
-      // });
     },
+
+    async modiOrders() {},
   },
 };
 </script>

@@ -1,11 +1,26 @@
 <template>
   <div class="p1">
+    <v-app-bar color="dark" dark app>
+      <v-img
+        src="@/assets/image/logo2.png"
+        max-height="70"
+        max-width="100"
+        @click="navigateTo(home)"
+      ></v-img>
+
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-toolbar-title> Riot Store </v-toolbar-title>
+      <!-- <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <v-btn icon> <v-icon>mdi-magnify </v-icon> </v-btn> -->
+    </v-app-bar>
     <template>
-      <h1>주문내역 보기</h1>
+      <h1 class="mt-16">주문내역 보기</h1>
       <v-data-table
         :headers="headers"
         :items="list"
-        :items-per-page="5"
+        :items-per-page="10"
         class="elevation-1"
       ></v-data-table>
     </template>
@@ -27,10 +42,10 @@ export default {
   name: "order",
   props: ["order", "index"],
   data: () => ({
+    home: { path: "/" },
     headers: [
-      { text: "사진", value: "image" },
       { text: "상품명", value: "productName" },
-      { text: "상품갯수", value: "amount" },
+      { text: "상품설명", value: "description" },
       { text: "가격", value: "price" },
       { text: "주문일", value: "orderDate" },
     ],
@@ -41,6 +56,12 @@ export default {
     this.getOrders();
   },
   methods: {
+    navigateTo(item) {
+      if (this.$route.path != item.path) {
+        // 라우터에 경로 추가
+        this.$router.push(item.path);
+      }
+    },
     async getOrders() {
       const result = await api.list();
       console.log(result);
