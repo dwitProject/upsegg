@@ -1,74 +1,111 @@
 <template>
   <v-main>
-    <v-container>
+    <v-container class="pt-5">
       <v-card outlined color="white">
+        <Breadcrumbs
+          class="mb-6"
+          v-if="$vuetify.breakpoint.mobile"
+          :sales="disabled"
+        />
+        <v-card-title class="pa-0 pb-1">매출 통계/분석</v-card-title>
+        <v-divider />
+        <v-card-text class="text--primary">
+          <div>- 기간별 매출 정보를 제공합니다.</div>
+          <div>- 검색 조건에 부합하는 매출 내역을 다운로드할 수 있습니다.</div>
+          <div>- 해당 메뉴에 표시되는 정보는 실시간 업데이트 됩니다.</div>
+        </v-card-text>
+        <v-divider />
         <!-- 기간 버튼 및 조회 -->
-        <v-card class="mt-6 pl-3">
-          <v-row>
-            <v-col md="7" sm="8" class="d-flex">
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('today', 1, 'days')"
+        <v-card class="mt-5 pl-16">
+          <v-row no-gutters align="center">
+            <v-card outlined color="white">
+              <v-col>
+                <v-card-text class="pa-0 ml-3 mr-15">조회 기간</v-card-text>
+              </v-col>
+            </v-card>
+            <v-card outlined color="white">
+              <v-card outlined color="white">
+                <v-col>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('today', 1, 'days')"
+                  >
+                    당일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('threeDays', 3, 'days')"
+                  >
+                    3일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('sevenDays', 7, 'days')"
+                  >
+                    7일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('fifteenDays', 15, 'days')"
+                  >
+                    15일
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('oneMonth', 1, 'months')"
+                  >
+                    1개월
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('threeMonth', 3, 'months')"
+                  >
+                    3개월
+                  </v-btn>
+                  <v-btn
+                    depressed
+                    class="ml-1 mb-1"
+                    @click="dayWeek('sixMonth', 6, 'months')"
+                  >
+                    6개월
+                  </v-btn>
+                </v-col>
+              </v-card>
+              <v-card
+                outlined
+                color="white"
+                class="d-flex ml-3"
+                align="center"
+                width="130"
               >
-                오늘
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('threeDays', 3, 'days')"
-              >
-                3일
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('oneWeek', 7, 'days')"
-              >
-                7일
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('oneMonth', 1, 'months')"
-              >
-                1개월
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('threeMonth', 3, 'months')"
-              >
-                3개월
-              </v-btn>
-              <v-btn
-                class="ml-1"
-                depressed
-                @click="dayWeek('sixMonth', 6, 'months')"
-              >
-                6개월
-              </v-btn>
-            </v-col>
-            <v-spacer />
-            <v-col class="d-flex me-10">
-              <div>
-                <PickerInDialog @pickerDate="setFromDate" />
-              </div>
-              <h1>~</h1>
-              <div>
-                <PickerInDialog @pickerDate="setToDate" />
-              </div>
-            </v-col>
-            <v-col>
-              <v-btn
-                depressed
-                class="text-right mt-3 mr-3"
-                @click="getPeriod(fromDate, toDate)"
-                >검색</v-btn
-              >
-            </v-col>
+                <v-card outlined color="white">
+                  <PickerInDialog @pickerDate="setFromDate" />
+                </v-card>
+                <v-card-text outlined color="white">~</v-card-text>
+                <v-card outlined color="white">
+                  <PickerInDialog @pickerDate="setToDate" />
+                </v-card>
+              </v-card>
+            </v-card>
           </v-row>
         </v-card>
+        <div class="text-center mt-3">
+          <v-btn
+            width="80"
+            color="primary"
+            elevation="2"
+            rounded
+            @click="getPeriod(fromDate, toDate)"
+            >조회</v-btn
+          >
+        </div>
+        <!-- 엑셀 다운로드 -->
         <div class="text-right mt-8">
           <v-chip color="success" outlined @click="exportExcel">
             <v-icon left> mdi-microsoft-excel </v-icon>
@@ -109,6 +146,7 @@
 <script>
 import api from "@/api/stat";
 import BarChart from "../../components/BarChart";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import PickerInDialog from "../../components/PickerInDialog";
 import XLSX from "xlsx";
 
@@ -118,6 +156,7 @@ export default {
   name: "sales-stat",
   components: {
     BarChart,
+    Breadcrumbs,
     PickerInDialog,
   },
   data() {
@@ -134,6 +173,7 @@ export default {
         { text: "환불합계", value: "totalRefund" },
         { text: "순매출", value: "netSales" },
       ],
+      disabled: true,
       sales: [],
       chartData: [],
       chartLoading: false,
@@ -180,25 +220,29 @@ export default {
 
     dayWeek(day, value, index) {
       const now = moment().format("YYYY-MM-DD");
+      const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
       const days = moment().subtract(value, index).format("YYYY-MM-DD");
       switch (day) {
         case "today":
           this.getPeriod(now, now);
           break;
         case "threeDays":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
-        case "oneWeek":
-          this.getPeriod(days, now);
+        case "sevenDays":
+          this.getPeriod(days, yesterday);
+          break;
+        case "fifteenDays":
+          this.getPeriod(days, yesterday);
           break;
         case "oneMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "threeMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "sixMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         default:
           this.chartLoading = false;
@@ -227,6 +271,17 @@ export default {
               data: chartDate,
             },
           ],
+          options: {
+            scales: {
+              xAxes: [
+                {
+                  ticks: {
+                    display: true,
+                  },
+                },
+              ],
+            },
+          },
         };
         res.data.length
           ? (this.chartLoading = true)
