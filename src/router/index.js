@@ -12,24 +12,23 @@ const routes = [
   {
     path: '/board',
     name: 'Board',
-    component: () => import('../views/Board.vue')
+    component: () => import('../views/Board.vue'),
   },
   {
     path: '/board/view/:id',
     name: 'Board-view',
     component: () => import('../views/BoardView.vue'),
     props: true, //데이터를 $route.params.page말고도 props로도 받으려고
-
   },
   {
     path: '/board/write',
     name: 'Board-write',
-    component: () => import('../views/BoardWrite.vue')
+    component: () => import('../views/BoardWrite.vue'),
   },
   {
     path: '/board/modify/:id',
     name: 'Board-modify',
-    component: () => import('../views/BoardModify.vue')
+    component: () => import('../views/BoardModify.vue'),
   },
   {
     path: '/ranking',
@@ -54,22 +53,22 @@ const routes = [
   {
     path: '/orderMng',
     name: 'OrderMng',
-    component: () => import('../views/storeMng/OrderMng.vue')
-  }, 
+    component: () => import('../views/storeMng/OrderMng.vue'),
+  },
   {
     path: '/sales-stat',
     name: 'sales-stat',
-    component: () => import("../views/storeMng/SalesStat.vue"),
+    component: () => import('../views/storeMng/SalesStat.vue'),
   },
   {
     path: '/product-stat',
     name: 'product-stat',
-    component: () => import("../views/storeMng/ProductStat.vue"),
+    component: () => import('../views/storeMng/ProductStat.vue'),
   },
   {
     path: '/cart-stat',
     name: 'cart-stat',
-    component: () => import("../views/storeMng/CartStat.vue"),
+    component: () => import('../views/storeMng/CartStat.vue'),
   },
   {
     path: '/purchaseOrder',

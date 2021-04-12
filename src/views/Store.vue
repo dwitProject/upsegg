@@ -22,7 +22,7 @@
       </v-btn>
       <v-btn icon> <v-icon>mdi-magnify </v-icon> </v-btn> -->
       <template v-slot:extension>
-        <v-tabs v-for: item in items fixed-tabs background-color="black" dark>
+        <v-tabs>
           <v-tab>홈</v-tab>
           <v-tab>스태츄</v-tab>
           <v-tab>피규어</v-tab>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import api from "../api/product";
+import api from "../api/purchaseOrder";
 
 export default {
   name: "Store",

@@ -130,8 +130,7 @@
 </template>
 
 <script>
-import api from "@/api/product";
-import api2 from "@/api/purchaseOrder";
+import api from "@/api/purchaseOrder";
 
 export default {
   name: "purchaseOrder",
@@ -181,7 +180,7 @@ export default {
         name: this.name,
       };
 
-      const result = await api2.post(products);
+      const result = await api.post(products);
       if (result.status == 200) {
         this.products = result.data;
         console.log("HIHIHIHI");
