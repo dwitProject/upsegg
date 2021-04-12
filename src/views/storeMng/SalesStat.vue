@@ -16,7 +16,7 @@
         </v-card-text>
         <v-divider />
         <!-- 기간 버튼 및 조회 -->
-        <v-card class="mt-5 pl-13">
+        <v-card class="mt-5  pl-16">
           <v-row no-gutters align="center"> 
             <v-card outlined color="white">
               <v-col>
@@ -220,28 +220,29 @@ export default {
 
     dayWeek(day, value, index) {
       const now = moment().format("YYYY-MM-DD");
+      const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
       const days = moment().subtract(value, index).format("YYYY-MM-DD");
       switch (day) {
         case "today":
           this.getPeriod(now, now);
           break;
         case "threeDays":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "sevenDays":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "fifteenDays":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "oneMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "threeMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         case "sixMonth":
-          this.getPeriod(days, now);
+          this.getPeriod(days, yesterday);
           break;
         default:
           this.chartLoading = false;
