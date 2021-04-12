@@ -151,9 +151,6 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
-    <!-- <div style="width:1000px;" v-for="(file, i) in files" :key="i">
-      <v-img :src="file.dataUrl" :alt="file.fileName"></v-img>
-    </div> -->
   </v-main>
 </template>
 

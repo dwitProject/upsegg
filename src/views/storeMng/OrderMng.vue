@@ -12,8 +12,7 @@
           <v-toolbar-title>주문 관리</v-toolbar-title>
           <v-spacer></v-spacer>
           <template>
-            <v-btn class="mb-2" :disabled="selected.length <= 0"
-            >
+            <v-btn class="mb-2" :disabled="selected.length <= 0">
               주문 상태 저장
             </v-btn>
           </template>
@@ -83,7 +82,7 @@ export default {
   }),
   mounted() {
     this.getOrders();
-    console.log(this.selected.length)
+    console.log(this.selected.length);
   },
   methods: {
     async getOrders() {
