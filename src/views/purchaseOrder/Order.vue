@@ -5,7 +5,7 @@
       <v-data-table
         :headers="headers"
         :items="list"
-        :items-per-page="5"
+        :items-per-page="10"
         class="elevation-1"
       ></v-data-table>
     </template>
@@ -28,9 +28,8 @@ export default {
   props: ["order", "index"],
   data: () => ({
     headers: [
-      { text: "사진", value: "image" },
       { text: "상품명", value: "productName" },
-      { text: "상품갯수", value: "amount" },
+      { text: "상품설명", value: "description" },
       { text: "가격", value: "price" },
       { text: "주문일", value: "orderDate" },
     ],
