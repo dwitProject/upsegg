@@ -9,7 +9,9 @@
       <v-card-title class="pa-0 pb-1">장바구니 통계/분석</v-card-title>
       <v-divider />
       <v-card-text class="text--primary">
-        <div>- 고객이 장바구니에 담은 수량과 현재 재고 상태를 확인할 수 있습니다.</div>
+        <div>
+          - 고객이 장바구니에 담은 수량과 현재 재고 상태를 확인할 수 있습니다.
+        </div>
         <div>- 고객이 장바구니에 담은 상품들의 순위 정보를 제공합니다.</div>
         <div>- 최근 1주일 장바구니 내역을 다운로드할 수 있습니다.</div>
         <div>- 해당 메뉴에 표시되는 정보는 실시간 업데이트 됩니다.</div>
@@ -160,7 +162,7 @@ export default {
           stock.push(item.stock);
           quantity.push(item.quantity);
         });
-        (this.stockCart = {
+        this.stockCart = {
           labels: labels,
           datasets: [
             {
@@ -191,10 +193,10 @@ export default {
               ],
             },
           },
-        }),
-          res.data.length
-            ? (this.stockCartLoading = true)
-            : (this.stockCartLoading = false);
+        },
+        res.data.length
+          ? (this.stockCartLoading = true)
+          : (this.stockCartLoading = false);
       }
     },
     async getAnalysisCartQuantity() {
@@ -218,9 +220,9 @@ export default {
                 "#ff4f81",
                 "#b84592",
                 "#8e43e7",
+                "#a840ff ",
                 "#3369e7",
                 "#00aeff",
-                "#003666",
               ],
               pointBackgroundColor: "white",
               borderWidth: 1,

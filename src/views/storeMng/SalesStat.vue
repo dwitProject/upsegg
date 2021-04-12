@@ -16,8 +16,8 @@
         </v-card-text>
         <v-divider />
         <!-- 기간 버튼 및 조회 -->
-        <v-card class="mt-5  pl-16">
-          <v-row no-gutters align="center"> 
+        <v-card class="mt-5 pl-16">
+          <v-row no-gutters align="center">
             <v-card outlined color="white">
               <v-col>
                 <v-card-text class="pa-0 ml-3 mr-15">조회 기간</v-card-text>
@@ -82,7 +82,7 @@
                 color="white"
                 class="d-flex ml-3"
                 align="center"
-                width="130"                
+                width="130"
               >
                 <v-card outlined color="white">
                   <PickerInDialog @pickerDate="setFromDate" />
