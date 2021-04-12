@@ -12,7 +12,7 @@
           <v-toolbar-title>주문 관리</v-toolbar-title>
           <v-spacer></v-spacer>
           <template>
-            <v-btn class="mb-2">
+            <v-btn class="mb-2" :disabled="selected.length <= 0">
               주문 상태 저장
             </v-btn>
           </template>
@@ -82,6 +82,7 @@ export default {
   }),
   mounted() {
     this.getOrders();
+    console.log(this.selected.length);
   },
   methods: {
     async getOrders() {
@@ -93,8 +94,8 @@ export default {
         this.orderItems = result.data;
       }
     },
+
     async delOrders(item) {
-      console.log(item);
       item.forEach(async (arr) => {
         const idx = arr.id;
         const result = await api.del(idx);
@@ -102,6 +103,7 @@ export default {
 
         if (result.status == 200) {
           this.orderItems.splice(idx, 1);
+          this.$router.go();
         }
       });
 

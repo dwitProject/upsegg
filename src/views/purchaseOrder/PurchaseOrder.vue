@@ -10,7 +10,12 @@
 
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-toolbar-title> Riot Store </v-toolbar-title>
-
+      <v-img
+        src="@/assets/Mng.png"
+        max-height="20"
+        max-width="20"
+        @click="Mng()"
+      ></v-img>
       <v-spacer></v-spacer>
       <!-- <v-btn icon>
         <v-icon>mdi-heart</v-icon>
@@ -131,6 +136,7 @@ import api2 from "@/api/purchaseOrder";
 export default {
   name: "purchaseOrder",
   data: () => ({
+    home: { path: "/" },
     dialog: false,
     product: "",
     price: "",
@@ -179,6 +185,12 @@ export default {
       if (result.status == 200) {
         this.products = result.data;
         console.log("HIHIHIHI");
+      }
+    },
+    navigateTo(item) {
+      if (this.$route.path != item.path) {
+        // 라우터에 경로 추가
+        this.$router.push(item.path);
       }
     },
 

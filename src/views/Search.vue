@@ -27,11 +27,7 @@
           <v-col cols="10" md="6">
             <v-card outlined elevation="2" height="300px">
               <div class="pa-3">
-                <v-textarea
-                  outlined
-                  label="What are you thinking?"
-                  v-model="post"
-                ></v-textarea>
+                <v-banner> </v-banner>
               </div>
               <v-list-item two-line>
                 <v-list-item-content>
@@ -46,12 +42,11 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Calories</th>
+                <th class="text-left">최근전적</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in desserts" :key="item.name">
+              <tr v-for="item in list" :key="item.name">
                 <td>{{ item.name }}</td>
                 <td>{{ item.calories }}</td>
                 <td></td>
@@ -68,72 +63,28 @@
 </template>
 
 <script>
-// import Header from "@/components/Header.vue";
-// const toLower = (text) => {
-//   return text.toString().toLowerCase();
-// };
-
-// const searchByName = (items, term) => {
-//   if (term) {
-//     return items.filter((item) => toLower(item.name).includes(toLower(term)));
-//   }
-
-//   return items;
-// };
+import api from "@/api/rank";
 
 export default {
-  name: "TableSearch",
-  components: {
-    // Header,
-  },
+  name: "Search",
+  components: {},
   data: () => ({
     page: 1,
     pageCount: 3,
     viewCount: 1,
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-      },
-      {
-        name: "Gingerbread",
-        calories: 356,
-      },
-      {
-        name: "Jelly bean",
-        calories: 375,
-      },
-      {
-        name: "Lollipop",
-        calories: 392,
-      },
-      {
-        name: "Honeycomb",
-        calories: 408,
-      },
-      {
-        name: "Donut",
-        calories: 452,
-      },
-      {
-        name: "KitKat",
-        calories: 518,
-      },
-    ],
+    list: [],
   }),
-  methods: {},
-  created() {},
+  mounted() {
+    this.getTodos();
+  },
+  methods: {
+    async getTodos() {
+      const result = await api.list();
+      if (result.status == 200) {
+        this.list = result.data;
+      }
+      console.log(result.data);
+    },
+  },
 };
 </script>

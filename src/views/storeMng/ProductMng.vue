@@ -60,7 +60,15 @@
                         v-model="editedItem.description"
                       ></v-textarea>
                     </v-col>
-                    <v-col cols="4">
+                    <v-col cols="3">
+                      <v-text-field
+                        color="#000"
+                        label="상품코드"
+                        dense
+                        v-model="editedItem.code"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="3">
                       <v-select
                         color="#000"
                         :items="category"
@@ -70,7 +78,7 @@
                         v-model="editedItem.category"
                       ></v-select>
                     </v-col>
-                    <v-col cols="4">
+                    <v-col cols="3">
                       <v-text-field
                         color="#000"
                         label="상품금액"
@@ -78,7 +86,7 @@
                         v-model="editedItem.price"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="4">
+                    <v-col cols="3">
                       <v-text-field
                         color="#000"
                         label="상품수량"
@@ -104,7 +112,7 @@
                     color="#0b66f9"
                     class="white--text"
                     depressed
-                    @click="postProduct"
+                    @click="formAddOrModi()"
                   >
                     등록
                   </v-btn>
@@ -128,6 +136,12 @@
             class="search-bar"
           ></v-text-field>
         </div>
+        <v-dialog v-model="dialogImage" max-width="500px">
+          <v-img
+            class="image"
+            src="https://picsum.photos/id/11/500/300"
+          ></v-img>
+        </v-dialog>
       </template>
       <template v-slot:[`item.files`]="{ item }">
         <v-btn small @click="seeMore(item)">상세보기</v-btn>
@@ -137,9 +151,6 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
-    <div style="width:1000px;" v-for="(file, i) in files" :key="i">
-      <v-img :src="file.dataUrl" :alt="file.fileName"></v-img>
-    </div>
   </v-main>
 </template>
 
@@ -152,10 +163,13 @@ export default {
     search: '',
     dialog: false,
     dialogDelete: false,
+    dialogImage: false,
+    bool: -1,
     category: ['스테츄', '피규어', '포스터', '후드,자켓'],
     headers: [
       { text: '상품명', value: 'productName' },
       { text: '상품설명', value: 'description' },
+      { text: '상품코드', value: 'code' },
       { text: '카테고리', value: 'category' },
       { text: '상품금액', value: 'price' },
       { text: '상품수량', value: 'stock' },
@@ -168,6 +182,15 @@ export default {
     editedItem: {
       productName: '',
       description: '',
+      code: '',
+      price: '',
+      stock: '',
+      category: '',
+    },
+    defaultItem: {
+      productName: '',
+      description: '',
+      code: '',
       price: '',
       stock: '',
       category: '',
@@ -179,6 +202,10 @@ export default {
     formtitle() {
       return this.editedIndex === -1 ? '상품 등록' : '상품 수정';
     },
+
+    formAddOrModi() {
+      return this.bool === -1 ? this.postProduct : this.modiProduct;
+    },
   },
 
   watch: {
@@ -189,7 +216,7 @@ export default {
       val || this.closeDelete();
     },
   },
-
+  // 최초 로딩 시 실행
   mounted() {
     this.getProducts();
   },
@@ -205,7 +232,6 @@ export default {
         this.productItems = result.data;
       }
     },
-
     // 상품 1건 추가 POST
     async postProduct() {
       // 작업 활성화를 위해 잠시 주석 처리
@@ -234,7 +260,6 @@ export default {
             const form = new FormData();
             form.append('data', file); //@RequestPart("data")
             const result = await api.uploadFile(newProduct.id, form);
-
             newProduct.files.push({
               ...result.data,
             });
@@ -245,6 +270,7 @@ export default {
       // 상품 정보 입력란 초기화
       this.editedItem.productName = '';
       this.editedItem.description = '';
+      this.editedItem.code = '';
       this.editedItem.category = '';
       this.editedItem.price = '';
       this.editedItem.stock = '';
@@ -252,7 +278,6 @@ export default {
 
       this.close();
     },
-
     // 상품 1건 삭제 DELETE
     async removeProduct() {
       const result = await api.del(this.editedItem.id);
@@ -265,16 +290,21 @@ export default {
       }
       this.closeDelete();
     },
-
     // 상품 1건 수정 PUT
     async modiProduct() {
-      const result = await api.put(this.editedItem.id);
+      const result = await api.put(this.editedItem.id, this.editedItem);
       console.log('-- PUT --');
       console.log(result);
-    },
 
+      if (result.status == 200) {
+        this.$router.go();
+      }
+
+      this.close();
+    },
     editItem(item) {
       this.editedIndex = this.productItems.indexOf(item);
+      this.bool = this.productItems.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
@@ -283,28 +313,27 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
-    // deleteConfirm() {
-    //   this.productItems.splice(this.editedIndex, 1);
-    //   this.closeDelete();
-    // },
     closeDelete() {
       this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
-    // save() {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.productItems[this.editedIndex], this.editedItem);
-    //   } else {
-    //     console.log(this.editedIndex);
-    //     this.productItems.push(this.editedItem);
-    //   }
-    //   this.close();
-    // },
     close() {
       this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+        this.bool = -1;
+      });
     },
     seeMore(item) {
       console.log(item.files);
-      console.log(this.files);
+      this.dialogImage = true;
+    },
+    click(item) {
+      console.log(item);
     },
   },
 };
@@ -320,5 +349,9 @@ table tr td {
   padding: 0 20px;
   margin-left: auto;
   flex: 0 0 auto !important;
+}
+
+.image {
+  height: 500px;
 }
 </style>

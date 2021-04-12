@@ -10,7 +10,12 @@
 
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-toolbar-title> Riot Store </v-toolbar-title>
-
+      <v-img
+        src="@/assets/Mng.png"
+        max-height="20"
+        max-width="20"
+        @click="Mng()"
+      ></v-img>
       <v-spacer></v-spacer>
       <!-- <v-btn icon>
         <v-icon>mdi-heart</v-icon>
@@ -18,12 +23,12 @@
       <v-btn icon> <v-icon>mdi-magnify </v-icon> </v-btn> -->
       <template v-slot:extension>
         <v-tabs v-for: item in items fixed-tabs background-color="black" dark>
-          <v-tab @click="navigateHome()">홈</v-tab>
-          <v-tab @click="navigateStachu()">스태츄</v-tab>
-          <v-tab @click="navigatePigure()">피규어</v-tab>
-          <v-tab @click="navigatePoster()">포스터</v-tab>
-          <v-tab @click="navigateJacket()">후드,자켓</v-tab>
-          <v-tab @click="navigateCart()">장바구니</v-tab>
+          <v-tab>홈</v-tab>
+          <v-tab>스태츄</v-tab>
+          <v-tab>피규어</v-tab>
+          <v-tab>포스터</v-tab>
+          <v-tab>후드,자켓</v-tab>
+          <v-tab>장바구니</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -69,7 +74,6 @@
 
 <script>
 import api from "../api/product";
-import cart from "../api/cart";
 
 export default {
   name: "Store",
@@ -105,11 +109,8 @@ export default {
       console.log(this.ProductId);
       this.$router.push(`/purchaseorder`);
     },
-    async addCart() {
-      const result = await cart.post({ product: { ...this.ProductId } });
-      if (result.status == 200) {
-        console.log(result.data);
-      }
+    Mng() {
+      this.$router.push(`/productMng`);
     },
   },
 };

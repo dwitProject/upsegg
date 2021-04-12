@@ -21,6 +21,9 @@ export default {
           ],
           xAxes: [
             {
+              ticks: {
+                display: this.chartData.options.scales.xAxes[0].ticks.display,
+              },
               gridLines: {
                 display: false,
               },

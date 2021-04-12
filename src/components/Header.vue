@@ -17,7 +17,16 @@
         v-model="selectedEmployee"
         :md-options="employees"
         md-layout="box"
-      >
+        ><v-btn
+          color="white"
+          @click="
+            $router.push({
+              name: `Search`,
+              params: { id: name },
+            })
+          "
+          >검색</v-btn
+        >
         <label>Search...</label>
       </md-autocomplete>
     </v-tabs>
