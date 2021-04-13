@@ -23,11 +23,11 @@
       <v-divider />
       <v-card outlined color="white">
         <!-- 기간 버튼 및 조회 -->
-        <v-card class="mt-5 pl-16">
+        <v-card class="mt-5">
           <v-row no-gutters align="center">
-            <v-card outlined color="white">
+            <v-card outlined color="white" align="center" width="20%">
               <v-col>
-                <v-card-text class="pa-0 ml-3 mr-15">조회 기간</v-card-text>
+                <v-card-text class="pa-0 ml-2">조회기간</v-card-text>
               </v-col>
             </v-card>
             <v-card outlined color="white">
