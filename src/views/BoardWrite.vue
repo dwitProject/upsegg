@@ -3,7 +3,12 @@
     <v-form>
       <v-container>
         <v-row>
-          <v-select :items="seletedType" v-model="type" label="글분류" solo></v-select>
+          <v-select
+            :items="seletedType"
+            v-model="type"
+            label="글분류"
+            solo
+          ></v-select>
         </v-row>
         <v-row>
           <v-text-field
@@ -59,19 +64,9 @@
       </v-container>
     </v-form>
   </v-main>
-  <!-- <v-container fluid>
-    <v-textarea
-      name="input-7-1"
-      filled
-      label="Label"
-      auto-grow
-      value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-    ></v-textarea>
-  </v-container> -->
 </template>
 <script>
 import api from "@/api/board";
-
 export default {
   data: () => ({
     title: [],
@@ -80,9 +75,8 @@ export default {
     password: [],
     content: [],
     attachment: [],
-    seletedType: ['질문', '자유', '전략'],
+    seletedType: ["질문", "자유", "전략"],
   }),
-
   methods: {
     async write() {
       const payload = {
@@ -93,9 +87,6 @@ export default {
         type: this.type,
       };
       const result = await api.postBoard(payload); // 리턴값은 promise연산이 fulfilled된 후의 값
-      console.log(result.status); // http 상태코드
-      console.log("여기보려한다", result.data); //
-      console.log(result.data);
       if (result.status == 200) {
         const newBoard = result.data;
         newBoard.attachment = []; // 파일목록 초기화
@@ -103,16 +94,9 @@ export default {
           for (let attach of this.attachment) {
             const form = new FormData();
             form.append("data", attach); // data는 key값
-            const result = await api.uploadFile(newBoard.id, form);
-            console.log(result.status);
-            console.log(result.data);
-
-            // newBoard.attachment.push({
-            //   ...result.data //...(triple dot): object assign, object copy
-            // })
+            await api.uploadFile(newBoard.id, form);
           }
         }
-        console.log(newBoard);
       }
       alert("글이 등록되었습니다");
       this.$router.push("/board");

@@ -92,7 +92,6 @@ export default {
   mounted() {
     this.boardId = this.$route.params.id;
     this.passedPassword = this.$route.params.password;
-    console.log(this.boardId);
     this.getBoardDetail(this.boardId);
   },
   methods: {
@@ -102,7 +101,6 @@ export default {
         this.item = [];
         this.item = result.data;
         this.item.password = this.passedPassword;
-        console.log(this.item);
       }
     },
     async modifyBoardDetail() {
@@ -115,8 +113,6 @@ export default {
       };
       const result = await api.modifyBoardDetail(this.boardId, payload);
       if (result.status == 200) {
-        console.log(result);
-        console.log(result.data);
         alert("수정이 완료되었습니다");
         this.$router.push("/board");
       }

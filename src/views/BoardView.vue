@@ -8,14 +8,15 @@
             <div class="posting-container">
               <div class="inner-container">
                 <v-simple-table>
-                  <!-- <colgroup>
+                  <colgroup>
                     <col width="10%" />
-                    <col width="60%" />
+                    <col width="30%" />
                     <col width="10%" />
                     <col width="10%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                  </colgroup> -->
+                    <col width="15%" />
+                    <col width="15%" />
+                    <col width="10%" />
+                  </colgroup>
                   <thead>
                     <tr>
                       <th class="text-center">번호: {{ item.id }}</th>
@@ -40,44 +41,57 @@
         <v-col cols="1" />
       </v-row>
     </v-container>
-
-    <!-- <div>222222222222 {{ $route.params.page }}</div> -->
-    <!-- <div>333333333333 {{ page }}</div> -->
-    
-        <v-container>
-          <!-- <v-row align="baseline">
-            <v-col cols="1" />
-            <span @click="download()">첨부파일: {{ file }}</span>
-          </v-row> -->
-          <v-row align="baseline">
-                <v-col cols="4" />
-
-                <v-btn v-show="hiddenForEdit" color="primary" @click="hiddenForEdit = !hiddenForEdit">
-                  글 수정
-                </v-btn>
-                <v-btn v-show="!hiddenForEdit" color="primary" @click="hiddenForEdit = !hiddenForEdit">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-col cols="2">
-                  <v-text-field v-show="!hiddenForEdit" height="10" v-model="pwForBoardModify"/>
-                </v-col>
-                <v-btn v-show="!hiddenForEdit" @click="checkPwForModify()"> 확인 </v-btn>
-
-
-                <v-btn v-show="hiddenForDel" color="primary" @click="hiddenForDel = !hiddenForDel">
-                  <v-icon>mdi-delete-outline</v-icon>
-                </v-btn>
-                <v-btn v-show="!hiddenForDel" color="primary" @click="hiddenForDel = !hiddenForDel">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-col cols="2">
-                  <v-text-field v-show="!hiddenForDel" height="10" v-model="pwForBoardDel"/>
-                </v-col>
-                <v-btn v-show="!hiddenForDel" @click="delBoard()"> 확인 </v-btn>
-
-          </v-row>
-        </v-container>
-    <!-- 추천기능 -->
+    <v-container>
+      <v-row align="baseline">
+        <v-col cols="4" />
+        <v-btn
+          v-show="hiddenForEdit"
+          color="primary"
+          @click="hiddenForEdit = !hiddenForEdit"
+        >
+          글 수정
+        </v-btn>
+        <v-btn
+          v-show="!hiddenForEdit"
+          color="primary"
+          @click="hiddenForEdit = !hiddenForEdit"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-col cols="2">
+          <v-text-field
+            v-show="!hiddenForEdit"
+            height="10"
+            v-model="pwForBoardModify"
+          />
+        </v-col>
+        <v-btn v-show="!hiddenForEdit" @click="checkPwForModify()">
+          확인
+        </v-btn>
+        <v-btn
+          v-show="hiddenForDel"
+          color="primary"
+          @click="hiddenForDel = !hiddenForDel"
+        >
+          <v-icon>mdi-delete-outline</v-icon>
+        </v-btn>
+        <v-btn
+          v-show="!hiddenForDel"
+          color="primary"
+          @click="hiddenForDel = !hiddenForDel"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-col cols="2">
+          <v-text-field
+            v-show="!hiddenForDel"
+            height="10"
+            v-model="pwForBoardDel"
+          />
+        </v-col>
+        <v-btn v-show="!hiddenForDel" @click="delBoard()"> 확인 </v-btn>
+      </v-row>
+    </v-container>
     <div class="text-center">
       <span class="caption text-uppercase">추천수:</span>
       <span class="font-weight-bold"> {{ item.upCnt }} </span>
@@ -89,10 +103,7 @@
       </v-btn>
       <span class="caption text-uppercase">비추천수:</span>
       <span class="font-weight-bold"> {{ item.downCnt }} </span>
-      
     </div>
-
-    <!-- 댓글들 게시창 -->
     <v-container class="py-8 px-6" fluid>
       <v-row>
         <v-col cols="2" />
@@ -122,7 +133,6 @@
         <v-col cols="2" />
       </v-row>
     </v-container>
-    <!-- 댓글 삭제버튼 누를때 뜨는 창 -->
     <v-dialog v-model="dialog" max-width="200px">
       <v-card>
         <v-card-text>
@@ -133,8 +143,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <!-- 댓글 입력창 -->
     <div>
       <v-form>
         <v-container>
@@ -185,7 +193,6 @@ import api from "@/api/board";
 export default {
   data: () => ({
     item: [], // 게시글 상세내용 data
-    // file: "", // 첨부파일 
     replys: [], // 가져온 댓글
     boardId: "", // 댓글 등록시 data
     name: "", // 댓글 등록시 data
@@ -206,8 +213,6 @@ export default {
     },
   },
   mounted() {
-    console.log("게시글 id: ", this.$route.params.id);
-    console.log("글이 있던 페이지 번호", this.$route.params.page);
     this.boardId = this.$route.params.id;
     this.getBoardDetail(this.boardId);
     this.upHitCnt();
@@ -218,39 +223,27 @@ export default {
   methods: {
     async getBoardDetail(id) {
       const result = await api.getBoardDetail(id); // 상세내용 얻어오기
-      console.log("getBoardDetail", result);
-      console.log(result.data);
       if (result.status == 200) {
         this.item = [];
         this.item = result.data;
-        // this.file = "";
-        // this.file = this.item.attachment[0].fileName;
       }
     },
-    // async download(){
-    //   const result = await api.downloadFile(this.boardId);
-    //   console.log(result);
-    // },
     async getReply(boardId) {
       const result = await api.getReply(boardId); // 댓글 가져오기
-      console.log(result);
-      console.log(result.data);
       if (result.status == 200) {
         this.replys = [];
         this.replys = result.data;
       }
     },
     async delReply() {
-      // v-on handler (Promise/async): "TypeError: Cannot use 'in' operator to search for 'validateStatus'
-      // delReply: (boardId, id) => axios.delete(`${process.env.VUE_APP_BOARD_API_BASE}/board-view/{boardId}/reply`, id),
-      //이렇게 보냈을때 위에 에러떴었음
-      console.log("댓글 id", this.replyIdToDelReply);
-      console.log("댓글 비밀번호", this.pwForReplyDel);
       const payload = {
         data: this.pwForReplyDel,
       };
-      const result = await api.delReply(this.boardId, this.replyIdToDelReply, payload);
-
+      const result = await api.delReply(
+        this.boardId,
+        this.replyIdToDelReply,
+        payload
+      );
       if (result.data == true) {
         alert("삭제되었습니다");
         this.pwForReplyDel = "";
@@ -270,28 +263,30 @@ export default {
         data: this.pwForBoardDel,
       };
       const result = await api.delBoard(this.boardId, payload);
-
       if (result.data == true) {
         alert("삭제되었습니다");
         this.pwForBoardDel = "";
-        this.$router.push('/board');
+        this.$router.push("/board");
       } else if (result.data == false) {
         alert("비빌번호가 틀립니다");
       }
     },
-    async checkPwForModify(){
+    async checkPwForModify() {
       const payload = {
         data: this.pwForBoardModify,
       };
       const result = await api.checkPwForModify(this.boardId, payload);
       if (result.data == true) {
-        this.$router.push({name: `Board-modify`, params: { id: this.boardId, password: this.pwForBoardModify}});
+        this.$router.push({
+          name: `Board-modify`,
+          params: { id: this.boardId, password: this.pwForBoardModify },
+        });
         this.pwForBoardModify = "";
       } else if (result.data == false) {
         alert("비빌번호가 틀립니다");
       }
     },
-    async upHitCnt(){
+    async upHitCnt() {
       const result = await api.upHitCnt(this.boardId);
       if (result.status == 200) {
         this.item.hitCnt = result.data.hitCnt;
@@ -301,56 +296,32 @@ export default {
       const result = await api.upCnt(this.boardId);
       if (result.data == true) {
         this.getBoardDetail(this.boardId);
-      } else if(result.data == false){
-        alert("이미 추천하셨습니다")
+      } else if (result.data == false) {
+        alert("이미 추천하셨습니다");
       }
     },
     async thumbDown() {
       const result = await api.downCnt(this.boardId);
       if (result.data == true) {
         this.getBoardDetail(this.boardId);
-      } else if(result.data == false){
-        alert("이미 비추천하셨습니다")
+      } else if (result.data == false) {
+        alert("이미 비추천하셨습니다");
       }
     },
-    async write() { // 댓글작성
+    async write() {
       const sendreply = {
         boardId: this.boardId,
         name: this.name,
         password: this.password,
         content: this.content,
       };
-      const result = await api.postReply(this.boardId, sendreply);
-      console.log(result);
-      console.log(result.data);
+      await api.postReply(this.boardId, sendreply);
       this.name = "";
       this.password = "";
       this.content = "";
       this.getBoardDetail(this.boardId);
       this.getReply(this.$route.params.id);
     },
-    
   },
 };
-
-// api.delReply()
-// REST API DELETE의 REQUEST BODY 양식: {data: 원시 혹은 객체 데이터}
-// ex. {data: 22}, {data: {name: "김민태", password: "12345"}}
-// spring에서 @RequstBody long num, @RequstBody 객체타입 객체변수
-
-// 원시 데이터 -> spring에서 String(객체타입)으로 받기가능
-// spring 받는 타입을 int 혹은 long 타입으로 해놓고 postman으로 보내면 받아지는데 axios로 어떻게 보내야 int, long 같은 원시타입으로 받아지는지 알아봐야함
-// const payload = {
-//   data: this.pwForReplyDel,
-// };
-// const result = await api.delReply(this.replyIdToDelReply, payload);
-
-// 객체 데이터 -> 내가 정의한 객체타입으로 받기 가능 ex. Reply, Board
-// const payload = {
-//   data: { password: this.pwForReplyDel }
-// };
-// const result = await api.delReply(this.replyIdToDelReply, payload);
 </script>
-
-
-

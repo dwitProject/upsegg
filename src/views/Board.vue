@@ -1,6 +1,5 @@
 <template>
   <v-main class="grey lighten-3">
-    <!-- <Header /> -->
     <v-container>
       <v-row>
         <v-col cols="1" />
@@ -14,9 +13,16 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in itemsForHitCnt" :key="i">
-                  <td @click="$router.push(
-                    {name: `Board-view`, params: { id: item.id, page: page }}
-                    )">{{ item.title }}</td>
+                  <td
+                    @click="
+                      $router.push({
+                        name: `Board-view`,
+                        params: { id: item.id, page: page },
+                      })
+                    "
+                  >
+                    {{ item.title }}
+                  </td>
                 </tr>
               </tbody>
             </v-simple-table>
@@ -32,9 +38,16 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in itemsForReplyCnt" :key="i">
-                  <td @click="$router.push(
-                    {name: `Board-view`, params: { id: item.id, page: page }})"
-                  >{{ item.title }}</td>
+                  <td
+                    @click="
+                      $router.push({
+                        name: `Board-view`,
+                        params: { id: item.id, page: page },
+                      })
+                    "
+                  >
+                    {{ item.title }}
+                  </td>
                 </tr>
               </tbody>
             </v-simple-table>
@@ -43,7 +56,6 @@
         <v-col cols="1" />
       </v-row>
     </v-container>
-
     <v-container>
       <v-row>
         <v-col cols="1" />
@@ -85,8 +97,6 @@
                           })
                         "
                       >
-                        <!-- $router.push(`/board/view/${item.id}`) -->
-                        <!-- $router.push({ path: `/board/view/${item.id}`, params: { page: page }}) -->
                         {{ item.title }}
                       </td>
                       <td class="text-center">{{ item.name }}</td>
@@ -103,7 +113,6 @@
         <v-col cols="1" />
       </v-row>
     </v-container>
-
     <v-container>
       <v-row>
         <v-col cols="1" />
@@ -139,26 +148,17 @@ export default {
   }),
   mounted() {
     this.getBoardCount();
-    // this.getBoardList(1, 10);
     this.loadBoardList(1);
     this.loadBoardListForHitCnt();
     this.loadBoardListForReplyCnt();
   },
   methods: {
-    // navigateTo(item, n) {
-    //   if (this.$route.path != item.path) {
-    //     this.$router.push(`/board/view/${n}`);
-    //     // this.$router.push(item.path);
-    //     // this.$router.push(`/board/view/:${data}`);
-    //   }
-    // },
     loadBoardList(n) {
       this.page = n;
       this.getBoardList(n - 1, 10);
     },
     async getBoardList(x, y) {
       const result = await api.getBoardList(x, y);
-      console.log("페이징하여 가져오기", result);
       if (result.status == 200) {
         this.items = [];
         this.items = result.data;
@@ -167,25 +167,21 @@ export default {
     async getBoardCount() {
       const result = await api.boardCount();
       this.totalBoardCount = result.data;
-      console.log("게시글 개수: ", result);
     },
-    async loadBoardListForHitCnt(){
+    async loadBoardListForHitCnt() {
       const result = await api.getBoardListForHitCnt();
-      console.log("조회수 상위 5개-동일 시 시간순", result);
       if (result.status == 200) {
         this.itemsForHitCnt = [];
         this.itemsForHitCnt = result.data;
       }
     },
-    async loadBoardListForReplyCnt(){
+    async loadBoardListForReplyCnt() {
       const result = await api.getBoardListForReplyCnt();
-      console.log("댓글수 상위 5개-동일 시 시간순", result);
       if (result.status == 200) {
         this.itemsForReplyCnt = [];
         this.itemsForReplyCnt = result.data;
       }
-    }
-
+    },
   },
 };
 </script>
