@@ -151,15 +151,14 @@ export default {
     pay: "",
   }),
   mounted() {
-    console.log("상품ID", this.$route.params.id);
+    
     this.productId = this.$route.params.id;
     this.getProductId(this.productId);
   },
   methods: {
     async getProductId(id) {
       const result = await api.getProductId(id);
-      console.log(result.data);
-      console.log(result);
+    
       this.product = [];
       this.product = result.data;
     },
@@ -183,7 +182,7 @@ export default {
       const result = await api.post(products);
       if (result.status == 200) {
         this.products = result.data;
-        console.log("HIHIHIHI");
+       
       }
     },
     navigateTo(item) {

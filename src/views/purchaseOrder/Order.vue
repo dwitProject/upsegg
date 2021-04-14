@@ -64,8 +64,6 @@ export default {
     },
     async getOrders() {
       const result = await api.list();
-      console.log(result);
-      console.log(result.data);
       if (result.status == 200) {
         this.list = result.data;
       }
