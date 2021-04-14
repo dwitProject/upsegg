@@ -75,11 +75,7 @@ const routes = [
     name: 'PurchaseOrder',
     component: () => import('../views/purchaseOrder/PurchaseOrder.vue'),
   },
-  {
-    path: '/finishOrder',
-    name: 'FinishOrder',
-    component: () => import('../views/purchaseOrder/FinishOrder.vue'),
-  },
+
   {
     path: '/order',
     name: 'Order',
