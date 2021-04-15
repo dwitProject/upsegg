@@ -32,7 +32,7 @@ export default {
       },
       {
         path: "/ranking",
-        img: "https://www.kindpng.com/picc/m/119-1199387_league-of-legends-ranked-png-transparent-png.png",
+        img: "https://cdn.l9eloboosting.com/img/tiers2/all-ranks.png",
         alt: "랭킹"
       },
     ],
