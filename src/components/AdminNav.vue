@@ -47,6 +47,7 @@ export default {
       { text: '매출 통계', icon: 'mdi-chart-bar', path: '/sales-stat' },
       { text: '상품 통계', icon: 'mdi-chart-arc', path: '/product-stat' },
       { text: '장바구니 통계', icon: 'mdi-chart-line', path: '/cart-stat' },
+      { text: '스토어 메인', icon: 'mdi-keyboard-backspace', path: '/store' },
     ],
     mini: false,
   }),

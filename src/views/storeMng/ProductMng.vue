@@ -100,7 +100,7 @@
                         truncate-length="15"
                         dense
                         accept="image/png, image/jpeg, image/bmp"
-                        v-model="files"
+                        v-model="filesImg"
                         multiple
                       ></v-file-input>
                     </v-col>
@@ -137,10 +137,17 @@
           ></v-text-field>
         </div>
         <v-dialog v-model="dialogImage" max-width="500px">
-          <v-img
-            class="image"
-            src="https://picsum.photos/id/11/500/300"
-          ></v-img>
+          <template v-for="(file, i) in filesImg">
+            <div :key="i">
+              <v-img
+                :src="file.dataUrl"
+                :alt="file.fileName"
+                height="500"
+                class="grey darken-4"
+                contain
+              ></v-img>
+            </div>
+          </template>
         </v-dialog>
       </template>
       <template v-slot:[`item.files`]="{ item }">
@@ -195,7 +202,7 @@ export default {
       stock: '',
       category: '',
     },
-    files: [],
+    filesImg: [],
   }),
 
   computed: {
@@ -253,14 +260,14 @@ export default {
       // 정상 처리가 됐다면,
       if (result.status == 200) {
         const newProduct = result.data;
-        newProduct.files = [];
+        newProduct.filesImg = [];
 
-        if (this.files && this.files.length > 0) {
-          for (let file of this.files) {
+        if (this.filesImg && this.filesImg.length > 0) {
+          for (let file of this.filesImg) {
             const form = new FormData();
             form.append('data', file); //@RequestPart("data")
             const result = await api.uploadFile(newProduct.id, form);
-            newProduct.files.push({
+            newProduct.filesImg.push({
               ...result.data,
             });
           }
@@ -274,7 +281,7 @@ export default {
       this.editedItem.category = '';
       this.editedItem.price = '';
       this.editedItem.stock = '';
-      this.files = [];
+      this.filesImg = [];
 
       this.close();
     },
@@ -282,7 +289,6 @@ export default {
     async removeProduct() {
       const result = await api.del(this.editedItem.id);
       console.log('-- DELETE --');
-      console.log(result);
 
       if (result.status == 200) {
         this.productItems.splice(this.editedIndex, 1);
@@ -294,7 +300,6 @@ export default {
     async modiProduct() {
       const result = await api.put(this.editedItem.id, this.editedItem);
       console.log('-- PUT --');
-      console.log(result);
 
       if (result.status == 200) {
         this.$router.go();
@@ -329,11 +334,8 @@ export default {
       });
     },
     seeMore(item) {
-      console.log(item.files);
+      this.filesImg = Object.assign({}, item.files);
       this.dialogImage = true;
-    },
-    click(item) {
-      console.log(item);
     },
   },
 };
@@ -349,9 +351,5 @@ table tr td {
   padding: 0 20px;
   margin-left: auto;
   flex: 0 0 auto !important;
-}
-
-.image {
-  height: 500px;
 }
 </style>
