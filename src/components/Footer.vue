@@ -21,7 +21,7 @@ export default {
       {
         path: "/board",
         img:
-          "https://images-na.ssl-images-amazon.com/images/I/61VHZixctGL._AC_SX425_.jpg",
+          "https://i.pinimg.com/originals/47/6f/c5/476fc5c9090118fce6e7011ef271d0eb.png",
         alt: "게시판"
       },
       {
