@@ -20,21 +20,19 @@ export default {
     items: [
       {
         path: "/board",
-        img:
-          "http://i1.ytimg.com/vi/4yes62BK2OQ/mqdefault.jpg",
+        img: 
+        "https://i.pinimg.com/originals/47/6f/c5/476fc5c9090118fce6e7011ef271d0eb.png",
         alt: "게시판"
       },
       {
         path: "/store",
-        img:
-          "http://www.leagueoflegends.co.kr/upload/store/d5516f2b610efb218af797c2.png",
+        img: "https://www.leagueoflegends.co.kr/upload/store/d5516f2b610efb218af797c2.png",
+          
         alt: "쇼핑몰"
       },
       {
         path: "/ranking",
-        img:
-          // "https://cdn.vox-cdn.com/thumbor/nbnSMDBuFFRBS_0uI4kA2qDIK08=/0x0:1200x675/1200x800/filters:focal(504x242:696x434)/cdn.vox-cdn.com/uploads/chorus_image/image/61663009/DormHQIUwAA38_9.0.jpg",
-          "https://www.kindpng.com/picc/m/119-1199387_league-of-legends-ranked-png-transparent-png.png",
+        img: "https://www.kindpng.com/picc/m/119-1199387_league-of-legends-ranked-png-transparent-png.png",
         alt: "랭킹"
       },
     ],
