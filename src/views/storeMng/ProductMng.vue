@@ -241,17 +241,16 @@ export default {
     },
     // 상품 1건 추가 POST
     async postProduct() {
-      // 작업 활성화를 위해 잠시 주석 처리
       // 상품 등록 시 정보란에 불입력시
-      // if (
-      //   this.editedItem.productName.length <= 0 ||
-      //   this.editedItem.description <= 0 ||
-      //   this.editedItem.price <= 0 ||
-      //   this.editedItem.category <= 0
-      // ) {
-      //   window.alert('모든 정보란을 입력하고 다시 시도해주세요');
-      //   return false;
-      // }
+      if (
+        this.editedItem.productName.length <= 0 ||
+        this.editedItem.description <= 0 ||
+        this.editedItem.price <= 0 ||
+        this.editedItem.category <= 0
+      ) {
+        window.alert('모든 정보란을 입력하고 다시 시도해주세요');
+        return false;
+      }
 
       const result = await api.post(this.editedItem);
       console.log('-- POST --');
@@ -289,6 +288,7 @@ export default {
     async removeProduct() {
       const result = await api.del(this.editedItem.id);
       console.log('-- DELETE --');
+      console.log(result);
 
       if (result.status == 200) {
         this.productItems.splice(this.editedIndex, 1);
@@ -300,6 +300,7 @@ export default {
     async modiProduct() {
       const result = await api.put(this.editedItem.id, this.editedItem);
       console.log('-- PUT --');
+      console.log(result);
 
       if (result.status == 200) {
         this.$router.go();
