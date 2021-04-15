@@ -21,13 +21,13 @@ export default {
       {
         path: "/board",
         img:
-          "http://i1.ytimg.com/vi/4yes62BK2OQ/mqdefault.jpg",
+          "https://images-na.ssl-images-amazon.com/images/I/61VHZixctGL._AC_SX425_.jpg",
         alt: "게시판"
       },
       {
         path: "/store",
         img:
-          "http://www.leagueoflegends.co.kr/upload/store/d5516f2b610efb218af797c2.png",
+          "https://www.leagueoflegends.co.kr/upload/store/d5516f2b610efb218af797c2.png",
         alt: "쇼핑몰"
       },
       {
