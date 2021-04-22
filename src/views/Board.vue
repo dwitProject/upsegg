@@ -8,7 +8,7 @@
             <v-simple-table>
               <thead>
                 <tr>
-                  <th>조회수가 많은 글</th>
+                  <th><span style="font-size:20px">조회수가 많은 글</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -33,7 +33,7 @@
             <v-simple-table>
               <thead>
                 <tr>
-                  <th>댓글수가 많은 글</th>
+                  <th><span style="font-size:20px">댓글수가 많은 글</span></th>
                 </tr>
               </thead>
               <tbody>

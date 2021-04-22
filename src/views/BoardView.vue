@@ -28,12 +28,14 @@
                       <th class="text-center">댓글수: {{ item.replyCnt }}</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <!-- <tbody>
                     <tr>
-                      <td class="text-center">{{ item.content }}</td>
+                      
                     </tr>
-                  </tbody>
+                  </tbody> -->
                 </v-simple-table>
+                  <div>{{ item.content }}</div>
+
               </div>
             </div>
           </v-sheet>
@@ -96,10 +98,10 @@
       <span class="caption text-uppercase">추천수:</span>
       <span class="font-weight-bold"> {{ item.upCnt }} </span>
       <v-btn class="ma-2" text icon color="blue lighten-2">
-        <v-icon @click="thumbUp()">mdi-thumb-up</v-icon>
+        <v-icon @click="thumbUp()" size="40">mdi-thumb-up</v-icon>
       </v-btn>
       <v-btn class="ma-2" text icon color="red lighten-2">
-        <v-icon @click="thumbDown()">mdi-thumb-down</v-icon>
+        <v-icon @click="thumbDown()" size="40">mdi-thumb-down</v-icon>
       </v-btn>
       <span class="caption text-uppercase">비추천수:</span>
       <span class="font-weight-bold"> {{ item.downCnt }} </span>
